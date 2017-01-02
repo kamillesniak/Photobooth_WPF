@@ -1,0 +1,6 @@
+C:\Porjekty\Currency_exchange_xml\Currency_exchange_xml\bin\Debug\Currency_exchange_xml.exe.config
+C:\Porjekty\Currency_exchange_xml\Currency_exchange_xml\obj\Debug\Currency_exchange_xml.csprojResolveAssemblyReference.cache
+C:\Porjekty\Currency_exchange_xml\Currency_exchange_xml\bin\Debug\Currency_exchange_xml.exe
+C:\Porjekty\Currency_exchange_xml\Currency_exchange_xml\bin\Debug\Currency_exchange_xml.pdb
+C:\Porjekty\Currency_exchange_xml\Currency_exchange_xml\obj\Debug\Currency_exchange_xml.exe
+C:\Porjekty\Currency_exchange_xml\Currency_exchange_xml\obj\Debug\Currency_exchange_xml.pdb
