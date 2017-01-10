@@ -1,0 +1,14 @@
+C:\Porjekty\WPF_Currency_Converter\WPF_Currency_Converter\bin\Debug\WPF_Currency_Converter.exe.config
+C:\Porjekty\WPF_Currency_Converter\WPF_Currency_Converter\bin\Debug\WPF_Currency_Converter.exe
+C:\Porjekty\WPF_Currency_Converter\WPF_Currency_Converter\bin\Debug\WPF_Currency_Converter.pdb
+C:\Porjekty\WPF_Currency_Converter\WPF_Currency_Converter\obj\Debug\WPF_Currency_Converter.csprojResolveAssemblyReference.cache
+C:\Porjekty\WPF_Currency_Converter\WPF_Currency_Converter\obj\Debug\MainWindow.g.cs
+C:\Porjekty\WPF_Currency_Converter\WPF_Currency_Converter\obj\Debug\App.g.cs
+C:\Porjekty\WPF_Currency_Converter\WPF_Currency_Converter\obj\Debug\WPF_Currency_Converter_MarkupCompile.cache
+C:\Porjekty\WPF_Currency_Converter\WPF_Currency_Converter\obj\Debug\WPF_Currency_Converter_MarkupCompile.lref
+C:\Porjekty\WPF_Currency_Converter\WPF_Currency_Converter\obj\Debug\MainWindow.baml
+C:\Porjekty\WPF_Currency_Converter\WPF_Currency_Converter\obj\Debug\WPF_Currency_Converter.g.resources
+C:\Porjekty\WPF_Currency_Converter\WPF_Currency_Converter\obj\Debug\WPF_Currency_Converter.Properties.Resources.resources
+C:\Porjekty\WPF_Currency_Converter\WPF_Currency_Converter\obj\Debug\WPF_Currency_Converter.csproj.GenerateResource.Cache
+C:\Porjekty\WPF_Currency_Converter\WPF_Currency_Converter\obj\Debug\WPF_Currency_Converter.exe
+C:\Porjekty\WPF_Currency_Converter\WPF_Currency_Converter\obj\Debug\WPF_Currency_Converter.pdb
