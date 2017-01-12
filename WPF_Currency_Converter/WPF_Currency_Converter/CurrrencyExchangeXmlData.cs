@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +14,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Linq;
+using System.Net;
+
 
 namespace WPF_Currency_Converter
 {
@@ -27,11 +30,13 @@ namespace WPF_Currency_Converter
     public ExchangeRateDownloader(string url)
     {
         _url = url;
+           
     }
 
     public XDocument DownloadExchangeRates()
     {
-        return XDocument.Load(_url);
+         
+            return XDocument.Load(_url);
     }
 
     }
@@ -122,4 +127,9 @@ namespace WPF_Currency_Converter
             return Convert.DecimalToRound(exchangedMoney, 2);
         }
     }
+
+    
+  
+
+    
 }

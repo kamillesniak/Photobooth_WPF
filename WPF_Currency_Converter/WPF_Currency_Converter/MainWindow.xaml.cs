@@ -41,12 +41,14 @@ namespace WPF_Currency_Converter
         }
         public void CompleteComboBox()
         {
-            var exchangeRateNBP = new ExchangeRateDownloader("http://www.nbp.pl/kursy/xml/a240z161213.xml");
+            var TodayURL = new GetActualExchangeRate("http://www.nbp.pl/kursy/xml/dir.txt");
+            var exchangeRateNBP = new ExchangeRateDownloader(TodayURL.xmlURL);
             var nbpXml = exchangeRateNBP.DownloadExchangeRates();
             nbpXml = XmlAdd.AddPLN(nbpXml);
             FillComboBox nbp = new FillComboBox();
             checkBoxVal = nbp.LoadComboBox(nbpXml);
         }
+
         public void CurrencyBoxLoad(object sender, RoutedEventArgs e)
         {
             var comboBox = sender as ComboBox;
@@ -55,6 +57,7 @@ namespace WPF_Currency_Converter
             comboBox.SelectedValuePath = "currencyCourse";
             comboBox.SelectedIndex = 0;
         }
+
 
         private void Count_Click(object sender, RoutedEventArgs e)
         {
