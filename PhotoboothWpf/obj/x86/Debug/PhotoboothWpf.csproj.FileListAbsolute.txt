@@ -1,0 +1,15 @@
+C:\Users\Kamil\Desktop\fotobudka\Photobooth\PhotoboothWpf\PhotoboothWpf\bin\x86\Debug\PhotoboothWpf.exe.config
+C:\Users\Kamil\Desktop\fotobudka\Photobooth\PhotoboothWpf\PhotoboothWpf\bin\x86\Debug\PhotoboothWpf.exe
+C:\Users\Kamil\Desktop\fotobudka\Photobooth\PhotoboothWpf\PhotoboothWpf\bin\x86\Debug\PhotoboothWpf.pdb
+C:\Users\Kamil\Desktop\fotobudka\Photobooth\PhotoboothWpf\PhotoboothWpf\bin\x86\Debug\EDSDKLib.dll
+C:\Users\Kamil\Desktop\fotobudka\Photobooth\PhotoboothWpf\PhotoboothWpf\bin\x86\Debug\EDSDKLib.pdb
+C:\Users\Kamil\Desktop\fotobudka\Photobooth\PhotoboothWpf\PhotoboothWpf\obj\x86\Debug\MainWindow.g.cs
+C:\Users\Kamil\Desktop\fotobudka\Photobooth\PhotoboothWpf\PhotoboothWpf\obj\x86\Debug\App.g.cs
+C:\Users\Kamil\Desktop\fotobudka\Photobooth\PhotoboothWpf\PhotoboothWpf\obj\x86\Debug\PhotoboothWpf_MarkupCompile.cache
+C:\Users\Kamil\Desktop\fotobudka\Photobooth\PhotoboothWpf\PhotoboothWpf\obj\x86\Debug\PhotoboothWpf_MarkupCompile.lref
+C:\Users\Kamil\Desktop\fotobudka\Photobooth\PhotoboothWpf\PhotoboothWpf\obj\x86\Debug\MainWindow.baml
+C:\Users\Kamil\Desktop\fotobudka\Photobooth\PhotoboothWpf\PhotoboothWpf\obj\x86\Debug\PhotoboothWpf.g.resources
+C:\Users\Kamil\Desktop\fotobudka\Photobooth\PhotoboothWpf\PhotoboothWpf\obj\x86\Debug\PhotoboothWpf.Properties.Resources.resources
+C:\Users\Kamil\Desktop\fotobudka\Photobooth\PhotoboothWpf\PhotoboothWpf\obj\x86\Debug\PhotoboothWpf.csproj.GenerateResource.Cache
+C:\Users\Kamil\Desktop\fotobudka\Photobooth\PhotoboothWpf\PhotoboothWpf\obj\x86\Debug\PhotoboothWpf.exe
+C:\Users\Kamil\Desktop\fotobudka\Photobooth\PhotoboothWpf\PhotoboothWpf\obj\x86\Debug\PhotoboothWpf.pdb
