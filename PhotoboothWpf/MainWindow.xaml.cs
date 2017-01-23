@@ -17,6 +17,7 @@ using System.IO;
 using EOSDigital.API;
 using EOSDigital.SDK;
 using System.Threading;
+using System.Xml.Linq;
 
 
 namespace PhotoboothWpf
@@ -37,40 +38,31 @@ namespace PhotoboothWpf
         List<Camera> CamList;
         PrintDialog pdialog = new PrintDialog();
 
+        XDocument actualSettings = new XDocument();
         List<System.Windows.Media.ImageSource> resizedImages = new List<System.Windows.Media.ImageSource>();
+
 
         int photoNumber = 0;
         int timeLeft = 5;
+        int timeLeftCopy = 5;
         int photosInTemplate = 0;
         int printNumber = 0;
+        int maxCopies = 1;
+        int printtime = 10;
 
 
         string printPath = string.Empty;
         string templateName = string.Empty;
+        string printerName = string.Empty;
 
 
 
         public MainWindow()
         {
             InitializeComponent();
-            //TODO TIMERS IN CLASS:
-
-            sliderTimer = new System.Windows.Threading.DispatcherTimer();
-            sliderTimer.Tick += new EventHandler(slider);
-            sliderTimer.Interval = new TimeSpan(0, 0, 0, 2);
-            sliderTimer.Start();
-
-            betweenPhotos = new System.Windows.Threading.DispatcherTimer();
-            betweenPhotos.Tick += new EventHandler(MakePhoto);
-            betweenPhotos.Interval = new TimeSpan(0, 0, 0, 5);
-
-            secondCounter = new System.Windows.Threading.DispatcherTimer();
-            secondCounter.Tick += new EventHandler(ShowTimeLeft);
-            secondCounter.Interval = new TimeSpan(0, 0, 0, 0, 900);
+            FillSavedData();
+            ActivateTimers();          
             //Canon:
-          //  Timers.InitalizeTimers();
-
-
             try
             {
                 Create.TodayPhotoFolder();
@@ -114,22 +106,26 @@ namespace PhotoboothWpf
         {
             try
             {
+                
                 photosInTemplate++;
-                MainCamera.TakePhotoAsync();
+                // MainCamera.TakePhotoAsync();
+               
+                MainCamera.SendCommand(CameraCommand.PressShutterButton, (int)ShutterButton.Completely_NonAF);
+                MainCamera.SendCommand(CameraCommand.PressShutterButton, (int)ShutterButton.OFF);
 
                 betweenPhotos.Stop();
                 secondCounter.Stop();
 
                 PhotoTextBox.Visibility = Visibility.Hidden;
 
-                timeLeft = 5;
+                timeLeftCopy = timeLeft;
                
    
             }
             catch (Exception ex) { Report.Error(ex.Message, false); }
 
             // TODO: zamiast sleppa jakas metoda ktora sprawdza czy zdjecie juz sie zrobilio i potem kolejna linia kodu-
-            Thread.Sleep(8000);
+            Thread.Sleep(2000);
 
             PhotoTextBox.Visibility = Visibility.Visible;
             PhotoTextBox.Text = "Prepare for next Photo!";
@@ -141,26 +137,32 @@ namespace PhotoboothWpf
                 // tu trzeba beędzie zrobić case z 4 opcjami szablonu narazie są 3 paski:
                 LayTemplate.foreground3(printPath);
                 printNumber++;
-
+                photosInTemplate = 0;
                 //print menu on
-                PrintMenu();
+                PrintMenu();               
             }
+           
         }
 
         private void StopButton_Click(object sender, RoutedEventArgs e)
         {
             sliderTimer.Start();
+            
             Slider.Visibility = Visibility.Visible;
             StartButton.Visibility = Visibility.Visible;
+
+            StopButton.Visibility = Visibility.Hidden;
+            PhotoTextBox.Visibility = Visibility.Hidden;
+            ReadyButton.Visibility = Visibility.Hidden;
             Print.Visibility = Visibility.Hidden;
             ShowPrint.Visibility = Visibility.Hidden;
-            CloseSession();
+           
         }
         public void ShowTimeLeft(object sender, EventArgs e)
         {
 
-                PhotoTextBox.Text = timeLeft.ToString();
-                timeLeft--;         
+                PhotoTextBox.Text = timeLeftCopy.ToString();
+                timeLeftCopy--;         
         }
         #endregion
 
@@ -168,13 +170,16 @@ namespace PhotoboothWpf
         public void slider(object sender, EventArgs e)
         {
             var sliderData = new Slider();
-            ImageBrush slide = new ImageBrush();           
+            
+            ImageBrush slide = new ImageBrush();
+            slide.Stretch = Stretch.Uniform;
             slide.ImageSource = new BitmapImage(new Uri(sliderData.imagePath));            
             Slider.Background = slide;
         }
 
        
         #endregion
+
         #region API Events
 
         private void APIHandler_CameraAdded(CanonAPI sender)
@@ -248,6 +253,7 @@ namespace PhotoboothWpf
         }
 
         #endregion
+
         #region Live view
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
@@ -258,25 +264,31 @@ namespace PhotoboothWpf
             StopButton.Visibility = Visibility.Visible;
             PhotoTextBox.Visibility = Visibility.Visible;
             PhotoTextBox.Text = "Are you ready for first picture?";
+            MainCamera.SendCommand(CameraCommand.DoEvfAf, 1);
+            Thread.Sleep(2000);
+            MainCamera.SendCommand(CameraCommand.DoEvfAf, 0);
+
             try
             {
-                if (!MainCamera.IsLiveViewOn)
-                {
+               // MainCamera.IsLiveViewOn;
+                //if (!MainCamera.IsLiveViewOn)
+                //{
                    Slider.Background = liveView;
                     MainCamera.StartLiveView();
                     //.Content = "Stop LV";
-                }
-                else
-                {
-                    MainCamera.StopLiveView();
-                  //  StarLVButton.Content = "Start LV";
-                    Slider.Background = Brushes.LightGray;
-                }
+                //}
+                //else
+                //{
+                //    MainCamera.StopLiveView();
+                //  //  StarLVButton.Content = "Start LV";
+                //    Slider.Background = Brushes.LightGray;
+                //}
             }
             catch (Exception ex) { Report.Error(ex.Message, false); }
         }
 
         #endregion
+
         #region Subroutines
 
         private void CloseSession()
@@ -327,6 +339,7 @@ namespace PhotoboothWpf
 
 
         #endregion
+
         #region Printing
         private void LoadAndPrint(string printPath)
         {
@@ -364,7 +377,56 @@ namespace PhotoboothWpf
             Print.Visibility = Visibility.Visible;
             ShowPrint.Visibility = Visibility.Visible;
         }
+
         #endregion
+
+        #region menu
+
+        private void FillSavedData ()
+        {
+            actualSettings = XDocument.Load(@"C:\Users\Kamil\Desktop\fotobudka\Photobooth\PhotoboothWpf\PhotoboothWpf\bin\Debug\menusettings.xml");
+            actualSettings.Root.Elements("setting");
+            templateName = actualSettings.Root.Element("actualTemplate").Value;
+            printerName = actualSettings.Root.Element("actualPrinter").Value;
+            maxCopies = Convert.ToInt32(actualSettings.Root.Element("maxNumberOfCopies").Value);
+            timeLeft = Convert.ToInt32(actualSettings.Root.Element("timeBetweenPhotos").Value);
+            printtime = Convert.ToInt32(actualSettings.Root.Element("printingTime").Value);
+
+            timeLeftCopy = timeLeft;
+        }
+
+       
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.F12)
+            {
+                Menu menu1 = new Menu();
+                this.Content = menu1;
+            }
+            if (e.Key == Key.Escape)
+            {
+                Application.Current.Shutdown();
+            }
+        }
+        #endregion
+
+        public void ActivateTimers()
+        {
+            sliderTimer = new System.Windows.Threading.DispatcherTimer();
+            sliderTimer.Tick += new EventHandler(slider);
+            sliderTimer.Interval = new TimeSpan(0, 0, 0, 2);
+            sliderTimer.Start();
+
+            betweenPhotos = new System.Windows.Threading.DispatcherTimer();
+            betweenPhotos.Tick += new EventHandler(MakePhoto);
+            betweenPhotos.Interval = new TimeSpan(0, 0, 0, timeLeft);
+
+            secondCounter = new System.Windows.Threading.DispatcherTimer();
+            secondCounter.Tick += new EventHandler(ShowTimeLeft);
+            secondCounter.Interval = new TimeSpan(0, 0, 0, 0, 900);
+        }
+
 
     }
 

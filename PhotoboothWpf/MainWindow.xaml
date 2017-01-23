@@ -8,10 +8,10 @@
         Height="{x:Static SystemParameters.PrimaryScreenHeight}" 
         Width="{x:Static SystemParameters.PrimaryScreenWidth}" 
         Title="MainWindow" 
-        WindowStartupLocation="CenterScreen" WindowState="Maximized"  Closing="Window_Closing">
+        WindowStartupLocation="CenterScreen" WindowState="Maximized"  Closing="Window_Closing" KeyDown="Window_KeyDown" >
 
     <Window.Background>
-        <ImageBrush ImageSource="C:\Users\Kamil\Desktop\fotobudka\Photobooth\PhotoboothWpf\PhotoboothWpf\bin\Debug\backgrounds/background_1.jpg" />
+        <ImageBrush ImageSource="backgrounds/background_1.jpg" />
     </Window.Background>
     <Grid>
         <Grid.RowDefinitions>
@@ -37,31 +37,28 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Button x:Name="StartButton" Content="Start" BorderThickness="0" FontFamily="OpenSans" FontWeight="ExtraBold"  FontSize="25"  HorizontalAlignment="Left" Height="153" VerticalAlignment="Top" Width="191" Click="StartButton_Click" Grid.RowSpan="2">
-            <Button.Background>
-                <ImageBrush ImageSource="C:\Users\Kamil\Desktop\fotobudka\Photobooth\PhotoboothWpf\PhotoboothWpf\bin\Debug\backgrounds\Button.png"/>
-            </Button.Background>
+        <Button x:Name="StartButton"  BorderThickness="0" FontFamily="OpenSans" FontWeight="ExtraBold"   HorizontalAlignment="Left" Height="186" VerticalAlignment="Top" Width="191" Click="StartButton_Click" Grid.RowSpan="2" Background="{x:Null}">
+            <Image Source="backgrounds/StartButton.png"/>
         </Button>
         <Canvas  x:Name="Slider" Grid.RowSpan="6" Grid.Row="2" Grid.ColumnSpan="8" Margin="0,0,0,10" Grid.Column="1" >
             <Canvas.Background>
                 <ImageBrush ImageSource="C:\Users\Kamil\Desktop\fotobudka\Photobooth\PhotoboothWpf\PhotoboothWpf\bin\Debug\backgrounds/PHM_12_PNG.png" />
             </Canvas.Background>
         </Canvas>
-        <Button x:Name="StopButton" Content="Stop" Canvas.Left="1080" Canvas.Top="548" Click="StopButton_Click" Grid.Column="9" Grid.Row="8" Visibility="Hidden" Background="#FFFB0000">
 
+        <Button x:Name="StopButton" BorderThickness="0"  Canvas.Left="1080" Canvas.Top="548" Click="StopButton_Click" Grid.Column="8" Grid.Row="6"   Grid.ColumnSpan="2" Margin="10,106,182,58" Grid.RowSpan="3" Visibility="Hidden" Background="{x:Null}">
+        <Image Source="backgrounds/StopButton.png"/>
         </Button>
         <ListBox x:Name="CameraListBox" Visibility="Hidden"></ListBox>
         <TextBox x:Name="PhotoTextBox" BorderThickness="0" HorizontalAlignment="Stretch" Height="81" TextWrapping="Wrap" VerticalAlignment="Top" Width="1200" Grid.ColumnSpan="10"  Visibility="Hidden"  FontFamily="Arial" Background="{x:Null}" FontSize="35" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.RowSpan="2"/>
-        <Button x:Name="ReadyButton" Content="Ready" HorizontalAlignment="Left" Height="107" Grid.RowSpan="2" VerticalAlignment="Top" Width="200" Click="ReadyButton_Click" Grid.ColumnSpan="2" Visibility="Hidden">
-            <Button.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black" Offset="0"/>
-                    <GradientStop Color="#FFFFB20C" Offset="1"/>
-                </LinearGradientBrush>
-            </Button.Background>
+        <Button x:Name="ReadyButton" BorderThickness="0" FontFamily="OpenSans" FontWeight="ExtraBold"   HorizontalAlignment="Left" Height="186" VerticalAlignment="Top" Width="191" Click="ReadyButton_Click" Grid.RowSpan="2" Visibility="Hidden" Background="{x:Null}">
+            <Image Source="backgrounds/ReadyButton.png"/>
         </Button>
         <Image x:Name="ShowPrint" Grid.ColumnSpan="3" Grid.Column="3" HorizontalAlignment="Left" Height="auto" Grid.Row="1" Grid.RowSpan="7" VerticalAlignment="Top" Width="auto" Visibility="Hidden"/>
-        <Button x:Name="Print" Content="Print" Grid.Column="8" HorizontalAlignment="Left" Height="122" Margin="0,111,0,0" Grid.Row="1" Grid.RowSpan="2" VerticalAlignment="Top" Width="192" Visibility="Hidden" Click="Print_Click"/>
+
+        <Button x:Name="Print" BorderThickness="0" Grid.Column="8" HorizontalAlignment="Left" Height="182" Margin="0,111,0,0" Grid.Row="1" Grid.RowSpan="3" VerticalAlignment="Top" Width="192" Visibility="Hidden" Click="Print_Click" Background="{x:Null}">
+            <Image Source="backgrounds/PrintButton.png"/>
+        </Button>
 
     </Grid>
 
