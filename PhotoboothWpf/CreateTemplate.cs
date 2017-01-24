@@ -82,6 +82,43 @@ namespace PhotoboothWpf
             }
         }
 
+        static public void foreground4(string printPath)
+        {
+            try
+            {
+                var firstImage = System.Drawing.Image.FromFile(ReSize.naming(1));
+                firstImage.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                var secondImage = System.Drawing.Image.FromFile(ReSize.naming(2));
+                secondImage.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                var thirdImage = System.Drawing.Image.FromFile(ReSize.naming(3));
+                thirdImage.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                var fourthImage = System.Drawing.Image.FromFile(ReSize.naming(4));
+                fourthImage.RotateFlip(RotateFlipType.Rotate270FlipNone);
+
+                string tempPath = System.IO.Path.Combine(ActualTemplateDirectory(), "foreground_4.png");
+
+                var foreground = System.Drawing.Image.FromFile(tempPath);
+
+                tempPath = System.IO.Path.Combine(ActualTemplateDirectory(), "empty.png");
+                var empty = System.Drawing.Image.FromFile(tempPath);
+
+
+                using (Graphics grfx = Graphics.FromImage(empty))
+                {
+                    grfx.DrawImage(firstImage, 82, 866);
+                    grfx.DrawImage(secondImage, 82, 78);
+                    grfx.DrawImage(thirdImage, 660, 866);
+                    grfx.DrawImage(fourthImage, 660, 78);
+                    grfx.DrawImage(foreground, 0, 0);
+                    empty.Save(printPath);
+                    empty.Dispose();
+                }
+            }
+            catch (FileNotFoundException)
+            {
+            }
+        }
+
         static public void foreground4stripes(string printPath)
         {
             try

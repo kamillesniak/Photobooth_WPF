@@ -160,7 +160,7 @@ namespace PhotoboothWpf
                         PrintMenu();
                     }
                     break;
-                /*case "foreground_4":
+                case "foreground_4":
                     if (Control.photoTemplate(photosInTemplate, 4))
                     {
                         var printdata = new SavePrints(printNumber);
@@ -170,7 +170,8 @@ namespace PhotoboothWpf
                         photosInTemplate = 0;
                         PrintMenu();
                     }
-                    break;*/
+                    break;
+
                 case "foreground_4_paski":
                     if (Control.photoTemplate(photosInTemplate, 4))
                     {
@@ -400,7 +401,6 @@ namespace PhotoboothWpf
         #region Printing
         private void LoadAndPrint(string printPath)
         {
-            //TODO: sprawdzic dlaczego foreground1 sie psuje
             var bi = new BitmapImage();
             bi.BeginInit();
             bi.CacheOption = BitmapCacheOption.OnLoad;

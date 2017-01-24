@@ -100,8 +100,16 @@ namespace PhotoboothWpf
                     }
                     break;
 
-                /*case "foreground_4":                    
-                    break;*/
+                case "foreground_4":
+                    {
+                        byte[] imageBytes = LoadImageData(imagepath);
+                        ImageSource imageSource = CreateImage(imageBytes, 560, 0);
+                        imageBytes = GetEncodedImageData(imageSource, ".jpg");
+
+                        SaveImageData(imageBytes, naming(photoInTemplateNumb));
+                    }
+                                
+                    break;
 
                 case "foreground_4_paski":
                     { 
