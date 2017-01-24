@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Linq;
+using Path = System.IO.Path;
 
 namespace PhotoboothWpf
 {
@@ -26,6 +27,7 @@ namespace PhotoboothWpf
         List<string> printerList = new List<string>();
         List<int> copiesCount = new List<int>();
         XDocument settings = new XDocument();
+        private string currentDirectory = Environment.CurrentDirectory;
         public Menu()
         {
             InitializeComponent();
@@ -59,7 +61,7 @@ namespace PhotoboothWpf
         }
         public void LoadDefaultValues()
         {
-            settings = XDocument.Load(@"C:\Users\Kamil\Desktop\fotobudka\Photobooth\PhotoboothWpf\PhotoboothWpf\bin\Debug\menusettings.xml");
+            settings = XDocument.Load(Path.Combine(currentDirectory, "menusettings.xml"));
             settings.Root.Elements("setting");
             ForegroundComboBox.SelectedValue = settings.Root.Element("actualTemplate").Value;
             PrinterComboBox.SelectedValue = settings.Root.Element("actualPrinter").Value;

@@ -144,6 +144,9 @@
     <Resource Include="backgrounds\ReadyButton.png" />
     <Resource Include="backgrounds\StopButton.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="backgrounds\PHM_12_PNG.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

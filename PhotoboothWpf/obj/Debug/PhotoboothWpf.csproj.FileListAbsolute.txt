@@ -16,3 +16,21 @@ C:\Users\Kamil\Desktop\fotobudka\Photobooth\PhotoboothWpf\PhotoboothWpf\bin\Debu
 C:\Users\Kamil\Desktop\fotobudka\Photobooth\PhotoboothWpf\PhotoboothWpf\bin\Debug\EDSDKLib.pdb
 C:\Users\Kamil\Desktop\fotobudka\Photobooth\PhotoboothWpf\PhotoboothWpf\obj\Debug\Menu.g.cs
 C:\Users\Kamil\Desktop\fotobudka\Photobooth\PhotoboothWpf\PhotoboothWpf\obj\Debug\Menu.baml
+D:\VS15 Projekty\Photobooth_WPF\PhotoboothWpf\bin\Debug\PhotoboothWpf.exe.config
+D:\VS15 Projekty\Photobooth_WPF\PhotoboothWpf\obj\Debug\PhotoboothWpf.exe
+D:\VS15 Projekty\Photobooth_WPF\PhotoboothWpf\obj\Debug\PhotoboothWpf.pdb
+D:\VS15 Projekty\Photobooth_WPF\PhotoboothWpf\bin\Debug\PhotoboothWpf.exe
+D:\VS15 Projekty\Photobooth_WPF\PhotoboothWpf\bin\Debug\PhotoboothWpf.pdb
+D:\VS15 Projekty\Photobooth_WPF\PhotoboothWpf\bin\Debug\EDSDKLib.dll
+D:\VS15 Projekty\Photobooth_WPF\PhotoboothWpf\bin\Debug\EDSDKLib.pdb
+D:\VS15 Projekty\Photobooth_WPF\PhotoboothWpf\obj\Debug\PhotoboothWpf.csprojResolveAssemblyReference.cache
+D:\VS15 Projekty\Photobooth_WPF\PhotoboothWpf\obj\Debug\MainWindow.g.cs
+D:\VS15 Projekty\Photobooth_WPF\PhotoboothWpf\obj\Debug\Menu.g.cs
+D:\VS15 Projekty\Photobooth_WPF\PhotoboothWpf\obj\Debug\App.g.cs
+D:\VS15 Projekty\Photobooth_WPF\PhotoboothWpf\obj\Debug\PhotoboothWpf_MarkupCompile.cache
+D:\VS15 Projekty\Photobooth_WPF\PhotoboothWpf\obj\Debug\PhotoboothWpf_MarkupCompile.lref
+D:\VS15 Projekty\Photobooth_WPF\PhotoboothWpf\obj\Debug\MainWindow.baml
+D:\VS15 Projekty\Photobooth_WPF\PhotoboothWpf\obj\Debug\Menu.baml
+D:\VS15 Projekty\Photobooth_WPF\PhotoboothWpf\obj\Debug\PhotoboothWpf.g.resources
+D:\VS15 Projekty\Photobooth_WPF\PhotoboothWpf\obj\Debug\PhotoboothWpf.Properties.Resources.resources
+D:\VS15 Projekty\Photobooth_WPF\PhotoboothWpf\obj\Debug\PhotoboothWpf.csproj.GenerateResource.Cache

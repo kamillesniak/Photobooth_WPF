@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoboothWpf", "PhotoboothWpf.csproj", "{7639BE89-974C-44FE-B7BA-3DAEC3D6C826}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EDSDKLib", "EDSDKLib\EDSDKLib.csproj", "{15E99248-6161-46A4-9183-609CA62406A6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7639BE89-974C-44FE-B7BA-3DAEC3D6C826}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7639BE89-974C-44FE-B7BA-3DAEC3D6C826}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7639BE89-974C-44FE-B7BA-3DAEC3D6C826}.Debug|x86.ActiveCfg = Debug|x86
+		{7639BE89-974C-44FE-B7BA-3DAEC3D6C826}.Debug|x86.Build.0 = Debug|x86
+		{7639BE89-974C-44FE-B7BA-3DAEC3D6C826}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7639BE89-974C-44FE-B7BA-3DAEC3D6C826}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7639BE89-974C-44FE-B7BA-3DAEC3D6C826}.Release|x86.ActiveCfg = Release|x86
+		{7639BE89-974C-44FE-B7BA-3DAEC3D6C826}.Release|x86.Build.0 = Release|x86
+		{15E99248-6161-46A4-9183-609CA62406A6}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{15E99248-6161-46A4-9183-609CA62406A6}.Debug|x86.ActiveCfg = Debug|x86
+		{15E99248-6161-46A4-9183-609CA62406A6}.Debug|x86.Build.0 = Debug|x86
+		{15E99248-6161-46A4-9183-609CA62406A6}.Release|Any CPU.ActiveCfg = Release|x86
+		{15E99248-6161-46A4-9183-609CA62406A6}.Release|x86.ActiveCfg = Release|x86
+		{15E99248-6161-46A4-9183-609CA62406A6}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
