@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing.Printing;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,6 +22,7 @@ using EOSDigital.SDK;
 using System.Threading;
 using System.Xml.Linq;
 using Path = System.IO.Path;
+using Point = System.Drawing.Point;
 
 
 namespace PhotoboothWpf
@@ -412,11 +414,25 @@ namespace PhotoboothWpf
             dc.DrawImage(bi, new Rect { Width = bi.Width, Height = bi.Height });
             dc.Close();
 
-          
-
+            //no margins printing
+            var printerSettings = new PrinterSettings();
+            var labelPaperSize = new PaperSize
+            {
+                RawKind = (int)PaperKind.Custom, Height = 150, Width = 100
+            };
+            printerSettings.DefaultPageSettings.PaperSize = labelPaperSize;
+            printerSettings.DefaultPageSettings.Margins = new Margins(0,0,0,0);
+            /*var labelPaperSource = new PaperSource
+            { RawKind = (int)PaperSourceKind.Manual };
+            printerSettings.DefaultPageSettings.PaperSource = labelPaperSource;*/
+            if (printerSettings.CanDuplex)
+            {
+                printerSettings.Duplex = Duplex.Default;
+            }
             pdialog.PrintVisual(vis, "My Image");
-
         }
+
+
         private void Print_Click(object sender, RoutedEventArgs e)
         {
             LoadAndPrint(printPath);
