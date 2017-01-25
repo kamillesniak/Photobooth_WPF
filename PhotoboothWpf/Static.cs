@@ -26,8 +26,10 @@ namespace PhotoboothWpf
         static public void Error(string message, bool lockdown)
         {
             MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            Debug.WriteLine("Error happend");
         }
     }
+  
 
     class Actual
     {
