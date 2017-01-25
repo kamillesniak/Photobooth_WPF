@@ -55,7 +55,6 @@ namespace PhotoboothWpf
         int maxCopies = 1;
         int printtime = 10;
 
-
         string printPath = string.Empty;
         string templateName = string.Empty;
         string printerName = string.Empty;
@@ -116,7 +115,7 @@ namespace PhotoboothWpf
                 photosInTemplate++;
                 // MainCamera.TakePhotoAsync();
                 Debug.WriteLine("taking a shot");
-                MainCamera.SendCommand(CameraCommand.PressShutterButton, (int)ShutterButton.Completely_NonAF);
+                MainCamera.SendCommand(CameraCommand.PressShutterButton, (int)ShutterButton.Completely);
                 MainCamera.SendCommand(CameraCommand.PressShutterButton, (int)ShutterButton.OFF);
                 Debug.WriteLine("Finished taking a shot");
 
@@ -186,28 +185,17 @@ namespace PhotoboothWpf
                     }
                     break;
                 default:
-                    Debug.WriteLine("bug on switch which template");
+                    Debug.WriteLine("bug at switch which template");
                     break;
             }
-
-            /*if (Control.photoTemplate(photosInTemplate, 3))
-            {
-                var printdata = new SavePrints(printNumber);
-                printPath = printdata.PrintDirectory;
-                // tu trzeba beędzie zrobić case z 4 opcjami szablonu narazie są 3 paski:
-                LayTemplate.foreground3(printPath);
-                printNumber++;
-                photosInTemplate = 0;
-                //print menu on
-                PrintMenu();               
-            }*/
-           
+    
         }
 
         private void StopButton_Click(object sender, RoutedEventArgs e)
         {
             sliderTimer.Start();
-            
+            MainCamera.StopLiveView();
+
             Slider.Visibility = Visibility.Visible;
             StartButton.Visibility = Visibility.Visible;
 
@@ -290,18 +278,12 @@ namespace PhotoboothWpf
 
                 Info.FileName = savedata.PhotoName;
                 sender.DownloadFile(Info, dir);
-
-                
-                ReSize.ImageAndSave(savedata.PhotoDirectory,photosInTemplate,templateName);
-
-         
+             
+                ReSize.ImageAndSave(savedata.PhotoDirectory,photosInTemplate,templateName);     
             }
             catch (Exception ex) { Report.Error(ex.Message, false); }
         }
-        private void ResizeImage()
-        {
 
-        }
         private void ErrorHandler_NonSevereErrorHappened(object sender, ErrorCode ex)
         {
             Report.Error($"SDK Error code: {ex} ({((int)ex).ToString("X")})", false);
@@ -385,6 +367,7 @@ namespace PhotoboothWpf
 
             }
         }
+
         private void EnableUI(bool enable)
         {
             if (!Dispatcher.CheckAccess()) Dispatcher.Invoke((Action)delegate { EnableUI(enable); });
@@ -414,6 +397,7 @@ namespace PhotoboothWpf
             dc.DrawImage(bi, new Rect { Width = bi.Width, Height = bi.Height });
             dc.Close();
 
+
             //no margins printing
             var printerSettings = new PrinterSettings();
             var labelPaperSize = new PaperSize
@@ -422,13 +406,16 @@ namespace PhotoboothWpf
             };
             printerSettings.DefaultPageSettings.PaperSize = labelPaperSize;
             printerSettings.DefaultPageSettings.Margins = new Margins(0,0,0,0);
-            /*var labelPaperSource = new PaperSource
+            /*to jakieś dodatkowe
+             * var labelPaperSource = new PaperSource
             { RawKind = (int)PaperSourceKind.Manual };
             printerSettings.DefaultPageSettings.PaperSource = labelPaperSource;*/
             if (printerSettings.CanDuplex)
             {
                 printerSettings.Duplex = Duplex.Default;
             }
+
+
             pdialog.PrintVisual(vis, "My Image");
         }
 
