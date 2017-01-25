@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Drawing.Printing;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,10 +16,13 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
+using System.Linq.Expressions;
 using EOSDigital.API;
 using EOSDigital.SDK;
 using System.Threading;
 using System.Xml.Linq;
+using Path = System.IO.Path;
+using Point = System.Drawing.Point;
 
 
 namespace PhotoboothWpf
@@ -54,8 +59,9 @@ namespace PhotoboothWpf
         string printPath = string.Empty;
         string templateName = string.Empty;
         string printerName = string.Empty;
+        private string currentDirectory = Environment.CurrentDirectory;
 
-
+   
 
         public MainWindow()
         {
@@ -109,9 +115,10 @@ namespace PhotoboothWpf
                 
                 photosInTemplate++;
                 // MainCamera.TakePhotoAsync();
-               
+                Debug.WriteLine("taking a shot");
                 MainCamera.SendCommand(CameraCommand.PressShutterButton, (int)ShutterButton.Completely_NonAF);
                 MainCamera.SendCommand(CameraCommand.PressShutterButton, (int)ShutterButton.OFF);
+                Debug.WriteLine("Finished taking a shot");
 
                 betweenPhotos.Stop();
                 secondCounter.Stop();
@@ -130,7 +137,60 @@ namespace PhotoboothWpf
             PhotoTextBox.Visibility = Visibility.Visible;
             PhotoTextBox.Text = "Prepare for next Photo!";
 
-            if (Control.photoTemplate(photosInTemplate, 3))
+            switch (templateName)
+            {
+                case "foreground_1":
+                    if (Control.photoTemplate(photosInTemplate, 1))
+                    {
+                        var printdata = new SavePrints(printNumber);
+                        printPath = printdata.PrintDirectory;                        
+                        LayTemplate.foreground1(printPath);
+                        printNumber++;
+                        photosInTemplate = 0;
+                        PrintMenu();
+                    }
+                    break;
+
+                case "foreground_3":
+                    if (Control.photoTemplate(photosInTemplate, 3))
+                    {
+                        var printdata = new SavePrints(printNumber);
+                        printPath = printdata.PrintDirectory;
+                        LayTemplate.foreground3(printPath);
+                        printNumber++;
+                        photosInTemplate = 0;
+                        PrintMenu();
+                    }
+                    break;
+                case "foreground_4":
+                    if (Control.photoTemplate(photosInTemplate, 4))
+                    {
+                        var printdata = new SavePrints(printNumber);
+                        printPath = printdata.PrintDirectory;
+                        LayTemplate.foreground4(printPath);
+                        printNumber++;
+                        photosInTemplate = 0;
+                        PrintMenu();
+                    }
+                    break;
+
+                case "foreground_4_paski":
+                    if (Control.photoTemplate(photosInTemplate, 4))
+                    {
+                        var printdata = new SavePrints(printNumber);
+                        printPath = printdata.PrintDirectory;
+                        LayTemplate.foreground4stripes(printPath);
+                        printNumber++;
+                        photosInTemplate = 0;
+                        PrintMenu();
+                    }
+                    break;
+                default:
+                    Debug.WriteLine("bug on switch which template");
+                    break;
+            }
+
+            /*if (Control.photoTemplate(photosInTemplate, 3))
             {
                 var printdata = new SavePrints(printNumber);
                 printPath = printdata.PrintDirectory;
@@ -140,7 +200,7 @@ namespace PhotoboothWpf
                 photosInTemplate = 0;
                 //print menu on
                 PrintMenu();               
-            }
+            }*/
            
         }
 
@@ -232,7 +292,7 @@ namespace PhotoboothWpf
                 sender.DownloadFile(Info, dir);
 
                 
-                ReSize.ImageAndSave(savedata.PhotoDirectory,photosInTemplate);
+                ReSize.ImageAndSave(savedata.PhotoDirectory,photosInTemplate,templateName);
 
          
             }
@@ -354,11 +414,25 @@ namespace PhotoboothWpf
             dc.DrawImage(bi, new Rect { Width = bi.Width, Height = bi.Height });
             dc.Close();
 
-          
-
+            //no margins printing
+            var printerSettings = new PrinterSettings();
+            var labelPaperSize = new PaperSize
+            {
+                RawKind = (int)PaperKind.Custom, Height = 150, Width = 100
+            };
+            printerSettings.DefaultPageSettings.PaperSize = labelPaperSize;
+            printerSettings.DefaultPageSettings.Margins = new Margins(0,0,0,0);
+            /*var labelPaperSource = new PaperSource
+            { RawKind = (int)PaperSourceKind.Manual };
+            printerSettings.DefaultPageSettings.PaperSource = labelPaperSource;*/
+            if (printerSettings.CanDuplex)
+            {
+                printerSettings.Duplex = Duplex.Default;
+            }
             pdialog.PrintVisual(vis, "My Image");
-
         }
+
+
         private void Print_Click(object sender, RoutedEventArgs e)
         {
             LoadAndPrint(printPath);
@@ -384,7 +458,8 @@ namespace PhotoboothWpf
 
         private void FillSavedData ()
         {
-            actualSettings = XDocument.Load(@"C:\Users\Kamil\Desktop\fotobudka\Photobooth\PhotoboothWpf\PhotoboothWpf\bin\Debug\menusettings.xml");
+
+            actualSettings = XDocument.Load(Path.Combine(currentDirectory, "menusettings.xml"));
             actualSettings.Root.Elements("setting");
             templateName = actualSettings.Root.Element("actualTemplate").Value;
             printerName = actualSettings.Root.Element("actualPrinter").Value;

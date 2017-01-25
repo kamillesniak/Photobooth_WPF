@@ -8,6 +8,7 @@
         Height="{x:Static SystemParameters.PrimaryScreenHeight}" 
         Width="{x:Static SystemParameters.PrimaryScreenWidth}" 
         Title="MainWindow" 
+
         WindowStartupLocation="CenterScreen" WindowState="Maximized"  Closing="Window_Closing" KeyDown="Window_KeyDown" >
 
     <Window.Background>
@@ -42,7 +43,7 @@
         </Button>
         <Canvas  x:Name="Slider" Grid.RowSpan="6" Grid.Row="2" Grid.ColumnSpan="8" Margin="0,0,0,10" Grid.Column="1" >
             <Canvas.Background>
-                <ImageBrush ImageSource="C:\Users\Kamil\Desktop\fotobudka\Photobooth\PhotoboothWpf\PhotoboothWpf\bin\Debug\backgrounds/PHM_12_PNG.png" />
+                <ImageBrush ImageSource="backgrounds/PHM_12_PNG.png" Stretch="Uniform"/>
             </Canvas.Background>
         </Canvas>
 
