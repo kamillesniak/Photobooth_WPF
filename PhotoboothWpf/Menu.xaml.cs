@@ -55,6 +55,7 @@ namespace PhotoboothWpf
         {
             ForegroundComboBox.ItemsSource = foregroundList;
             PrinterComboBox.ItemsSource = printerList;
+            Printer2ComboBox.ItemsSource = printerList;
             CopiesComboBox.ItemsSource = copiesCount;
             LoadDefaultValues();
 
@@ -65,6 +66,7 @@ namespace PhotoboothWpf
             settings.Root.Elements("setting");
             ForegroundComboBox.SelectedValue = settings.Root.Element("actualTemplate").Value;
             PrinterComboBox.SelectedValue = settings.Root.Element("actualPrinter").Value;
+            Printer2ComboBox.SelectedValue = settings.Root.Element("secondPrinter").Value;
             CopiesComboBox.SelectedValue = Convert.ToInt32(settings.Root.Element("maxNumberOfCopies").Value);
             TimeBetweenPhotosSlider.Value = Convert.ToDouble(settings.Root.Element("timeBetweenPhotos").Value);
             PrintingTimeSlider.Value = Convert.ToDouble(settings.Root.Element("printingTime").Value);
@@ -84,7 +86,8 @@ namespace PhotoboothWpf
                                 PrinterComboBox.SelectedValue.ToString(),
                                 TimeBetweenPhotosSlider.Value.ToString(),
                                 PrintingTimeSlider.Value.ToString(),
-                                CopiesComboBox.SelectedValue.ToString());
+                                CopiesComboBox.SelectedValue.ToString(),
+                                Printer2ComboBox.SelectedValue.ToString());
 
 
         }
