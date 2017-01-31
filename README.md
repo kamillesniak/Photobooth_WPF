@@ -9,4 +9,4 @@ TODO TASKS:
 4. Front end improvments
 5. Adding menu for user to choose foreground
 6. More complex menu 
-
+7. auto-contrast, auto-colors, auto-tunes 
