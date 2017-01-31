@@ -415,16 +415,19 @@ namespace PhotoboothWpf
         {
             string firstprinter;
             string secondprinter;
-            actualSettings = XDocument.Load(Path.Combine(currentDirectory, "menusettings.xml"));
-            actualSettings.Root.Elements("setting");
-            templateName = actualSettings.Root.Element("actualTemplate").Value;
-            firstprinter = actualSettings.Root.Element("actualPrinter").Value;
-            secondprinter = actualSettings.Root.Element("secondPrinter").Value;
-            maxCopies = Convert.ToInt32(actualSettings.Root.Element("maxNumberOfCopies").Value);
-            timeLeft = Convert.ToInt32(actualSettings.Root.Element("timeBetweenPhotos").Value);
-            printtime = Convert.ToInt32(actualSettings.Root.Element("printingTime").Value);
-            printerName = Printing.ActualPrinter(templateName, firstprinter, secondprinter);
-            timeLeftCopy = timeLeft;
+                       
+                actualSettings = XDocument.Load(Path.Combine(currentDirectory, "menusettings.xml"));
+                actualSettings.Root.Elements("setting");
+                templateName = actualSettings.Root.Element("actualTemplate").Value;
+                firstprinter = actualSettings.Root.Element("actualPrinter").Value;
+                secondprinter = actualSettings.Root.Element("secondPrinter").Value;
+                maxCopies = Convert.ToInt32(actualSettings.Root.Element("maxNumberOfCopies").Value);
+                timeLeft = Convert.ToInt32(actualSettings.Root.Element("timeBetweenPhotos").Value);
+                printtime = Convert.ToInt32(actualSettings.Root.Element("printingTime").Value);
+                printerName = Printing.ActualPrinter(templateName, firstprinter, secondprinter);
+                timeLeftCopy = timeLeft;
+           
+
         }
 
        
