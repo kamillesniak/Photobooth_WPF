@@ -398,7 +398,7 @@ namespace PhotoboothWpf
         #endregion
 
         #region Printing
-<<<<<<< HEAD
+
         private void LoadAndPrint(string printPath)
         {
             var bi = new BitmapImage();
@@ -425,10 +425,8 @@ namespace PhotoboothWpf
             pdialog.PrintVisual(vis, "My Image");
         }
 
-
-=======
     //TODO COPIES COUNT
->>>>>>> master
+
         private void Print_Click(object sender, RoutedEventArgs e)
         {
             Printing.Print(printPath,printerName);
