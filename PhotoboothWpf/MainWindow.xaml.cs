@@ -84,16 +84,14 @@ namespace PhotoboothWpf
                 MainCamera.SetCapacity(4096, 0x1FFFFFFF);
                 
             }
+            catch (NullReferenceException) { Report.Error("Chceck if camera is turned on and restart the program", true); }
             catch (DllNotFoundException) { Report.Error("Canon DLLs not found!", true); }
             catch (Exception ex) { Report.Error(ex.Message, true); }
-           
-
         }
         private void Window_Closing(object sender, CancelEventArgs e)
         {
             try
-            {
-              
+            {             
                 MainCamera?.Dispose();
                 APIHandler?.Dispose();
             }
@@ -128,6 +126,7 @@ namespace PhotoboothWpf
                
    
             }
+            
             catch (Exception ex) { Report.Error(ex.Message, false); }
 
             // TODO: zamiast sleppa jakas metoda ktora sprawdza czy zdjecie juz sie zrobilio i potem kolejna linia kodu-
@@ -286,6 +285,14 @@ namespace PhotoboothWpf
 
         private void ErrorHandler_NonSevereErrorHappened(object sender, ErrorCode ex)
         {
+            string errorCode = ((int)ex).ToString("X");
+            switch (errorCode)
+            {
+                case "8D01": // TAKE_PICTURE_AF_NG
+                    photosInTemplate--;
+                    Debug.WriteLine("Autofocus error");
+                    return;              
+            }
             Report.Error($"SDK Error code: {ex} ({((int)ex).ToString("X")})", false);
         }
 
@@ -299,7 +306,7 @@ namespace PhotoboothWpf
         #region Live view
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
-        {
+        {           
             sliderTimer.Stop();
             StartButton.Visibility = Visibility.Hidden;
             ReadyButton.Visibility = Visibility.Visible;
@@ -335,7 +342,11 @@ namespace PhotoboothWpf
 
         private void CloseSession()
         {
-            MainCamera.CloseSession();
+            try
+            {
+                MainCamera.CloseSession();
+            }
+            catch (ObjectDisposedException) { Report.Error("Camera has been turned off! \nPlease turned it on and restart the application", true);}
 
             //SettingsGroupBox.IsEnabled = false;
             //LiveViewGroupBox.IsEnabled = false;
@@ -406,15 +417,6 @@ namespace PhotoboothWpf
             };
             printerSettings.DefaultPageSettings.PaperSize = labelPaperSize;
             printerSettings.DefaultPageSettings.Margins = new Margins(0,0,0,0);
-            /*to jakieś dodatkowe
-             * var labelPaperSource = new PaperSource
-            { RawKind = (int)PaperSourceKind.Manual };
-            printerSettings.DefaultPageSettings.PaperSource = labelPaperSource;*/
-            if (printerSettings.CanDuplex)
-            {
-                printerSettings.Duplex = Duplex.Default;
-            }
-
 
             pdialog.PrintVisual(vis, "My Image");
         }
@@ -489,7 +491,10 @@ namespace PhotoboothWpf
             secondCounter.Interval = new TimeSpan(0, 0, 0, 0, 900);
         }
 
+        private void ReadyButton_Click(object sender, RoutedEventArgs e)
+        {
 
+        }
     }
 
 }

@@ -38,7 +38,7 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Button x:Name="StartButton"  BorderThickness="0" FontFamily="OpenSans" FontWeight="ExtraBold"   HorizontalAlignment="Left" Height="186" VerticalAlignment="Top" Width="191" Click="StartButton_Click" Grid.RowSpan="2" Background="{x:Null}">
+        <Button x:Name="StartButton"  BorderThickness="0" FontFamily="OpenSans" FontWeight="ExtraBold" Height="186" VerticalAlignment="Top" Click="StartButton_Click" Grid.RowSpan="3" Background="{x:Null}" Grid.ColumnSpan="2" Margin="0,0,114.6,0">
             <Image Source="backgrounds/StartButton.png"/>
         </Button>
         <Canvas  x:Name="Slider" Grid.RowSpan="6" Grid.Row="2" Grid.ColumnSpan="8" Margin="0,0,0,10" Grid.Column="1" >
@@ -48,16 +48,16 @@
         </Canvas>
 
         <Button x:Name="StopButton" BorderThickness="0"  Canvas.Left="1080" Canvas.Top="548" Click="StopButton_Click" Grid.Column="8" Grid.Row="6"   Grid.ColumnSpan="2" Margin="10,106,182,58" Grid.RowSpan="3" Visibility="Hidden" Background="{x:Null}">
-        <Image Source="backgrounds/StopButton.png"/>
+            <Image Source="backgrounds/StopButton.png"/>
         </Button>
         <ListBox x:Name="CameraListBox" Visibility="Hidden"></ListBox>
         <TextBox x:Name="PhotoTextBox" BorderThickness="0" HorizontalAlignment="Stretch" Height="81" TextWrapping="Wrap" VerticalAlignment="Top" Width="1200" Grid.ColumnSpan="10"  Visibility="Hidden"  FontFamily="Arial" Background="{x:Null}" FontSize="35" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.RowSpan="2"/>
-        <Button x:Name="ReadyButton" BorderThickness="0" FontFamily="OpenSans" FontWeight="ExtraBold"   HorizontalAlignment="Left" Height="186" VerticalAlignment="Top" Width="191" Click="ReadyButton_Click" Grid.RowSpan="2" Visibility="Hidden" Background="{x:Null}">
+        <Button x:Name="ReadyButton" BorderThickness="0" FontFamily="OpenSans" FontWeight="ExtraBold" Height="186" VerticalAlignment="Top" Click="ReadyButton_Click" Grid.RowSpan="3" Visibility="Hidden" Background="{x:Null}" Grid.ColumnSpan="2" Margin="0,0,114.6,0">
             <Image Source="backgrounds/ReadyButton.png"/>
         </Button>
         <Image x:Name="ShowPrint" Grid.ColumnSpan="3" Grid.Column="3" HorizontalAlignment="Left" Height="auto" Grid.Row="1" Grid.RowSpan="7" VerticalAlignment="Top" Width="auto" Visibility="Hidden"/>
 
-        <Button x:Name="Print" BorderThickness="0" Grid.Column="8" HorizontalAlignment="Left" Height="182" Margin="0,111,0,0" Grid.Row="1" Grid.RowSpan="3" VerticalAlignment="Top" Width="192" Visibility="Hidden" Click="Print_Click" Background="{x:Null}">
+        <Button x:Name="Print" BorderThickness="0" Grid.Column="7" Height="182" Margin="152.6,18.4,114.6,0" Grid.Row="2" Grid.RowSpan="3" VerticalAlignment="Top" Visibility="Hidden" Click="Print_Click" Background="{x:Null}" Grid.ColumnSpan="3">
             <Image Source="backgrounds/PrintButton.png"/>
         </Button>
 
