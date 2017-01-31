@@ -85,6 +85,7 @@
       <DependentUpon>Menu.xaml</DependentUpon>
     </Compile>
     <Compile Include="MenuData.cs" />
+    <Compile Include="Printing.cs" />
     <Compile Include="Save.cs" />
     <Compile Include="Slider.cs" />
     <Compile Include="Static.cs" />

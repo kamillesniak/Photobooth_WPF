@@ -34,3 +34,21 @@ D:\VS15 Projekty\Photobooth_WPF\PhotoboothWpf\obj\Debug\Menu.baml
 D:\VS15 Projekty\Photobooth_WPF\PhotoboothWpf\obj\Debug\PhotoboothWpf.g.resources
 D:\VS15 Projekty\Photobooth_WPF\PhotoboothWpf\obj\Debug\PhotoboothWpf.Properties.Resources.resources
 D:\VS15 Projekty\Photobooth_WPF\PhotoboothWpf\obj\Debug\PhotoboothWpf.csproj.GenerateResource.Cache
+C:\Users\Kamil\Documents\GitHub\Photobooth_WPF\PhotoboothWpf\bin\Debug\PhotoboothWpf.exe.config
+C:\Users\Kamil\Documents\GitHub\Photobooth_WPF\PhotoboothWpf\obj\Debug\PhotoboothWpf.exe
+C:\Users\Kamil\Documents\GitHub\Photobooth_WPF\PhotoboothWpf\obj\Debug\PhotoboothWpf.pdb
+C:\Users\Kamil\Documents\GitHub\Photobooth_WPF\PhotoboothWpf\bin\Debug\PhotoboothWpf.exe
+C:\Users\Kamil\Documents\GitHub\Photobooth_WPF\PhotoboothWpf\bin\Debug\PhotoboothWpf.pdb
+C:\Users\Kamil\Documents\GitHub\Photobooth_WPF\PhotoboothWpf\bin\Debug\EDSDKLib.dll
+C:\Users\Kamil\Documents\GitHub\Photobooth_WPF\PhotoboothWpf\bin\Debug\EDSDKLib.pdb
+C:\Users\Kamil\Documents\GitHub\Photobooth_WPF\PhotoboothWpf\obj\Debug\PhotoboothWpf.csprojResolveAssemblyReference.cache
+C:\Users\Kamil\Documents\GitHub\Photobooth_WPF\PhotoboothWpf\obj\Debug\MainWindow.g.cs
+C:\Users\Kamil\Documents\GitHub\Photobooth_WPF\PhotoboothWpf\obj\Debug\Menu.g.cs
+C:\Users\Kamil\Documents\GitHub\Photobooth_WPF\PhotoboothWpf\obj\Debug\App.g.cs
+C:\Users\Kamil\Documents\GitHub\Photobooth_WPF\PhotoboothWpf\obj\Debug\PhotoboothWpf_MarkupCompile.cache
+C:\Users\Kamil\Documents\GitHub\Photobooth_WPF\PhotoboothWpf\obj\Debug\PhotoboothWpf_MarkupCompile.lref
+C:\Users\Kamil\Documents\GitHub\Photobooth_WPF\PhotoboothWpf\obj\Debug\MainWindow.baml
+C:\Users\Kamil\Documents\GitHub\Photobooth_WPF\PhotoboothWpf\obj\Debug\Menu.baml
+C:\Users\Kamil\Documents\GitHub\Photobooth_WPF\PhotoboothWpf\obj\Debug\PhotoboothWpf.g.resources
+C:\Users\Kamil\Documents\GitHub\Photobooth_WPF\PhotoboothWpf\obj\Debug\PhotoboothWpf.Properties.Resources.resources
+C:\Users\Kamil\Documents\GitHub\Photobooth_WPF\PhotoboothWpf\obj\Debug\PhotoboothWpf.csproj.GenerateResource.Cache

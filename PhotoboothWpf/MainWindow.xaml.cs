@@ -64,6 +64,9 @@ namespace PhotoboothWpf
 
         public MainWindow()
         {
+
+            //TODO CHECK IF SETTINGS  FILE EXIST 
+
             InitializeComponent();
             FillSavedData();
             ActivateTimers();          
@@ -130,7 +133,7 @@ namespace PhotoboothWpf
             catch (Exception ex) { Report.Error(ex.Message, false); }
 
             // TODO: zamiast sleppa jakas metoda ktora sprawdza czy zdjecie juz sie zrobilio i potem kolejna linia kodu-
-            Thread.Sleep(2000);
+            Thread.Sleep(4000);
 
             PhotoTextBox.Visibility = Visibility.Visible;
             PhotoTextBox.Text = "Prepare for next Photo!";
@@ -395,6 +398,7 @@ namespace PhotoboothWpf
         #endregion
 
         #region Printing
+<<<<<<< HEAD
         private void LoadAndPrint(string printPath)
         {
             var bi = new BitmapImage();
@@ -422,9 +426,12 @@ namespace PhotoboothWpf
         }
 
 
+=======
+    //TODO COPIES COUNT
+>>>>>>> master
         private void Print_Click(object sender, RoutedEventArgs e)
         {
-            LoadAndPrint(printPath);
+            Printing.Print(printPath,printerName);
         }
         private void PrintMenu()
         {
@@ -447,15 +454,17 @@ namespace PhotoboothWpf
 
         private void FillSavedData ()
         {
-
+            string firstprinter;
+            string secondprinter;
             actualSettings = XDocument.Load(Path.Combine(currentDirectory, "menusettings.xml"));
             actualSettings.Root.Elements("setting");
             templateName = actualSettings.Root.Element("actualTemplate").Value;
-            printerName = actualSettings.Root.Element("actualPrinter").Value;
+            firstprinter = actualSettings.Root.Element("actualPrinter").Value;
+            secondprinter = actualSettings.Root.Element("secondPrinter").Value;
             maxCopies = Convert.ToInt32(actualSettings.Root.Element("maxNumberOfCopies").Value);
             timeLeft = Convert.ToInt32(actualSettings.Root.Element("timeBetweenPhotos").Value);
             printtime = Convert.ToInt32(actualSettings.Root.Element("printingTime").Value);
-
+            printerName = Printing.ActualPrinter(templateName, firstprinter, secondprinter);
             timeLeftCopy = timeLeft;
         }
 

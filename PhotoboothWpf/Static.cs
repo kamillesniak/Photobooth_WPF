@@ -90,7 +90,7 @@ namespace PhotoboothWpf
 
                         SaveImageData(imageBytes, naming(photoInTemplateNumb));
             }
-            break;
+                break;
 
                 case "foreground_3":
                     { 
