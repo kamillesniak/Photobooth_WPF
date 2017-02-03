@@ -56,9 +56,10 @@ namespace PhotoboothWpf
         int printtime = 10;
 
         string printPath = string.Empty;
-        string templateName = string.Empty;
+       public string templateName = string.Empty;
         string printerName = string.Empty;
         private string currentDirectory = Environment.CurrentDirectory;
+       public bool turnOnTemplateMenu = false;
 
    
 
@@ -69,7 +70,9 @@ namespace PhotoboothWpf
 
             InitializeComponent();
             FillSavedData();
-            ActivateTimers();          
+            ActivateTimers();
+            CheckTemplate();     
+
             //Canon:
             try
             {
@@ -135,7 +138,7 @@ namespace PhotoboothWpf
 
             // TODO: zamiast sleppa jakas metoda ktora sprawdza czy zdjecie juz sie zrobilio i potem kolejna linia kodu-
             Thread.Sleep(4000);
-
+            
             PhotoTextBox.Visibility = Visibility.Visible;
             PhotoTextBox.Text = "Prepare for next Photo!";
 
@@ -304,21 +307,34 @@ namespace PhotoboothWpf
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
             sliderTimer.Stop();
+            TurnOffForegroundMenu();
+            Slider.Visibility = Visibility.Visible;
             StartButton.Visibility = Visibility.Hidden;
+            StartButtonMenu.Visibility = Visibility.Hidden;
             ReadyButton.Visibility = Visibility.Visible;
             StopButton.Visibility = Visibility.Visible;
             PhotoTextBox.Visibility = Visibility.Visible;
             PhotoTextBox.Text = "Are you ready for first picture?";
-            MainCamera.SendCommand(CameraCommand.DoEvfAf, 1);
-            Thread.Sleep(2000);
-            MainCamera.SendCommand(CameraCommand.DoEvfAf, 0);
 
+            //MainCamera.SendCommand(CameraCommand.DoEvfAf, 1);
+            //Thread.Sleep(2000);
+            //MainCamera.SendCommand(CameraCommand.DoEvfAf, 3);
             try
             {
-               // MainCamera.IsLiveViewOn;
+                MainCamera.SendCommand(CameraCommand.PressShutterButton, 1);
+
+            }
+            finally
+            {
+                MainCamera.SendCommand(CameraCommand.PressShutterButton, 0);
+            }
+            try
+            {
+                
+                // MainCamera.IsLiveViewOn;
                 //if (!MainCamera.IsLiveViewOn)
                 //{
-                   Slider.Background = liveView;
+                Slider.Background = liveView;
                     MainCamera.StartLiveView();
                     //.Content = "Stop LV";
                 //}
@@ -419,6 +435,10 @@ namespace PhotoboothWpf
                 actualSettings = XDocument.Load(Path.Combine(currentDirectory, "menusettings.xml"));
                 actualSettings.Root.Elements("setting");
                 templateName = actualSettings.Root.Element("actualTemplate").Value;
+              if(actualSettings.Root.Element("actualTemplate").Value=="All")
+              {
+                turnOnTemplateMenu = true;
+              }
                 firstprinter = actualSettings.Root.Element("actualPrinter").Value;
                 secondprinter = actualSettings.Root.Element("secondPrinter").Value;
                 maxCopies = Convert.ToInt32(actualSettings.Root.Element("maxNumberOfCopies").Value);
@@ -462,7 +482,66 @@ namespace PhotoboothWpf
             secondCounter.Interval = new TimeSpan(0, 0, 0, 0, 900);
         }
 
+        #region Foreground_Menu
 
+        
+        private void Foreground_3_button_Click(object sender, RoutedEventArgs e)
+        {
+            
+            templateName = "foreground_3";
+            StartButton_Click(sender, e);
+        }
+        private void Foreground_4_button_Click(object sender, RoutedEventArgs e)
+        { 
+            templateName = "foreground_4";
+            StartButton_Click(sender, e);
+        }
+        private void Foreground_1_button_Click(object sender, RoutedEventArgs e)
+        {
+            templateName = "foreground_1";
+            StartButton_Click(sender, e);
+        }
+        private void Foreground_4_paski_button_Click(object sender, RoutedEventArgs e)
+        {
+            templateName = "foreground_4_paski";
+            StartButton_Click(sender, e);
+        }
+       
+
+        private void StartButtonMenu_Click(object sender, RoutedEventArgs e)
+        {
+            TurnOnForegroundMenu();
+           
+        }
+         public void TurnOnForegroundMenu()
+        {
+          
+            Slider.Visibility = Visibility.Hidden;
+            Foreground_1_button.Visibility = Visibility.Visible;
+            Foreground_3_button.Visibility = Visibility.Visible;
+            Foreground_4_button.Visibility = Visibility.Visible;
+            Foreground_4_paski_button.Visibility = Visibility.Visible;
+        }
+        public void TurnOffForegroundMenu()
+        {
+            Foreground_1_button.Visibility = Visibility.Hidden;
+            Foreground_3_button.Visibility = Visibility.Hidden;
+            Foreground_4_button.Visibility = Visibility.Hidden;
+            Foreground_4_paski_button.Visibility = Visibility.Hidden;
+        }
+        public void CheckTemplate()
+        {
+       
+            if (turnOnTemplateMenu)
+            {
+                StartButtonMenu.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                StartButton.Visibility = Visibility.Visible;
+            }
+        }
+        #endregion
     }
 
 }

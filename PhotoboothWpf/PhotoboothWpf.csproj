@@ -80,18 +80,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CreateTemplate.cs" />
+    <Compile Include="Foreground_menu.cs" />
+    <Compile Include="Classes\CreateTemplate.cs" />
     <Compile Include="Menu.xaml.cs">
       <DependentUpon>Menu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MenuData.cs" />
-    <Compile Include="Printing.cs" />
-    <Compile Include="Save.cs" />
-    <Compile Include="Slider.cs" />
-    <Compile Include="Static.cs" />
-    <Compile Include="Templates.cs" />
-    <Compile Include="Timers.cs" />
-    <Compile Include="WrappingStream.cs" />
+    <Compile Include="Menu\MenuData.cs" />
+    <Compile Include="Classes\Printing.cs" />
+    <Compile Include="Classes\Save.cs" />
+    <Compile Include="Classes\Slider.cs" />
+    <Compile Include="Classes\Static.cs" />
+    <Compile Include="Classes\Templates.cs" />
+    <Compile Include="Classes\Timers.cs" />
+    <Compile Include="Classes\WrappingStream.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -147,6 +148,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="backgrounds\PHM_12_PNG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="backgrounds\foreground_1.png" />
+    <Resource Include="backgrounds\foreground_3.png" />
+    <Resource Include="backgrounds\foreground_4.png" />
+    <Resource Include="backgrounds\foreground_4_paski.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
