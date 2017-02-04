@@ -212,14 +212,9 @@ namespace PhotoboothWpf
             //TODO OR NOT WHEN NO CAMERA CONNECTED WILL CAUSE BUG WHILE CLICK STOP IN FOREGRUND MENU
             MainCamera.StopLiveView();
 
-            Slider.Visibility = Visibility.Visible;
-            StartButton.Visibility = Visibility.Visible;
+            if (turnOnTemplateMenu) StartAllForegroundsWelcomeMenu();
+            else StartWelcomeMenu();
 
-            StopButton.Visibility = Visibility.Hidden;
-            PhotoTextBox.Visibility = Visibility.Hidden;
-            ReadyButton.Visibility = Visibility.Hidden;
-            Print.Visibility = Visibility.Hidden;
-            ShowPrint.Visibility = Visibility.Hidden;
            
         }
         public void ShowTimeLeft(object sender, EventArgs e)
@@ -408,6 +403,8 @@ namespace PhotoboothWpf
         private void Print_Click(object sender, RoutedEventArgs e)
         {
             Printing.Print(printPath,printerName);
+            if (turnOnTemplateMenu) StartAllForegroundsWelcomeMenu();
+            else StartWelcomeMenu();
         }
         private void PrintMenu()
         {
@@ -423,7 +420,11 @@ namespace PhotoboothWpf
 
             ShowPrint.Source = actualPrint;
             Print.Visibility = Visibility.Visible;
+           
             ShowPrint.Visibility = Visibility.Visible;
+    //        CreateDynamicBorder(ShowPrint.ActualWidth, ShowPrint.ActualHeight);
+           
+
         }
 
         #endregion
@@ -528,6 +529,7 @@ namespace PhotoboothWpf
             Foreground_4_button.Visibility = Visibility.Visible;
             Foreground_4_paski_button.Visibility = Visibility.Visible;
             StopButton.Visibility = Visibility.Visible;
+
         }
         public void TurnOffForegroundMenu()
         {
@@ -535,6 +537,20 @@ namespace PhotoboothWpf
             Foreground_3_button.Visibility = Visibility.Hidden;
             Foreground_4_button.Visibility = Visibility.Hidden;
             Foreground_4_paski_button.Visibility = Visibility.Hidden;
+        }
+        public void StartAllForegroundsWelcomeMenu()
+        {
+            PhotoTextBox.Visibility = Visibility.Visible;
+            PhotoTextBox.Text = "Hello";
+            SliderBorder.Visibility = Visibility.Visible;
+            StartButtonMenu.Visibility = Visibility.Visible;
+            Slider.Visibility = Visibility.Visible;
+            sliderTimer.Start();
+
+            StopButton.Visibility = Visibility.Hidden;
+            ReadyButton.Visibility = Visibility.Hidden;
+            Print.Visibility = Visibility.Hidden;
+            ShowPrint.Visibility = Visibility.Hidden;
         }
         public void CheckTemplate()
         {
@@ -552,13 +568,30 @@ namespace PhotoboothWpf
         #region frontend
         private void CreateDynamicBorder(double width, double height)
         {
-
-           // border.Background = new SolidColorBrush(Colors.LightGray);
-           SliderBorder.BorderThickness = new Thickness(10);
-         //   border.BorderBrush = new SolidColorBrush(Colors.Green);
+            var printBorder = new Border();
+            // border.Background = new SolidColorBrush(Colors.LightGray);
+           printBorder.BorderThickness = new Thickness(10);
+            printBorder.BorderBrush = new SolidColorBrush(Colors.Coral);
          //   border.CornerRadius = new CornerRadius(15);
-            SliderBorder.Width = width;
-            SliderBorder.Height = height;
+            printBorder.Width = width;
+            printBorder.Height = height;
+           
+            
+        }
+        private void StartWelcomeMenu()
+        {
+            PhotoTextBox.Visibility = Visibility.Visible;
+            PhotoTextBox.Text = "Hello";
+
+            sliderTimer.Start();
+            SliderBorder.Visibility = Visibility.Visible;
+            Slider.Visibility = Visibility.Visible;
+            StartButton.Visibility = Visibility.Visible;
+
+            StopButton.Visibility = Visibility.Hidden;
+            ReadyButton.Visibility = Visibility.Hidden;
+            Print.Visibility = Visibility.Hidden;
+            ShowPrint.Visibility = Visibility.Hidden;
         }
         #endregion
     }
