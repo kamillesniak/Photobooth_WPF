@@ -7,7 +7,7 @@
       mc:Ignorable="d"
       Background="#FFD1B32D"
       Title="Menu" Height="327" Width="619">
-    <Grid>
+    <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />

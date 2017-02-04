@@ -8,9 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("backgrounds/background_1.jpg")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("backgrounds/printbutton.png")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("backgrounds/readybutton.png")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("backgrounds/stopbutton.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("backgrounds/background_2.jpg")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("backgrounds/background_3.jpg")]
 
 

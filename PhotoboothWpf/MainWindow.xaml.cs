@@ -56,11 +56,12 @@ namespace PhotoboothWpf
         int printtime = 10;
 
         string printPath = string.Empty;
-        string templateName = string.Empty;
+       public string templateName = string.Empty;
         string printerName = string.Empty;
         private string currentDirectory = Environment.CurrentDirectory;
+       public bool turnOnTemplateMenu = false;
 
-   
+        
 
         public MainWindow()
         {
@@ -69,7 +70,9 @@ namespace PhotoboothWpf
 
             InitializeComponent();
             FillSavedData();
-            ActivateTimers();          
+            ActivateTimers();
+            CheckTemplate();     
+
             //Canon:
             try
             {
@@ -114,7 +117,7 @@ namespace PhotoboothWpf
         {
             try
             {
-                
+
                 photosInTemplate++;
                 // MainCamera.TakePhotoAsync();
                 Debug.WriteLine("taking a shot");
@@ -128,75 +131,78 @@ namespace PhotoboothWpf
                 PhotoTextBox.Visibility = Visibility.Hidden;
 
                 timeLeftCopy = timeLeft;
-               
-   
-            }
-            catch (Exception ex) { Report.Error(ex.Message, false); }
 
+
+            }
+
+            catch (Exception ex) { Report.Error(ex.Message, false); }
             // TODO: zamiast sleppa jakas metoda ktora sprawdza czy zdjecie juz sie zrobilio i potem kolejna linia kodu-
-            Thread.Sleep(4000);
+            //jak mam sleep 4000 to mi nie dziala
+              Thread.Sleep(2000);
 
             PhotoTextBox.Visibility = Visibility.Visible;
-            PhotoTextBox.Text = "Prepare for next Photo!";
+                PhotoTextBox.Text = "Prepare for next Photo!";
 
-            switch (templateName)
-            {
-                case "foreground_1":
-                    if (Control.photoTemplate(photosInTemplate, 1))
-                    {
-                        var printdata = new SavePrints(printNumber);
-                        printPath = printdata.PrintDirectory;                        
-                        LayTemplate.foreground1(printPath);
-                        printNumber++;
-                        photosInTemplate = 0;
-                        PrintMenu();
-                    }
-                    break;
+                switch (templateName)
+                {
+                    case "foreground_1":
+                        if (Control.photoTemplate(photosInTemplate, 1))
+                        {
+                            var printdata = new SavePrints(printNumber);
+                            printPath = printdata.PrintDirectory;
+                            LayTemplate.foreground1(printPath);
+                            printNumber++;
+                            photosInTemplate = 0;
+                            PrintMenu();
+                        }
+                        break;
 
-                case "foreground_3":
-                    if (Control.photoTemplate(photosInTemplate, 3))
-                    {
-                        var printdata = new SavePrints(printNumber);
-                        printPath = printdata.PrintDirectory;
-                        LayTemplate.foreground3(printPath);
-                        printNumber++;
-                        photosInTemplate = 0;
-                        PrintMenu();
-                    }
-                    break;
-                case "foreground_4":
-                    if (Control.photoTemplate(photosInTemplate, 4))
-                    {
-                        var printdata = new SavePrints(printNumber);
-                        printPath = printdata.PrintDirectory;
-                        LayTemplate.foreground4(printPath);
-                        printNumber++;
-                        photosInTemplate = 0;
-                        PrintMenu();
-                    }
-                    break;
+                    case "foreground_3":
+                        if (Control.photoTemplate(photosInTemplate, 3))
+                        {
+                            var printdata = new SavePrints(printNumber);
+                            printPath = printdata.PrintDirectory;
+                            LayTemplate.foreground3(printPath);
+                            printNumber++;
+                            photosInTemplate = 0;
+                            PrintMenu();
+                        }
+                        break;
+                    case "foreground_4":
+                        if (Control.photoTemplate(photosInTemplate, 4))
+                        {
+                            var printdata = new SavePrints(printNumber);
+                            printPath = printdata.PrintDirectory;
+                            LayTemplate.foreground4(printPath);
+                            printNumber++;
+                            photosInTemplate = 0;
+                            PrintMenu();
+                        }
+                        break;
 
-                case "foreground_4_paski":
-                    if (Control.photoTemplate(photosInTemplate, 4))
-                    {
-                        var printdata = new SavePrints(printNumber);
-                        printPath = printdata.PrintDirectory;
-                        LayTemplate.foreground4stripes(printPath);
-                        printNumber++;
-                        photosInTemplate = 0;
-                        PrintMenu();
-                    }
-                    break;
-                default:
-                    Debug.WriteLine("bug at switch which template");
-                    break;
-            }
-    
+                    case "foreground_4_paski":
+                        if (Control.photoTemplate(photosInTemplate, 4))
+                        {
+                            var printdata = new SavePrints(printNumber);
+                            printPath = printdata.PrintDirectory;
+                            LayTemplate.foreground4stripes(printPath);
+                            printNumber++;
+                            photosInTemplate = 0;
+                            PrintMenu();
+                        }
+                        break;
+                    default:
+                        Debug.WriteLine("bug at switch which template");
+                        break;
+                }
+            
+         
         }
 
         private void StopButton_Click(object sender, RoutedEventArgs e)
         {
             sliderTimer.Start();
+            //TODO OR NOT WHEN NO CAMERA CONNECTED WILL CAUSE BUG WHILE CLICK STOP IN FOREGRUND MENU
             MainCamera.StopLiveView();
 
             Slider.Visibility = Visibility.Visible;
@@ -223,17 +229,22 @@ namespace PhotoboothWpf
             var sliderData = new Slider();
             
             ImageBrush slide = new ImageBrush();
-            slide.Stretch = Stretch.Uniform;
+          //  slide.Stretch = Stretch.Uniform;
+        
             slide.ImageSource = new BitmapImage(new Uri(sliderData.imagePath));            
             Slider.Background = slide;
+            
+          //  var ratio = Math.Min(Slider.RenderSize.Width / slide.ImageSource.Width, Slider.RenderSize.Height / slide.ImageSource.Height);
+        //    CreateDynamicBorder(slide.ImageSource.Width, slide.ImageSource.Height);
+
         }
 
-       
-        #endregion
 
-        #region API Events
+    #endregion
 
-        private void APIHandler_CameraAdded(CanonAPI sender)
+    #region API Events
+
+    private void APIHandler_CameraAdded(CanonAPI sender)
         {
             try { Dispatcher.Invoke((Action)delegate { RefreshCamera(); }); }
             catch (Exception ex) { Report.Error(ex.Message, false); }
@@ -277,7 +288,8 @@ namespace PhotoboothWpf
             {
                 photoNumber++;
                 var savedata = new SavePhoto(photoNumber);
-                string dir = savedata.FolderDirectory;
+                string  dir = savedata.FolderDirectory;
+                
 
                 Info.FileName = savedata.PhotoName;
                 sender.DownloadFile(Info, dir);
@@ -304,30 +316,31 @@ namespace PhotoboothWpf
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
             sliderTimer.Stop();
+            TurnOffForegroundMenu();
+            SliderBorder.Visibility = Visibility.Visible;
+            Slider.Visibility = Visibility.Visible;
             StartButton.Visibility = Visibility.Hidden;
+            StartButtonMenu.Visibility = Visibility.Hidden;
             ReadyButton.Visibility = Visibility.Visible;
             StopButton.Visibility = Visibility.Visible;
             PhotoTextBox.Visibility = Visibility.Visible;
             PhotoTextBox.Text = "Are you ready for first picture?";
-            MainCamera.SendCommand(CameraCommand.DoEvfAf, 1);
-            Thread.Sleep(2000);
-            MainCamera.SendCommand(CameraCommand.DoEvfAf, 0);
 
             try
             {
-               // MainCamera.IsLiveViewOn;
-                //if (!MainCamera.IsLiveViewOn)
-                //{
-                   Slider.Background = liveView;
+                MainCamera.SendCommand(CameraCommand.PressShutterButton, 1);
+
+            }
+            finally
+            {
+                MainCamera.SendCommand(CameraCommand.PressShutterButton, 0);
+            }
+            try
+            {
+                
+                Slider.Background = liveView;
                     MainCamera.StartLiveView();
-                    //.Content = "Stop LV";
-                //}
-                //else
-                //{
-                //    MainCamera.StopLiveView();
-                //  //  StarLVButton.Content = "Start LV";
-                //    Slider.Background = Brushes.LightGray;
-                //}
+
             }
             catch (Exception ex) { Report.Error(ex.Message, false); }
         }
@@ -415,16 +428,23 @@ namespace PhotoboothWpf
         {
             string firstprinter;
             string secondprinter;
-            actualSettings = XDocument.Load(Path.Combine(currentDirectory, "menusettings.xml"));
-            actualSettings.Root.Elements("setting");
-            templateName = actualSettings.Root.Element("actualTemplate").Value;
-            firstprinter = actualSettings.Root.Element("actualPrinter").Value;
-            secondprinter = actualSettings.Root.Element("secondPrinter").Value;
-            maxCopies = Convert.ToInt32(actualSettings.Root.Element("maxNumberOfCopies").Value);
-            timeLeft = Convert.ToInt32(actualSettings.Root.Element("timeBetweenPhotos").Value);
-            printtime = Convert.ToInt32(actualSettings.Root.Element("printingTime").Value);
-            printerName = Printing.ActualPrinter(templateName, firstprinter, secondprinter);
-            timeLeftCopy = timeLeft;
+                       
+                actualSettings = XDocument.Load(Path.Combine(currentDirectory, "menusettings.xml"));
+                actualSettings.Root.Elements("setting");
+                templateName = actualSettings.Root.Element("actualTemplate").Value;
+              if(actualSettings.Root.Element("actualTemplate").Value=="All")
+              {
+                turnOnTemplateMenu = true;
+              }
+                firstprinter = actualSettings.Root.Element("actualPrinter").Value;
+                secondprinter = actualSettings.Root.Element("secondPrinter").Value;
+                maxCopies = Convert.ToInt32(actualSettings.Root.Element("maxNumberOfCopies").Value);
+                timeLeft = Convert.ToInt32(actualSettings.Root.Element("timeBetweenPhotos").Value);
+                printtime = Convert.ToInt32(actualSettings.Root.Element("printingTime").Value);
+                printerName = Printing.ActualPrinter(templateName, firstprinter, secondprinter);
+                timeLeftCopy = timeLeft;
+           
+
         }
 
        
@@ -459,7 +479,82 @@ namespace PhotoboothWpf
             secondCounter.Interval = new TimeSpan(0, 0, 0, 0, 900);
         }
 
+        #region Foreground_Menu
 
+        
+        private void Foreground_3_button_Click(object sender, RoutedEventArgs e)
+        {
+            
+            templateName = "foreground_3";
+            StartButton_Click(sender, e);
+
+        }
+        private void Foreground_4_button_Click(object sender, RoutedEventArgs e)
+        { 
+            templateName = "foreground_4";
+            StartButton_Click(sender, e);
+        }
+        private void Foreground_1_button_Click(object sender, RoutedEventArgs e)
+        {
+            templateName = "foreground_1";
+            StartButton_Click(sender, e);
+        }
+        private void Foreground_4_paski_button_Click(object sender, RoutedEventArgs e)
+        {
+            templateName = "foreground_4_paski";
+            StartButton_Click(sender, e);
+        }
+       
+
+        private void StartButtonMenu_Click(object sender, RoutedEventArgs e)
+        {
+            TurnOnForegroundMenu();
+           
+        }
+         public void TurnOnForegroundMenu()
+        {
+            sliderTimer.Stop();
+            Slider.Visibility = Visibility.Hidden;
+            SliderBorder.Visibility = Visibility.Hidden;
+
+            Foreground_1_button.Visibility = Visibility.Visible;
+            Foreground_3_button.Visibility = Visibility.Visible;
+            Foreground_4_button.Visibility = Visibility.Visible;
+            Foreground_4_paski_button.Visibility = Visibility.Visible;
+            StopButton.Visibility = Visibility.Visible;
+        }
+        public void TurnOffForegroundMenu()
+        {
+            Foreground_1_button.Visibility = Visibility.Hidden;
+            Foreground_3_button.Visibility = Visibility.Hidden;
+            Foreground_4_button.Visibility = Visibility.Hidden;
+            Foreground_4_paski_button.Visibility = Visibility.Hidden;
+        }
+        public void CheckTemplate()
+        {
+       
+            if (turnOnTemplateMenu)
+            {
+                StartButtonMenu.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                StartButton.Visibility = Visibility.Visible;
+            }
+        }
+        #endregion
+        #region frontend
+        private void CreateDynamicBorder(double width, double height)
+        {
+
+           // border.Background = new SolidColorBrush(Colors.LightGray);
+           SliderBorder.BorderThickness = new Thickness(10);
+         //   border.BorderBrush = new SolidColorBrush(Colors.Green);
+         //   border.CornerRadius = new CornerRadius(15);
+            SliderBorder.Width = width;
+            SliderBorder.Height = height;
+        }
+        #endregion
     }
 
 }
