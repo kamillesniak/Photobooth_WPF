@@ -155,6 +155,10 @@
     <Resource Include="backgrounds\foreground_4.png" />
     <Resource Include="backgrounds\foreground_4_paski.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="backgrounds\background_2.jpg" />
+    <Resource Include="backgrounds\background_3.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
