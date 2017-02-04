@@ -57,9 +57,10 @@
                 Click="ReadyButton_Click"  Visibility="Hidden" Background="{x:Null}">
             <Image Source="backgrounds/ReadyButton.png"/>
         </Button>
-
-        <Image x:Name="ShowPrint"  Grid.Row="1"   Grid.Column="1" Grid.ColumnSpan="2"  Grid.RowSpan="2"   VerticalAlignment="Center"  HorizontalAlignment="Center" Visibility="Hidden"/>
-
+    
+            <Image x:Name="ShowPrint"  Grid.Row="1"   Grid.Column="1" Grid.ColumnSpan="2"  Grid.RowSpan="2"   VerticalAlignment="Center"  HorizontalAlignment="Center" Visibility="Hidden"/>
+        
+        
         <Button x:Name="Print" BorderThickness="0" Grid.Column="3" HorizontalAlignment="Center"  Grid.Row="1"  VerticalAlignment="Top"  Click="Print_Click" Background="{x:Null}" Visibility="Hidden">
             <Image Source="backgrounds/PrintButton.png"/>
         </Button>

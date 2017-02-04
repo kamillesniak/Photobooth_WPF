@@ -56,10 +56,11 @@ namespace PhotoboothWpf
         int printtime = 10;
 
         string printPath = string.Empty;
-       public string templateName = string.Empty;
+        public string templateName = string.Empty;
         string printerName = string.Empty;
         private string currentDirectory = Environment.CurrentDirectory;
-       public bool turnOnTemplateMenu = false;
+        public bool turnOnTemplateMenu = false;
+        public bool PhotoTaken = false;
 
         
 
@@ -136,12 +137,19 @@ namespace PhotoboothWpf
             }
 
             catch (Exception ex) { Report.Error(ex.Message, false); }
-            // TODO: zamiast sleppa jakas metoda ktora sprawdza czy zdjecie juz sie zrobilio i potem kolejna linia kodu-
-              Thread.Sleep(4000);
 
             PhotoTextBox.Visibility = Visibility.Visible;
                 PhotoTextBox.Text = "Prepare for next Photo!";
+            
+            // Waiting for photo saving 
+            while (PhotoTaken==false)
+            {
+                Thread.Sleep(1000);
+            }
 
+            PhotoTaken = false;
+
+            // One if than switch
                 switch (templateName)
                 {
                     case "foreground_1":
@@ -255,12 +263,6 @@ namespace PhotoboothWpf
             catch (Exception ex) { Report.Error(ex.Message, false); }
         }
 
-        //private void MainCamera_ProgressChanged(object sender, int progress)
-        //{
-        //    try { MainProgressBar.Dispatcher.Invoke((Action)delegate { MainProgressBar.Value = progress; }); }
-        //    catch (Exception ex) { Report.Error(ex.Message, false); }
-        //}
-
         private void MainCamera_LiveViewUpdated(Camera sender, Stream img)
         {
             try
@@ -296,6 +298,9 @@ namespace PhotoboothWpf
                 ReSize.ImageAndSave(savedata.PhotoDirectory,photosInTemplate,templateName);     
             }
             catch (Exception ex) { Report.Error(ex.Message, false); }
+
+            PhotoTaken = true;
+            
         }
 
         private void ErrorHandler_NonSevereErrorHappened(object sender, ErrorCode ex)
@@ -407,7 +412,9 @@ namespace PhotoboothWpf
         private void PrintMenu()
         {
             Slider.Visibility = Visibility.Hidden;
+            SliderBorder.Visibility = Visibility.Hidden;
             ReadyButton.Visibility = Visibility.Hidden;
+            PhotoTextBox.Text = "Press button to continue";
 
             BitmapImage actualPrint = new BitmapImage();
             actualPrint.BeginInit();
