@@ -97,5 +97,10 @@ namespace PhotoboothWpf
         {
             Application.Current.Shutdown();
         }
+
+        private void MoreOptionsButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

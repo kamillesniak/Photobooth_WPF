@@ -50,6 +50,7 @@
         <Button x:Name="WithoutSaveButton" Grid.ColumnSpan="2" Content="Quit without save" Grid.Column="3" HorizontalAlignment="Left" Height="24" Grid.Row="6" VerticalAlignment="Top" Width="144" Click="WithoutSaveButton_Click"/>
         <ComboBox x:Name="Printer2ComboBox" Grid.ColumnSpan="2" Grid.Column="5" HorizontalAlignment="Left" Height="28" Grid.Row="1" VerticalAlignment="Top" Width="155"/>
         <Label x:Name="label_Copy4" Content="Printer 2" HorizontalAlignment="Left" Height="28" Grid.Row="1" VerticalAlignment="Top" Width="72" RenderTransformOrigin="0.688,0.5" Grid.Column="4"/>
+        <Button x:Name="MoreOptionsButton" Grid.ColumnSpan="2" Content="More Options" Grid.Column="5" HorizontalAlignment="Left" Height="46" Grid.Row="3" VerticalAlignment="Top" Width="155" Click="MoreOptionsButton_Click"/>
 
 
 

@@ -168,6 +168,14 @@ namespace PhotoboothWpf {
         #line default
         #line hidden
         
+        
+        #line 53 "..\..\Menu.xaml"
+        [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        internal System.Windows.Controls.Button MoreOptionsButton;
+        
+        #line default
+        #line hidden
+        
         private bool _contentLoaded;
         
         /// <summary>
@@ -257,6 +265,15 @@ namespace PhotoboothWpf {
             return;
             case 16:
             this.label_Copy4 = ((System.Windows.Controls.Label)(target));
+            return;
+            case 17:
+            this.MoreOptionsButton = ((System.Windows.Controls.Button)(target));
+            
+            #line 53 "..\..\Menu.xaml"
+            this.MoreOptionsButton.Click += new System.Windows.RoutedEventHandler(this.MoreOptionsButton_Click);
+            
+            #line default
+            #line hidden
             return;
             }
             this._contentLoaded = true;
