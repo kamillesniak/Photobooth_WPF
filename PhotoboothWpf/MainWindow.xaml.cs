@@ -56,10 +56,11 @@ namespace PhotoboothWpf
         int printtime = 10;
 
         string printPath = string.Empty;
-       public string templateName = string.Empty;
+        public string templateName = string.Empty;
         string printerName = string.Empty;
         private string currentDirectory = Environment.CurrentDirectory;
-       public bool turnOnTemplateMenu = false;
+        public bool turnOnTemplateMenu = false;
+        public bool PhotoTaken = false;
 
         
 
@@ -136,13 +137,25 @@ namespace PhotoboothWpf
             }
 
             catch (Exception ex) { Report.Error(ex.Message, false); }
+<<<<<<< HEAD
             // TODO: zamiast sleppa jakas metoda ktora sprawdza czy zdjecie juz sie zrobilio i potem kolejna linia kodu-
             //jak mam sleep 4000 to mi nie dziala
               Thread.Sleep(2000);
+=======
+>>>>>>> 141c7476c9092d38b0d62d9c019a8b9542ef3355
 
             PhotoTextBox.Visibility = Visibility.Visible;
                 PhotoTextBox.Text = "Prepare for next Photo!";
+            
+            // Waiting for photo saving 
+            while (PhotoTaken==false)
+            {
+                Thread.Sleep(1000);
+            }
 
+            PhotoTaken = false;
+
+            // One if than switch
                 switch (templateName)
                 {
                     case "foreground_1":
@@ -205,14 +218,9 @@ namespace PhotoboothWpf
             //TODO OR NOT WHEN NO CAMERA CONNECTED WILL CAUSE BUG WHILE CLICK STOP IN FOREGRUND MENU
             MainCamera.StopLiveView();
 
-            Slider.Visibility = Visibility.Visible;
-            StartButton.Visibility = Visibility.Visible;
+            if (turnOnTemplateMenu) StartAllForegroundsWelcomeMenu();
+            else StartWelcomeMenu();
 
-            StopButton.Visibility = Visibility.Hidden;
-            PhotoTextBox.Visibility = Visibility.Hidden;
-            ReadyButton.Visibility = Visibility.Hidden;
-            Print.Visibility = Visibility.Hidden;
-            ShowPrint.Visibility = Visibility.Hidden;
            
         }
         public void ShowTimeLeft(object sender, EventArgs e)
@@ -256,12 +264,6 @@ namespace PhotoboothWpf
             catch (Exception ex) { Report.Error(ex.Message, false); }
         }
 
-        //private void MainCamera_ProgressChanged(object sender, int progress)
-        //{
-        //    try { MainProgressBar.Dispatcher.Invoke((Action)delegate { MainProgressBar.Value = progress; }); }
-        //    catch (Exception ex) { Report.Error(ex.Message, false); }
-        //}
-
         private void MainCamera_LiveViewUpdated(Camera sender, Stream img)
         {
             try
@@ -297,6 +299,9 @@ namespace PhotoboothWpf
                 ReSize.ImageAndSave(savedata.PhotoDirectory,photosInTemplate,templateName);     
             }
             catch (Exception ex) { Report.Error(ex.Message, false); }
+
+            PhotoTaken = true;
+            
         }
 
         private void ErrorHandler_NonSevereErrorHappened(object sender, ErrorCode ex)
@@ -404,11 +409,15 @@ namespace PhotoboothWpf
         private void Print_Click(object sender, RoutedEventArgs e)
         {
             Printing.Print(printPath,printerName);
+            if (turnOnTemplateMenu) StartAllForegroundsWelcomeMenu();
+            else StartWelcomeMenu();
         }
         private void PrintMenu()
         {
             Slider.Visibility = Visibility.Hidden;
+            SliderBorder.Visibility = Visibility.Hidden;
             ReadyButton.Visibility = Visibility.Hidden;
+            PhotoTextBox.Text = "Press button to continue";
 
             BitmapImage actualPrint = new BitmapImage();
             actualPrint.BeginInit();
@@ -417,7 +426,11 @@ namespace PhotoboothWpf
 
             ShowPrint.Source = actualPrint;
             Print.Visibility = Visibility.Visible;
+           
             ShowPrint.Visibility = Visibility.Visible;
+    //        CreateDynamicBorder(ShowPrint.ActualWidth, ShowPrint.ActualHeight);
+           
+
         }
 
         #endregion
@@ -522,6 +535,7 @@ namespace PhotoboothWpf
             Foreground_4_button.Visibility = Visibility.Visible;
             Foreground_4_paski_button.Visibility = Visibility.Visible;
             StopButton.Visibility = Visibility.Visible;
+
         }
         public void TurnOffForegroundMenu()
         {
@@ -529,6 +543,20 @@ namespace PhotoboothWpf
             Foreground_3_button.Visibility = Visibility.Hidden;
             Foreground_4_button.Visibility = Visibility.Hidden;
             Foreground_4_paski_button.Visibility = Visibility.Hidden;
+        }
+        public void StartAllForegroundsWelcomeMenu()
+        {
+            PhotoTextBox.Visibility = Visibility.Visible;
+            PhotoTextBox.Text = "Hello";
+            SliderBorder.Visibility = Visibility.Visible;
+            StartButtonMenu.Visibility = Visibility.Visible;
+            Slider.Visibility = Visibility.Visible;
+            sliderTimer.Start();
+
+            StopButton.Visibility = Visibility.Hidden;
+            ReadyButton.Visibility = Visibility.Hidden;
+            Print.Visibility = Visibility.Hidden;
+            ShowPrint.Visibility = Visibility.Hidden;
         }
         public void CheckTemplate()
         {
@@ -546,13 +574,30 @@ namespace PhotoboothWpf
         #region frontend
         private void CreateDynamicBorder(double width, double height)
         {
-
-           // border.Background = new SolidColorBrush(Colors.LightGray);
-           SliderBorder.BorderThickness = new Thickness(10);
-         //   border.BorderBrush = new SolidColorBrush(Colors.Green);
+            var printBorder = new Border();
+            // border.Background = new SolidColorBrush(Colors.LightGray);
+           printBorder.BorderThickness = new Thickness(10);
+            printBorder.BorderBrush = new SolidColorBrush(Colors.Coral);
          //   border.CornerRadius = new CornerRadius(15);
-            SliderBorder.Width = width;
-            SliderBorder.Height = height;
+            printBorder.Width = width;
+            printBorder.Height = height;
+           
+            
+        }
+        private void StartWelcomeMenu()
+        {
+            PhotoTextBox.Visibility = Visibility.Visible;
+            PhotoTextBox.Text = "Hello";
+
+            sliderTimer.Start();
+            SliderBorder.Visibility = Visibility.Visible;
+            Slider.Visibility = Visibility.Visible;
+            StartButton.Visibility = Visibility.Visible;
+
+            StopButton.Visibility = Visibility.Hidden;
+            ReadyButton.Visibility = Visibility.Hidden;
+            Print.Visibility = Visibility.Hidden;
+            ShowPrint.Visibility = Visibility.Hidden;
         }
         #endregion
     }
