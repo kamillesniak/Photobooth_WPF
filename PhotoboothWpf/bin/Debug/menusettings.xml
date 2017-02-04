@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 ﻿<?xml version="1.0" encoding="utf-8"?><Setting><actualTemplate>foreground_4</actualTemplate><actualPrinter>HP Deskjet 1050 J410 series</actualPrinter><secondPrinter>HP Deskjet 1050 J410 series</secondPrinter><timeBetweenPhotos>3</timeBetweenPhotos><printingTime>10</printingTime><maxNumberOfCopies>2</maxNumberOfCopies></Setting>
+=======
+﻿<?xml version="1.0" encoding="utf-8"?><Setting><actualTemplate>All</actualTemplate><actualPrinter>DS-RX1</actualPrinter><secondPrinter>DS-RX2</secondPrinter><timeBetweenPhotos>3</timeBetweenPhotos><printingTime>10</printingTime><maxNumberOfCopies>2</maxNumberOfCopies></Setting>
+>>>>>>> master

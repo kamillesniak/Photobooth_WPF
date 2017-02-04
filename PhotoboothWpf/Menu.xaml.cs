@@ -40,6 +40,7 @@ namespace PhotoboothWpf
             foregroundList.Add("foreground_3");
             foregroundList.Add("foreground_4");
             foregroundList.Add("foreground_4_paski");
+            foregroundList.Add("All");
 
             foreach (string printer in System.Drawing.Printing.PrinterSettings.InstalledPrinters)
             {
