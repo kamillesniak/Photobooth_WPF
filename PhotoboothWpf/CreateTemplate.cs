@@ -11,6 +11,7 @@ namespace PhotoboothWpf
 {
     class LayTemplate
     {
+        // TODO: templates 1,4
 
         static public void foreground1(string printPath)
         {
@@ -19,19 +20,27 @@ namespace PhotoboothWpf
                 var firstImage = System.Drawing.Image.FromFile(ReSize.naming(1));
                 firstImage.RotateFlip(RotateFlipType.Rotate270FlipNone);
                 string tempPath = System.IO.Path.Combine(ActualTemplateDirectory(), "foreground_1.png");
+
                 var foreground = System.Drawing.Image.FromFile(tempPath);
+
                 tempPath = System.IO.Path.Combine(ActualTemplateDirectory(), "empty.png");
                 var empty = System.Drawing.Image.FromFile(tempPath);
 
+
                 using (Graphics grfx = Graphics.FromImage(empty))
-                {                    
+                {
+                    
                     grfx.DrawImage(firstImage, 0, 0);
+
                     grfx.DrawImage(foreground, 0, 0);
+
                     empty.Save(printPath);
                     empty.Dispose();
                 }
             }
-            catch (FileNotFoundException) { }
+            catch (FileNotFoundException)
+            {
+            }
         }
         static public void foreground3(string printPath)
         {
@@ -44,9 +53,14 @@ namespace PhotoboothWpf
                 var thirdImage = System.Drawing.Image.FromFile(ReSize.naming(3));
 
                 string tempPath = System.IO.Path.Combine(ActualTemplateDirectory(), "foreground_3.png");
+
                 var foreground = System.Drawing.Image.FromFile(tempPath);
+
                 tempPath = System.IO.Path.Combine(ActualTemplateDirectory(), "empty.png");
                 var empty = System.Drawing.Image.FromFile(tempPath);
+
+                //   Bitmap changedImage = new Bitmap(Convert.ToInt32(1024), Convert.ToInt32(1024), System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
 
                 using (Graphics grfx = Graphics.FromImage(empty))
                 {
@@ -58,11 +72,14 @@ namespace PhotoboothWpf
                     grfx.DrawImage(thirdImage, 645, 906);
                     grfx.DrawImage(foreground, 0, 0);
 
+
                     empty.Save(printPath);
                     empty.Dispose();
                 }
             }
-            catch (FileNotFoundException) { }
+            catch (FileNotFoundException)
+            {
+            }
         }
 
         static public void foreground4(string printPath)
@@ -84,6 +101,7 @@ namespace PhotoboothWpf
 
                 tempPath = System.IO.Path.Combine(ActualTemplateDirectory(), "empty.png");
                 var empty = System.Drawing.Image.FromFile(tempPath);
+
 
                 using (Graphics grfx = Graphics.FromImage(empty))
                 {
