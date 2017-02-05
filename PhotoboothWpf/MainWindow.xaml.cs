@@ -113,19 +113,18 @@ namespace PhotoboothWpf
             betweenPhotos.Start();
             secondCounter.Start();          
         }
-
         public void MakePhoto(object sender, EventArgs e)
-        {
+        {          
             try
             {
-
+// TODO: SHOW LOOKAT.PNG WHEN TAKING PHOTO
                 photosInTemplate++;
-                // MainCamera.TakePhotoAsync();
+// TODO: BEST METHOD TO TAK PHOTO
                 Debug.WriteLine("taking a shot");
                 MainCamera.SendCommand(CameraCommand.PressShutterButton, (int)ShutterButton.Completely);
                 MainCamera.SendCommand(CameraCommand.PressShutterButton, (int)ShutterButton.OFF);
                 Debug.WriteLine("Finished taking a shot");
-
+               
                 betweenPhotos.Stop();
                 secondCounter.Stop();
 
@@ -202,8 +201,7 @@ namespace PhotoboothWpf
                         Debug.WriteLine("bug at switch which template");
                         break;
                 }
-            
-         
+
         }
 
         private void StopButton_Click(object sender, RoutedEventArgs e)
@@ -244,7 +242,7 @@ namespace PhotoboothWpf
 
     #endregion
 
-    #region API Events
+        #region API Events
 
     private void APIHandler_CameraAdded(CanonAPI sender)
         {
@@ -335,11 +333,9 @@ namespace PhotoboothWpf
                 MainCamera.SendCommand(CameraCommand.PressShutterButton, 0);
             }
             try
-            {
-                
+            {               
                 Slider.Background = liveView;
-                    MainCamera.StartLiveView();
-
+                MainCamera.StartLiveView();
             }
             catch (Exception ex) { Report.Error(ex.Message, false); }
         }
