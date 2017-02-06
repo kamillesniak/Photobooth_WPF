@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml;
 using System.Xml.Linq;
 using Path = System.IO.Path;
 
@@ -63,14 +65,22 @@ namespace PhotoboothWpf
         }
         public void LoadDefaultValues()
         {
-            settings = XDocument.Load(Path.Combine(currentDirectory, "menusettings.xml"));
-            settings.Root.Elements("setting");
-            ForegroundComboBox.SelectedValue = settings.Root.Element("actualTemplate").Value;
-            PrinterComboBox.SelectedValue = settings.Root.Element("actualPrinter").Value;
-            Printer2ComboBox.SelectedValue = settings.Root.Element("secondPrinter").Value;
-            CopiesComboBox.SelectedValue = Convert.ToInt32(settings.Root.Element("maxNumberOfCopies").Value);
-            TimeBetweenPhotosSlider.Value = Convert.ToDouble(settings.Root.Element("timeBetweenPhotos").Value);
-            PrintingTimeSlider.Value = Convert.ToDouble(settings.Root.Element("printingTime").Value);
+            try
+            {
+                settings = XDocument.Load(Path.Combine(currentDirectory, "menusettings.xml"));
+                settings.Root.Elements("setting");
+                ForegroundComboBox.SelectedValue = settings.Root.Element("actualTemplate").Value;
+                PrinterComboBox.SelectedValue = settings.Root.Element("actualPrinter").Value;
+                Printer2ComboBox.SelectedValue = settings.Root.Element("secondPrinter").Value;
+                CopiesComboBox.SelectedValue = Convert.ToInt32(settings.Root.Element("maxNumberOfCopies").Value);
+                TimeBetweenPhotosSlider.Value = Convert.ToDouble(settings.Root.Element("timeBetweenPhotos").Value);
+                PrintingTimeSlider.Value = Convert.ToDouble(settings.Root.Element("printingTime").Value);
+            }
+            catch (XmlException e)
+            {
+                Debug.WriteLine("LoadDefaultValues exception");
+            }
+            
 
         }
 
