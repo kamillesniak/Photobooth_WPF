@@ -54,3 +54,5 @@ C:\Users\Kamil\Documents\GitHub\Photobooth_WPF\PhotoboothWpf\obj\Debug\Photoboot
 C:\Users\Kamil\Documents\GitHub\Photobooth_WPF\PhotoboothWpf\obj\Debug\PhotoboothWpf.csproj.GenerateResource.Cache
 C:\Users\Kamil\Documents\GitHub\Photobooth_WPF\PhotoboothWpf\obj\Debug\AdvancedMenu.g.cs
 C:\Users\Kamil\Documents\GitHub\Photobooth_WPF\PhotoboothWpf\obj\Debug\AdvancedMenu.baml
+D:\VS15 Projekty\Photobooth_WPF\PhotoboothWpf\obj\Debug\AdvancedMenu.g.cs
+D:\VS15 Projekty\Photobooth_WPF\PhotoboothWpf\obj\Debug\AdvancedMenu.baml
