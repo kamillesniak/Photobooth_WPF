@@ -42,7 +42,7 @@ namespace PhotoboothWpf.Classes
         #endregion
         public void SaveOptions(string name)
         {
-            using (XmlWriter writer = XmlWriter.Create("FrontEndSettings.xml"))
+            using (XmlWriter writer = XmlWriter.Create(@"UserSettings.xml"))
             {
                 writer.WriteStartElement("FrontEnd");
                 writer.WriteElementString("BeforePhotoText", BeforePhotoText);

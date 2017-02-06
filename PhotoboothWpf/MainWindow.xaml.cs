@@ -218,7 +218,7 @@ namespace PhotoboothWpf
         private void StopButton_Click(object sender, RoutedEventArgs e)
         {
             sliderTimer.Start();
-            //TODO OR NOT WHEN NO CAMERA CONNECTED WILL CAUSE BUG WHILE CLICK STOP IN FOREGRUND MENU
+//TODO OR NOT WHEN NO CAMERA CONNECTED WILL CAUSE BUG WHILE CLICK STOP IN FOREGRUND MENU
             MainCamera.StopLiveView();
 
             if (turnOnTemplateMenu) StartAllForegroundsWelcomeMenu();
