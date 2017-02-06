@@ -28,10 +28,17 @@ namespace PhotoboothWpf
         List<string> foregroundList = new List<string>();
         List<string> printerList = new List<string>();
         List<int> copiesCount = new List<int>();
+
+        UserSettings userSettings = new UserSettings();
         XDocument settings = new XDocument();
+        XDocument userSettingXDoc = new XDocument();
         private string currentDirectory = Environment.CurrentDirectory;
+        List<string> variables = new List<string>();
+
+
         public Menu()
         {
+           // FillDefaultValue();
             InitializeComponent();
             FillList();
             FillComboBox();
@@ -43,6 +50,18 @@ namespace PhotoboothWpf
             foregroundList.Add("foreground_4");
             foregroundList.Add("foreground_4_paski");
             foregroundList.Add("All");
+
+            variables.Add("WelcomeText");
+            variables.Add("BeforePhotoText");
+            variables.Add("FirstPhotoText");
+            variables.Add("SecondPhotoText");
+            variables.Add("ThirdPhotoText");
+            variables.Add("FourthPhotoText");
+            variables.Add("backgroundPath");
+            variables.Add("buttonsColor");
+            variables.Add("borderColor");
+            variables.Add("textBoxColor");
+            variables.Add("buttonHighlightColor");
 
             foreach (string printer in System.Drawing.Printing.PrinterSettings.InstalledPrinters)
             {
@@ -60,6 +79,7 @@ namespace PhotoboothWpf
             PrinterComboBox.ItemsSource = printerList;
             Printer2ComboBox.ItemsSource = printerList;
             CopiesComboBox.ItemsSource = copiesCount;
+            SettingsComboBox.ItemsSource = variables;
             LoadDefaultValues();
 
         }
@@ -100,7 +120,6 @@ namespace PhotoboothWpf
                                 CopiesComboBox.SelectedValue.ToString(),
                                 Printer2ComboBox.SelectedValue.ToString());
 
-
         }
 
         private void WithoutSaveButton_Click(object sender, RoutedEventArgs e)
@@ -110,12 +129,24 @@ namespace PhotoboothWpf
 
         private void ChangeTextButton_Click(object sender, RoutedEventArgs e)
         {
-
+            string name = SettingsComboBox.SelectedValue.ToString();
+            string value = SettingsTextBox.Text;
+            userSettings.ChangeText(name, value);
         }
 
         private void SettingsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            userSettingXDoc = XDocument.Load(Path.Combine(currentDirectory, "UserSettings.xml"));
+            userSettingXDoc.Root.Elements("FrontEnd");
+            string actualValue = SettingsComboBox.SelectedValue.ToString();
+            string var = userSettingXDoc.Root.Element(actualValue).Value;
+            SettingsTextBox.Text = var;
+        }
+        private void FillDefaultValue()
+        {            
+            userSettings.SetNewUserSettings("Hello", "Prepare for first photo", "Get ready for second one", "Third photo coming, prepare!", "the end",
+               "backgrounds", "backgrounds", "red", "orange", "orange", "blue");
+            userSettings.SaveOptions("ble");
         }
     }
 }

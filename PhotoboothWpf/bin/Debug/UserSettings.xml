@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FrontEnd>
+  <WelcomeText>Hello22</WelcomeText>
+  <BeforePhotoText>Prepare for first photo</BeforePhotoText>
+  <FirstPhotoText>Get ready for second one</FirstPhotoText>
+  <SecondPhotoText>Third photo coming, prepare!</SecondPhotoText>
+  <ThirdPhotoText>the end</ThirdPhotoText>
+  <FourthPhotoText>backgrounds43</FourthPhotoText>
+  <backgroundPath>backgrounds</backgroundPath>
+  <buttonsColor>red</buttonsColor>
+  <borderColor>orange</borderColor>
+  <textBoxColor>orange</textBoxColor>
+  <buttonHighlightColor>blue</buttonHighlightColor>
+</FrontEnd>

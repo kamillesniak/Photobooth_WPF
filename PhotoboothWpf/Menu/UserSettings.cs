@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
-
-namespace PhotoboothWpf.Classes
+using System.Xml.Linq;
+namespace PhotoboothWpf
 {
-    class UserSettings
+    public class UserSettings
     {
         #region textBoxes
         public string WelcomeText { get; set; }
@@ -45,6 +45,7 @@ namespace PhotoboothWpf.Classes
             using (XmlWriter writer = XmlWriter.Create(@"UserSettings.xml"))
             {
                 writer.WriteStartElement("FrontEnd");
+                writer.WriteElementString("WelcomeText", WelcomeText);
                 writer.WriteElementString("BeforePhotoText", BeforePhotoText);
                 writer.WriteElementString("FirstPhotoText", FirstPhotoText);
                 writer.WriteElementString("SecondPhotoText", SecondPhotoText);
@@ -58,6 +59,18 @@ namespace PhotoboothWpf.Classes
                 writer.WriteEndElement();
                 writer.Flush();
             }
+        }
+        public void ChangeText(string name,string value)
+        {
+            XDocument xdoc = XDocument.Load(@"UserSettings.xml");
+            var query = from c in xdoc.Elements("FrontEnd")
+                        select c;
+            foreach (XElement book in query)
+            {
+                book.Element(name).Value = value;
+            }
+            xdoc.Save(@"UserSettings.xml");
+
         }
 
     }
