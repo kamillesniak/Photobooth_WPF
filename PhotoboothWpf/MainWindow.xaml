@@ -40,7 +40,7 @@
         <Border x:Name="SliderBorder" Grid.Row="1"  BorderBrush="Coral" Grid.Column="1" BorderThickness="5" Grid.ColumnSpan="2"  Grid.RowSpan="2">
             <Canvas  x:Name="Slider" Grid.Row="1"  Grid.Column="1" Grid.ColumnSpan="2"  Grid.RowSpan="2" >
                 <Canvas.Background>
-                    <ImageBrush ImageSource="backgrounds/PHM_12_PNG.png" Stretch="Uniform"/>
+                    <ImageBrush ImageSource="backgrounds/PHM.png" Stretch="Uniform"/>
                 </Canvas.Background>
             </Canvas>
         </Border>

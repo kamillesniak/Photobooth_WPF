@@ -124,7 +124,7 @@ namespace PhotoboothWpf
                 Debug.WriteLine("taking a shot");
                 MainCamera.SendCommand(CameraCommand.PressShutterButton, (int)ShutterButton.Halfway);
                 Debug.WriteLine("halfway");
-                MainCamera.SendCommand(CameraCommand.PressShutterButton, (int)ShutterButton.Completely);
+                MainCamera.SendCommand(CameraCommand.PressShutterButton, (int)ShutterButton.Completely_NonAF);
                 Debug.WriteLine("completely_nonaf");
                 MainCamera.SendCommand(CameraCommand.PressShutterButton, (int)ShutterButton.OFF);
                 Debug.WriteLine("Finished taking a shot");

@@ -80,6 +80,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AdvancedMenu.xaml.cs">
+      <DependentUpon>AdvancedMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Menu\UserSettings.cs" />
     <Compile Include="Foreground_menu.cs" />
     <Compile Include="Classes\CreateTemplate.cs" />
     <Compile Include="Menu.xaml.cs">
@@ -93,6 +97,10 @@
     <Compile Include="Classes\Templates.cs" />
     <Compile Include="Classes\Timers.cs" />
     <Compile Include="Classes\WrappingStream.cs" />
+    <Page Include="AdvancedMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -127,6 +135,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -158,6 +167,10 @@
   <ItemGroup>
     <Resource Include="backgrounds\background_2.jpg" />
     <Resource Include="backgrounds\background_3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="backgrounds\lookat.png" />
+    <Resource Include="backgrounds\PHM.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -51,4 +51,11 @@ C:\Users\Kamil\Documents\GitHub\Photobooth_WPF\PhotoboothWpf\obj\Debug\Menu.baml
 C:\Users\Kamil\Documents\GitHub\Photobooth_WPF\PhotoboothWpf\obj\Debug\PhotoboothWpf.g.resources
 C:\Users\Kamil\Documents\GitHub\Photobooth_WPF\PhotoboothWpf\obj\Debug\PhotoboothWpf.Properties.Resources.resources
 C:\Users\Kamil\Documents\GitHub\Photobooth_WPF\PhotoboothWpf\obj\Debug\PhotoboothWpf.csproj.GenerateResource.Cache
+<<<<<<< HEAD
 D:\VS15 Projekty\Photobooth_WPF\PhotoboothWpf\obj\Debug\PhotoboothWpf.csprojResolveAssemblyReference.cache
+=======
+C:\Users\Kamil\Documents\GitHub\Photobooth_WPF\PhotoboothWpf\obj\Debug\AdvancedMenu.g.cs
+C:\Users\Kamil\Documents\GitHub\Photobooth_WPF\PhotoboothWpf\obj\Debug\AdvancedMenu.baml
+D:\VS15 Projekty\Photobooth_WPF\PhotoboothWpf\obj\Debug\AdvancedMenu.g.cs
+D:\VS15 Projekty\Photobooth_WPF\PhotoboothWpf\obj\Debug\AdvancedMenu.baml
+>>>>>>> master
