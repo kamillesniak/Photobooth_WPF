@@ -80,9 +80,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AdvancedMenu.xaml.cs">
-      <DependentUpon>AdvancedMenu.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Menu\UserSettings.cs" />
     <Compile Include="Foreground_menu.cs" />
     <Compile Include="Classes\CreateTemplate.cs" />
@@ -97,10 +94,6 @@
     <Compile Include="Classes\Templates.cs" />
     <Compile Include="Classes\Timers.cs" />
     <Compile Include="Classes\WrappingStream.cs" />
-    <Page Include="AdvancedMenu.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

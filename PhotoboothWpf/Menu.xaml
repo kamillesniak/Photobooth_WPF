@@ -50,9 +50,10 @@
         <Button x:Name="WithoutSaveButton" Grid.ColumnSpan="2" Content="Quit without save" Grid.Column="3" HorizontalAlignment="Left" Height="24" Grid.Row="6" VerticalAlignment="Top" Width="144" Click="WithoutSaveButton_Click"/>
         <ComboBox x:Name="Printer2ComboBox" Grid.ColumnSpan="2" Grid.Column="5" HorizontalAlignment="Left" Height="28" Grid.Row="1" VerticalAlignment="Top" Width="155"/>
         <Label x:Name="label_Copy4" Content="Printer 2" HorizontalAlignment="Left" Height="28" Grid.Row="1" VerticalAlignment="Top" Width="94" RenderTransformOrigin="0.688,0.5" Grid.Column="3" Grid.ColumnSpan="2" Margin="55,0,0,0"/>
-        <ComboBox x:Name="SettingsComboBox" Grid.ColumnSpan="3" Grid.Column="1" HorizontalAlignment="Left" Height="28" Grid.Row="3" VerticalAlignment="Top" Width="167" SelectionChanged="SettingsComboBox_SelectionChanged"/>
+        <ComboBox x:Name="SettingsComboBox" Grid.ColumnSpan="3" Grid.Column="1" HorizontalAlignment="Left" Height="28" Grid.Row="3" VerticalAlignment="Top" Width="155" SelectionChanged="SettingsComboBox_SelectionChanged"/>
         <Label x:Name="label1" Content="Change Text" HorizontalAlignment="Left" Height="28" Grid.Row="3" VerticalAlignment="Top" Width="85"/>
-        <TextBox x:Name="SettingsTextBox" Grid.ColumnSpan="5" Grid.Column="3" HorizontalAlignment="Left" Height="28" Grid.Row="3" TextWrapping="Wrap"  VerticalAlignment="Top" Width="329" Margin="47,0,0,0"/>
+        <TextBox x:Name="SettingsTextBox" Grid.ColumnSpan="4" Grid.Column="3" HorizontalAlignment="Left" Height="28" Grid.Row="3" TextWrapping="Wrap"  VerticalAlignment="Top" Width="271" Margin="38,0,0,0"/>
+        <Button x:Name="ChangeTextButton" Content="SaveText" Grid.Column="7" HorizontalAlignment="Left" Height="28" Margin="5,0,0,0" Grid.Row="3" VerticalAlignment="Top" Width="62" Click="ChangeTextButton_Click"/>
 
 
 

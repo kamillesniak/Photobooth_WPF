@@ -108,7 +108,12 @@ namespace PhotoboothWpf
             Application.Current.Shutdown();
         }
 
-        private void MoreOptionsButton_Click(object sender, RoutedEventArgs e)
+        private void ChangeTextButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SettingsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
