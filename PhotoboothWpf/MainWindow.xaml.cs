@@ -62,8 +62,7 @@ namespace PhotoboothWpf
         public bool turnOnTemplateMenu = false;
         public bool PhotoTaken = false;
 
-        
-
+   
         public MainWindow()
         {
 
@@ -123,7 +122,10 @@ namespace PhotoboothWpf
                 photosInTemplate++;
                 // MainCamera.TakePhotoAsync();
                 Debug.WriteLine("taking a shot");
+                MainCamera.SendCommand(CameraCommand.PressShutterButton, (int)ShutterButton.Halfway);
+                Debug.WriteLine("halfway");
                 MainCamera.SendCommand(CameraCommand.PressShutterButton, (int)ShutterButton.Completely);
+                Debug.WriteLine("completely_nonaf");
                 MainCamera.SendCommand(CameraCommand.PressShutterButton, (int)ShutterButton.OFF);
                 Debug.WriteLine("Finished taking a shot");
 
@@ -138,24 +140,19 @@ namespace PhotoboothWpf
             }
 
             catch (Exception ex) { Report.Error(ex.Message, false); }
-<<<<<<< HEAD
             // TODO: zamiast sleppa jakas metoda ktora sprawdza czy zdjecie juz sie zrobilio i potem kolejna linia kodu-
 
+            
             Thread.Sleep(2000);
-
             //jak mam sleep 4000 to mi nie dziala
-<<<<<<< HEAD
 
-=======
-              Thread.Sleep(2000);
-=======
->>>>>>> 141c7476c9092d38b0d62d9c019a8b9542ef3355
->>>>>>> master
 
             PhotoTextBox.Visibility = Visibility.Visible;
                 PhotoTextBox.Text = "Prepare for next Photo!";
             
             // Waiting for photo saving 
+            
+            //Causes errors when AF error occures
             while (PhotoTaken==false)
             {
                 Thread.Sleep(1000);
@@ -315,13 +312,14 @@ namespace PhotoboothWpf
         private void ErrorHandler_NonSevereErrorHappened(object sender, ErrorCode ex)
         {
             string errorCode = ((int)ex).ToString("X");
-                        switch (errorCode)
+            switch (errorCode)
              {
-                                case "8D01": // TAKE_PICTURE_AF_NG
-                                photosInTemplate--;
-                                 Debug.WriteLine("Autofocus error");
-                                return;
-                            }
+               case "8D01": // TAKE_PICTURE_AF_NG
+               photosInTemplate--;
+               PhotoTaken = true;
+               Debug.WriteLine("Autofocus error");
+               return;
+             }
             Report.Error($"SDK Error code: {ex} ({((int)ex).ToString("X")})", false);
         }
 
