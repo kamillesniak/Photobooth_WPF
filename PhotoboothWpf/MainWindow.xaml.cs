@@ -62,8 +62,7 @@ namespace PhotoboothWpf
         public bool turnOnTemplateMenu = false;
         public bool PhotoTaken = false;
 
-        
-
+   
         public MainWindow()
         {
 
@@ -91,6 +90,7 @@ namespace PhotoboothWpf
                 MainCamera.SetCapacity(4096, 0x1FFFFFFF);
                 
             }
+            catch (NullReferenceException) { Report.Error("Chceck if camera is turned on and restart the program", true); }
             catch (DllNotFoundException) { Report.Error("Canon DLLs not found!", true); }
             catch (Exception ex) { Report.Error(ex.Message, true); }
            
@@ -111,7 +111,7 @@ namespace PhotoboothWpf
         private void ReadyButton_Click(object sender, EventArgs e)
         {
             betweenPhotos.Start();
-            secondCounter.Start();          
+            secondCounter.Start();
         }
 
         public void MakePhoto(object sender, EventArgs e)
@@ -122,7 +122,10 @@ namespace PhotoboothWpf
                 photosInTemplate++;
                 // MainCamera.TakePhotoAsync();
                 Debug.WriteLine("taking a shot");
-                MainCamera.SendCommand(CameraCommand.PressShutterButton, (int)ShutterButton.Completely);
+                MainCamera.SendCommand(CameraCommand.PressShutterButton, (int)ShutterButton.Halfway);
+                Debug.WriteLine("halfway");
+                MainCamera.SendCommand(CameraCommand.PressShutterButton, (int)ShutterButton.Completely_NonAF);
+                Debug.WriteLine("completely_nonaf");
                 MainCamera.SendCommand(CameraCommand.PressShutterButton, (int)ShutterButton.OFF);
                 Debug.WriteLine("Finished taking a shot");
 
@@ -137,17 +140,19 @@ namespace PhotoboothWpf
             }
 
             catch (Exception ex) { Report.Error(ex.Message, false); }
-<<<<<<< HEAD
             // TODO: zamiast sleppa jakas metoda ktora sprawdza czy zdjecie juz sie zrobilio i potem kolejna linia kodu-
+
+            
+            Thread.Sleep(2000);
             //jak mam sleep 4000 to mi nie dziala
-              Thread.Sleep(2000);
-=======
->>>>>>> 141c7476c9092d38b0d62d9c019a8b9542ef3355
+
 
             PhotoTextBox.Visibility = Visibility.Visible;
                 PhotoTextBox.Text = "Prepare for next Photo!";
             
             // Waiting for photo saving 
+            
+            //Causes errors when AF error occures
             while (PhotoTaken==false)
             {
                 Thread.Sleep(1000);
@@ -306,6 +311,15 @@ namespace PhotoboothWpf
 
         private void ErrorHandler_NonSevereErrorHappened(object sender, ErrorCode ex)
         {
+            string errorCode = ((int)ex).ToString("X");
+            switch (errorCode)
+             {
+               case "8D01": // TAKE_PICTURE_AF_NG
+               photosInTemplate--;
+               PhotoTaken = true;
+               Debug.WriteLine("Autofocus error");
+               return;
+             }
             Report.Error($"SDK Error code: {ex} ({((int)ex).ToString("X")})", false);
         }
 
@@ -356,8 +370,11 @@ namespace PhotoboothWpf
 
         private void CloseSession()
         {
-            MainCamera.CloseSession();
-
+            try
+             {
+                MainCamera.CloseSession();
+             }
+             catch (ObjectDisposedException) { Report.Error("Camera has been turned off! \nPlease turned it on and restart the application", true); }
             //SettingsGroupBox.IsEnabled = false;
             //LiveViewGroupBox.IsEnabled = false;
             //SessionButton.Content = "Open Session";
@@ -405,7 +422,44 @@ namespace PhotoboothWpf
         #endregion
 
         #region Printing
+
+        private void LoadAndPrint(string printPath)
+        {
+            var bi = new BitmapImage();
+            bi.BeginInit();
+            bi.CacheOption = BitmapCacheOption.OnLoad;
+            bi.UriSource = new Uri(printPath);
+            bi.EndInit();
+
+            var vis = new DrawingVisual();
+            var dc = vis.RenderOpen();
+            dc.DrawImage(bi, new Rect { Width = bi.Width, Height = bi.Height });
+            dc.Close();
+
+
+            //no margins printing
+            var printerSettings = new PrinterSettings();
+            var labelPaperSize = new PaperSize
+            {
+                RawKind = (int)PaperKind.Custom, Height = 150, Width = 100
+            };
+            printerSettings.DefaultPageSettings.PaperSize = labelPaperSize;
+            printerSettings.DefaultPageSettings.Margins = new Margins(0,0,0,0);
+            /*to jakieś dodatkowe
+             * var labelPaperSource = new PaperSource
+            { RawKind = (int)PaperSourceKind.Manual };
+            printerSettings.DefaultPageSettings.PaperSource = labelPaperSource;*/
+            if (printerSettings.CanDuplex)
+            {
+                printerSettings.Duplex = Duplex.Default;
+            }
+
+
+            pdialog.PrintVisual(vis, "My Image");
+        }
+
     //TODO COPIES COUNT
+
         private void Print_Click(object sender, RoutedEventArgs e)
         {
             Printing.Print(printPath,printerName);

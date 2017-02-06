@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("backgrounds/background_2.jpg")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("backgrounds/background_3.jpg")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("backgrounds/lookat.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("backgrounds/phm.png")]
 
 
