@@ -20,6 +20,7 @@ using System.Linq.Expressions;
 using EOSDigital.API;
 using EOSDigital.SDK;
 using System.Threading;
+using System.Xml;
 using System.Xml.Linq;
 using Path = System.IO.Path;
 using Point = System.Drawing.Point;
@@ -66,7 +67,6 @@ namespace PhotoboothWpf
         public MainWindow()
         {
 
-            //TODO CHECK IF SETTINGS  FILE EXIST 
 
             InitializeComponent();
             FillSavedData();
@@ -151,8 +151,6 @@ namespace PhotoboothWpf
                 PhotoTextBox.Text = "Prepare for next Photo!";
             
             // Waiting for photo saving 
-            
-            //Causes errors when AF error occures
             while (PhotoTaken==false)
             {
                 Thread.Sleep(1000);
@@ -495,21 +493,36 @@ namespace PhotoboothWpf
         {
             string firstprinter;
             string secondprinter;
-                       
-                actualSettings = XDocument.Load(Path.Combine(currentDirectory, "menusettings.xml"));
+
+                if (!File.Exists(Path.Combine(currentDirectory, "menusettings.xml")))
+                    {
+                        Debug.WriteLine("XMLsettings doesnt exist");
+                        Report.Error("XML settings cannot be found\nPlease Press F12 and update settings", true);
+                        return;
+                     }
+            try
+            {
+                actualSettings = System.Xml.Linq.XDocument.Load(System.IO.Path.Combine(currentDirectory, "menusettings.xml"));
                 actualSettings.Root.Elements("setting");
                 templateName = actualSettings.Root.Element("actualTemplate").Value;
-              if(actualSettings.Root.Element("actualTemplate").Value=="All")
-              {
-                turnOnTemplateMenu = true;
-              }
+                if (actualSettings.Root.Element("actualTemplate").Value == "All")
+                {
+                    turnOnTemplateMenu = true;
+                }
                 firstprinter = actualSettings.Root.Element("actualPrinter").Value;
                 secondprinter = actualSettings.Root.Element("secondPrinter").Value;
-                maxCopies = Convert.ToInt32(actualSettings.Root.Element("maxNumberOfCopies").Value);
-                timeLeft = Convert.ToInt32(actualSettings.Root.Element("timeBetweenPhotos").Value);
-                printtime = Convert.ToInt32(actualSettings.Root.Element("printingTime").Value);
-                printerName = Printing.ActualPrinter(templateName, firstprinter, secondprinter);
+                maxCopies = System.Convert.ToInt32(actualSettings.Root.Element("maxNumberOfCopies").Value);
+                timeLeft = System.Convert.ToInt32(actualSettings.Root.Element("timeBetweenPhotos").Value);
+                printtime = System.Convert.ToInt32(actualSettings.Root.Element("printingTime").Value);
+                printerName = PhotoboothWpf.Printing.ActualPrinter(templateName, firstprinter, secondprinter);
                 timeLeftCopy = timeLeft;
+            }
+            catch (XmlException e)
+            {
+                Debug.WriteLine("XMLsettings cannot be load properly");
+                Report.Error("XML settings cannot be load properly\nPlease Press F12 and update settings", true);
+            }
+                
            
 
         }
