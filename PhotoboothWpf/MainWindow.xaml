@@ -32,8 +32,7 @@
             <Image Source="backgrounds/StartButton.png"/>
         </Button>
 
-        <Button x:Name="StartButtonMenu"  BorderThickness="0" HorizontalAlignment="Center"  VerticalAlignment="Center" Click="StartButtonMenu_Click" Grid.Row="0" Grid.Column="0" Background="{x:Null}" 
-                Visibility="Hidden">
+        <Button x:Name="StartButtonMenu"  BorderThickness="0" HorizontalAlignment="Center"  VerticalAlignment="Center" Click="StartButtonMenu_Click" Grid.Row="0" Grid.Column="0" Background="{x:Null}" Visibility="Hidden">
             <Image Source="backgrounds/StartButton.png"/>
         </Button>
 
@@ -49,12 +48,12 @@
             <Image Source="backgrounds/StopButton.png"/>
         </Button>
 
-        <ListBox x:Name="CameraListBox" Visibility="Hidden"></ListBox>
+        <ListBox x:Name="CameraListBox" Visibility="Hidden"/>
         <TextBox x:Name="PhotoTextBox"  Text="Hello" BorderThickness="0" Foreground="White" HorizontalAlignment="Stretch"  TextWrapping="Wrap"   FontFamily="Arial" Background="{x:Null}" FontSize="35" 
                  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="0" Grid.Column="1" Visibility="Visible" Grid.ColumnSpan="2" />
 
         <Button x:Name="ReadyButton" BorderThickness="0" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                Click="ReadyButton_Click"  Visibility="Hidden" Background="{x:Null}">
+                Click="ReadyButton_Click" Background="{x:Null}" Visibility="Hidden">
             <Image Source="backgrounds/ReadyButton.png"/>
         </Button>
 
@@ -65,6 +64,21 @@
             <Image Source="backgrounds/PrintButton.png"/>
         </Button>
 
+        <StackPanel Name="CopiesAmountPanel" Orientation="Vertical" VerticalAlignment="Center" Grid.Column="3" Grid.Row="2" Visibility="Hidden">
+            
+        <TextBox x:Name="NumberOfCopiesTextBox" Text="1"  BorderThickness="0"  Grid.Column="3" HorizontalAlignment="Center"  Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top"
+                     Foreground="White" Visibility="Visible"   FontFamily="Arial" Background="{x:Null}" FontSize="35"/>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="3" Grid.Row="2"  MaxHeight="120">
+                <Button x:Name="AddOneCopyButton" BorderThickness="0" Grid.Column="3" HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Top" Background="{x:Null}"  Click="AddOneCopyButtonClick" Visibility="Visible">
+                <Image Source="backgrounds/PlusButton.png"  />
+            </Button>
+
+                <Button x:Name="MinusOneCopyButton" BorderThickness="0" Grid.Column="3" HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Bottom" Background="{x:Null}"  Click="MinusOneCopyButtonClick" Visibility="Visible" >
+                <Image Source="backgrounds/MinusButton.png"  />
+            </Button>
+        </StackPanel>
+        </StackPanel>
 
         <Button x:Name="Foreground_1_button" BorderThickness="0" Grid.Column="1"  HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center"  Background="{x:Null}"  Click="Foreground_1_button_Click" Visibility="Hidden" >
             <Image Source="backgrounds/foreground_1.png" />
@@ -78,7 +92,6 @@
         <Button x:Name="Foreground_4_paski_button"  BorderThickness="0" Grid.Column="2"  HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Center"  Background="{x:Null}" Visibility="Hidden" Click="Foreground_4_paski_button_Click">
             <Image Source="backgrounds/foreground_4_paski.png" />
         </Button>
-
 
 
 

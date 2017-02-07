@@ -54,6 +54,7 @@ namespace PhotoboothWpf
         int photosInTemplate = 0;
         int printNumber = 0;
         int maxCopies = 1;
+        short actualNumberOfCopies = 1;
         int printtime = 10;
 
         string printPath = string.Empty;
@@ -90,6 +91,7 @@ namespace PhotoboothWpf
                 MainCamera.SetCapacity(4096, 0x1FFFFFFF);
                 
             }
+            // TODO: Close main windows when null reference occures
             catch (NullReferenceException) { Report.Error("Chceck if camera is turned on and restart the program", true); }
             catch (DllNotFoundException) { Report.Error("Canon DLLs not found!", true); }
             catch (Exception ex) { Report.Error(ex.Message, true); }
@@ -220,11 +222,12 @@ namespace PhotoboothWpf
             sliderTimer.Start();
 //TODO OR NOT WHEN NO CAMERA CONNECTED WILL CAUSE BUG WHILE CLICK STOP IN FOREGRUND MENU
             MainCamera.StopLiveView();
-
+            
             if (turnOnTemplateMenu) StartAllForegroundsWelcomeMenu();
             else StartWelcomeMenu();
+            TurnOffForegroundMenu();
 
-           
+
         }
         public void ShowTimeLeft(object sender, EventArgs e)
         {
@@ -435,7 +438,6 @@ namespace PhotoboothWpf
             dc.Close();
 
 
-            //no margins printing
             var printerSettings = new PrinterSettings();
             var labelPaperSize = new PaperSize
             {
@@ -443,16 +445,8 @@ namespace PhotoboothWpf
             };
             printerSettings.DefaultPageSettings.PaperSize = labelPaperSize;
             printerSettings.DefaultPageSettings.Margins = new Margins(0,0,0,0);
-            /*to jakieś dodatkowe
-             * var labelPaperSource = new PaperSource
-            { RawKind = (int)PaperSourceKind.Manual };
-            printerSettings.DefaultPageSettings.PaperSource = labelPaperSource;*/
-            if (printerSettings.CanDuplex)
-            {
-                printerSettings.Duplex = Duplex.Default;
-            }
 
-
+//            printerSettings.Copies = actualNumberOfCopies;
             pdialog.PrintVisual(vis, "My Image");
         }
 
@@ -460,7 +454,7 @@ namespace PhotoboothWpf
 
         private void Print_Click(object sender, RoutedEventArgs e)
         {
-            Printing.Print(printPath,printerName);
+            Printing.Print(printPath,printerName,actualNumberOfCopies);
             if (turnOnTemplateMenu) StartAllForegroundsWelcomeMenu();
             else StartWelcomeMenu();
         }
@@ -478,11 +472,29 @@ namespace PhotoboothWpf
 
             ShowPrint.Source = actualPrint;
             Print.Visibility = Visibility.Visible;
+            CopiesAmountPanel.Visibility = Visibility.Visible;
            
             ShowPrint.Visibility = Visibility.Visible;
     //        CreateDynamicBorder(ShowPrint.ActualWidth, ShowPrint.ActualHeight);
-           
+        }
 
+        private void MinusOneCopyButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (actualNumberOfCopies>1)
+            {
+                --actualNumberOfCopies;
+                NumberOfCopiesTextBox.Text = actualNumberOfCopies.ToString();
+            }
+            
+        }
+
+        private void AddOneCopyButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (actualNumberOfCopies < maxCopies)
+            {
+                ++actualNumberOfCopies;
+                NumberOfCopiesTextBox.Text = actualNumberOfCopies.ToString();
+            }
         }
 
         #endregion
@@ -624,6 +636,8 @@ namespace PhotoboothWpf
             ReadyButton.Visibility = Visibility.Hidden;
             Print.Visibility = Visibility.Hidden;
             ShowPrint.Visibility = Visibility.Hidden;
+            CopiesAmountPanel.Visibility = Visibility.Hidden;
+            
         }
         public void CheckTemplate()
         {
@@ -665,8 +679,11 @@ namespace PhotoboothWpf
             ReadyButton.Visibility = Visibility.Hidden;
             Print.Visibility = Visibility.Hidden;
             ShowPrint.Visibility = Visibility.Hidden;
+            CopiesAmountPanel.Visibility = Visibility.Hidden;
         }
         #endregion
+
+        
     }
 
 }

@@ -137,9 +137,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="backgrounds\StartButton.png" />
   </ItemGroup>
   <ItemGroup>
@@ -164,6 +161,10 @@
   <ItemGroup>
     <Resource Include="backgrounds\lookat.png" />
     <Resource Include="backgrounds\PHM.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="backgrounds\MinusButton.png" />
+    <Resource Include="backgrounds\PlusButton.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

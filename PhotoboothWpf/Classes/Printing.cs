@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace PhotoboothWpf
 {
     class Printing
     {
-        static public void Print(string printPath,string actualPrinter)
+        static public void Print(string printPath,string actualPrinter, short actualNumberOfCopies)
         {
             PrintDocument pd = new PrintDocument();
 
@@ -40,7 +41,14 @@ namespace PhotoboothWpf
             };
 
             pd.PrinterSettings.PrinterName = actualPrinter;
-            pd.Print();
+            Debug.WriteLine("actual number of copies: " + actualNumberOfCopies);
+            // TODO:Sprawdz czy to zakomentowane dziala, jak nie to zostajemy przy forze
+//            pd.PrinterSettings.Copies = actualNumberOfCopies;
+//            pd.Print();
+            for (int i = 0; i < actualNumberOfCopies; i++)
+            {
+                pd.Print();
+            }
         }
         static public string ActualPrinter(string actualForeground, string firstprinter, string secondprinter)
         {
