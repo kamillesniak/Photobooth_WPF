@@ -47,7 +47,7 @@ namespace PhotoboothWpf
             string p2 = Actual.DateNow();
             string pathString = System.IO.Path.Combine(p1, p2);
             return pathString;
-        }
+        }  
     }
 
     class Control

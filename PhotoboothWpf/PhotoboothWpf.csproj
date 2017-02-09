@@ -80,6 +80,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Classes\EmailSender.cs" />
     <Compile Include="Menu\UserSettings.cs" />
     <Compile Include="Foreground_menu.cs" />
     <Compile Include="Classes\CreateTemplate.cs" />

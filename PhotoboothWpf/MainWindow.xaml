@@ -63,21 +63,23 @@
         <Button x:Name="Print" BorderThickness="0" Grid.Column="3"  Grid.Row="1"  VerticalAlignment="Center" HorizontalAlignment="Center" Click="Print_Click" Background="{x:Null}" Visibility="Hidden">
             <Image Source="backgrounds/PrintButton.png"/>
         </Button>
-
+<!--        TODO: Update Layout-->
+        <Button x:Name="SendEmailButton" Content="Send Email" Grid.Row="2" Click="SendEmailButtonClick" Foreground="White" Background="{x:Null}" FontSize="35" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Hidden"/>
+        
         <StackPanel Name="CopiesAmountPanel" Orientation="Vertical" VerticalAlignment="Center" Grid.Column="3" Grid.Row="2" Visibility="Hidden">
-            
-        <TextBox x:Name="NumberOfCopiesTextBox" Text="1"  BorderThickness="0"  Grid.Column="3" HorizontalAlignment="Center"  Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top"
+
+            <TextBox x:Name="NumberOfCopiesTextBox" Text="1"  BorderThickness="0"  Grid.Column="3" HorizontalAlignment="Center"  Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top"
                      Foreground="White" Visibility="Visible"   FontFamily="Arial" Background="{x:Null}" FontSize="35"/>
 
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="3" Grid.Row="2"  MaxHeight="120">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="3" Grid.Row="2"  MaxHeight="120">
                 <Button x:Name="AddOneCopyButton" BorderThickness="0" Grid.Column="3" HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Top" Background="{x:Null}"  Click="AddOneCopyButtonClick" Visibility="Visible">
-                <Image Source="backgrounds/PlusButton.png"  />
-            </Button>
+                    <Image Source="backgrounds/PlusButton.png"  />
+                </Button>
 
                 <Button x:Name="MinusOneCopyButton" BorderThickness="0" Grid.Column="3" HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Bottom" Background="{x:Null}"  Click="MinusOneCopyButtonClick" Visibility="Visible" >
-                <Image Source="backgrounds/MinusButton.png"  />
-            </Button>
-        </StackPanel>
+                    <Image Source="backgrounds/MinusButton.png"  />
+                </Button>
+            </StackPanel>
         </StackPanel>
 
         <Button x:Name="Foreground_1_button" BorderThickness="0" Grid.Column="1"  HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center"  Background="{x:Null}"  Click="Foreground_1_button_Click" Visibility="Hidden" >
@@ -92,6 +94,7 @@
         <Button x:Name="Foreground_4_paski_button"  BorderThickness="0" Grid.Column="2"  HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Center"  Background="{x:Null}" Visibility="Hidden" Click="Foreground_4_paski_button_Click">
             <Image Source="backgrounds/foreground_4_paski.png" />
         </Button>
+        
 
 
 
