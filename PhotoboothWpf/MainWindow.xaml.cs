@@ -22,6 +22,7 @@ using EOSDigital.SDK;
 using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
+using PhotoboothWpf.Classes;
 using Path = System.IO.Path;
 using Point = System.Drawing.Point;
 
@@ -48,7 +49,7 @@ namespace PhotoboothWpf
         List<System.Windows.Media.ImageSource> resizedImages = new List<System.Windows.Media.ImageSource>();
 
 
-        int photoNumber = 0;
+        public int photoNumber = 0;
         int timeLeft = 5;
         int timeLeftCopy = 5;
         int photosInTemplate = 0;
@@ -294,12 +295,13 @@ namespace PhotoboothWpf
            
             try
             {
+                Debug.WriteLine("photoNumber before ++ is " + photoNumber);
                 photoNumber++;
                 var savedata = new SavePhoto(photoNumber);
                 string  dir = savedata.FolderDirectory;
-                
+                Debug.WriteLine("photoNumber after ++ and saving is " + photoNumber);
 
-                Info.FileName = savedata.PhotoName;
+                Info.FileName = savedata.PhotoName;               
                 sender.DownloadFile(Info, dir);
              
                 ReSize.ImageAndSave(savedata.PhotoDirectory,photosInTemplate,templateName);     
@@ -473,7 +475,9 @@ namespace PhotoboothWpf
             ShowPrint.Source = actualPrint;
             Print.Visibility = Visibility.Visible;
             CopiesAmountPanel.Visibility = Visibility.Visible;
-           
+            SendEmailButton.Visibility = Visibility.Visible;
+
+
             ShowPrint.Visibility = Visibility.Visible;
     //        CreateDynamicBorder(ShowPrint.ActualWidth, ShowPrint.ActualHeight);
         }
@@ -637,7 +641,8 @@ namespace PhotoboothWpf
             Print.Visibility = Visibility.Hidden;
             ShowPrint.Visibility = Visibility.Hidden;
             CopiesAmountPanel.Visibility = Visibility.Hidden;
-            
+            SendEmailButton.Visibility = Visibility.Hidden;
+
         }
         public void CheckTemplate()
         {
@@ -680,10 +685,34 @@ namespace PhotoboothWpf
             Print.Visibility = Visibility.Hidden;
             ShowPrint.Visibility = Visibility.Hidden;
             CopiesAmountPanel.Visibility = Visibility.Hidden;
+            SendEmailButton.Visibility = Visibility.Hidden;
         }
         #endregion
 
-        
+        private void SendEmailButtonClick(object sender, RoutedEventArgs e)
+        {
+            switch (templateName)
+            {
+                case "foreground_1":
+                        EmailSender.SendEmail(photoNumber, 1);
+                    break;
+
+                case "foreground_3":
+                        EmailSender.SendEmail(photoNumber, 3);
+                    break;
+                case "foreground_4":
+                        EmailSender.SendEmail(photoNumber, 4);
+                    break;
+
+                case "foreground_4_paski":                    
+                        EmailSender.SendEmail(photoNumber, 4);
+                    break;
+                default:
+                    Debug.WriteLine("bug at switch which template in email send button");
+                    break;
+            }
+            
+        }
     }
 
 }

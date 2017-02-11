@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace PhotoboothWpf
         public string PhotoName { get; set; }
 
         public string PhotoDirectory { get; set; }
+
 
         public SavePhoto(int numb)
         {
@@ -48,8 +50,22 @@ namespace PhotoboothWpf
                 number++;
                 photoName = photoNaming(number);
             }
-         
             return photoName;
+        }
+
+        public int PhotoNumberJustTaken()
+        {
+            int number = PhotoNumber;
+            string photoName = photoNaming(number);
+            while (checkIfExsit(photoName) == true)
+            {
+                Debug.WriteLine("In PhotoNameJustTaken method, photonumber: " + number);
+                number++;
+                photoName = photoNaming(number);
+            }
+            Debug.WriteLine("After PhotoNameJustTaken method, photonumber: " + number + "photoname " + photoName);
+            number--;
+            return number;
 
         }
         public string photoNaming(int number)
