@@ -46,8 +46,7 @@ namespace PhotoboothWpf
         PrintDialog pdialog = new PrintDialog();
 
         XDocument actualSettings = new XDocument();
-        List<System.Windows.Media.ImageSource> resizedImages = new List<System.Windows.Media.ImageSource>();
-
+        List<System.Windows.Media.ImageSource> resizedImages = new List<System.Windows.Media.ImageSource>();  
 
         public int photoNumber = 0;
         int timeLeft = 5;
@@ -57,6 +56,11 @@ namespace PhotoboothWpf
         int maxCopies = 1;
         short actualNumberOfCopies = 1;
         int printtime = 10;
+
+        public string SmtpServerName;
+        public string SmtpPortNumber;
+        public string EmailHostAddress;
+        public string EmailHostPassword;
 
         string printPath = string.Empty;
         public string templateName = string.Empty;
@@ -68,8 +72,6 @@ namespace PhotoboothWpf
    
         public MainWindow()
         {
-
-
             InitializeComponent();
             FillSavedData();
             ActivateTimers();
@@ -452,11 +454,11 @@ namespace PhotoboothWpf
             pdialog.PrintVisual(vis, "My Image");
         }
 
-    //TODO COPIES COUNT
 
         private void Print_Click(object sender, RoutedEventArgs e)
         {
             Printing.Print(printPath,printerName,actualNumberOfCopies);
+            actualNumberOfCopies = 1;
             if (turnOnTemplateMenu) StartAllForegroundsWelcomeMenu();
             else StartWelcomeMenu();
         }
@@ -466,6 +468,7 @@ namespace PhotoboothWpf
             SliderBorder.Visibility = Visibility.Hidden;
             ReadyButton.Visibility = Visibility.Hidden;
             PhotoTextBox.Text = "Press button to continue";
+            NumberOfCopiesTextBox.Text = actualNumberOfCopies.ToString();
 
             BitmapImage actualPrint = new BitmapImage();
             actualPrint.BeginInit();
@@ -474,7 +477,9 @@ namespace PhotoboothWpf
 
             ShowPrint.Source = actualPrint;
             Print.Visibility = Visibility.Visible;
-            CopiesAmountPanel.Visibility = Visibility.Visible;
+            NumberOfCopiesTextBox.Visibility = Visibility.Visible;
+            AddOneCopyButton.Visibility = Visibility.Visible;
+            MinusOneCopyButton.Visibility = Visibility.Visible;
             SendEmailButton.Visibility = Visibility.Visible;
 
 
@@ -532,6 +537,13 @@ namespace PhotoboothWpf
                 printtime = System.Convert.ToInt32(actualSettings.Root.Element("printingTime").Value);
                 printerName = PhotoboothWpf.Printing.ActualPrinter(templateName, firstprinter, secondprinter);
                 timeLeftCopy = timeLeft;
+
+                SmtpServerName = actualSettings.Root.Element("SmtpServerName").Value;
+                SmtpPortNumber = actualSettings.Root.Element("SmtpPortNumber").Value;
+                EmailHostAddress = actualSettings.Root.Element("EmailHostAddress").Value;
+                EmailHostPassword = actualSettings.Root.Element("EmailHostPassword").Value;
+
+
             }
             catch (XmlException e)
             {
@@ -640,7 +652,9 @@ namespace PhotoboothWpf
             ReadyButton.Visibility = Visibility.Hidden;
             Print.Visibility = Visibility.Hidden;
             ShowPrint.Visibility = Visibility.Hidden;
-            CopiesAmountPanel.Visibility = Visibility.Hidden;
+            NumberOfCopiesTextBox.Visibility = Visibility.Hidden;
+            AddOneCopyButton.Visibility = Visibility.Hidden;
+            MinusOneCopyButton.Visibility = Visibility.Hidden;
             SendEmailButton.Visibility = Visibility.Hidden;
 
         }
@@ -684,34 +698,44 @@ namespace PhotoboothWpf
             ReadyButton.Visibility = Visibility.Hidden;
             Print.Visibility = Visibility.Hidden;
             ShowPrint.Visibility = Visibility.Hidden;
-            CopiesAmountPanel.Visibility = Visibility.Hidden;
+            NumberOfCopiesTextBox.Visibility = Visibility.Hidden;
+            AddOneCopyButton.Visibility = Visibility.Hidden;
+            MinusOneCopyButton.Visibility = Visibility.Hidden;
             SendEmailButton.Visibility = Visibility.Hidden;
         }
         #endregion
 
         private void SendEmailButtonClick(object sender, RoutedEventArgs e)
         {
-            switch (templateName)
+            //Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.System) + Path.DirectorySeparatorChar + "osk.exe");
+            EmailSendDialog inputEmailSendDialog = new EmailSendDialog("Please enter your email address:", "anon@example.com");
+            if (inputEmailSendDialog.ShowDialog() == true)
             {
-                case "foreground_1":
-                        EmailSender.SendEmail(photoNumber, 1);
-                    break;
+                Debug.WriteLine("inputemailsend is ok, answer is :" + inputEmailSendDialog.Answer);
+                EmailSender emailSender = new EmailSender();
+                switch (templateName)
+                {
+                    case "foreground_1":
+                        emailSender.SendEmail(photoNumber, 1, inputEmailSendDialog.Answer);
+                        break;
 
-                case "foreground_3":
-                        EmailSender.SendEmail(photoNumber, 3);
-                    break;
-                case "foreground_4":
-                        EmailSender.SendEmail(photoNumber, 4);
-                    break;
+                    case "foreground_3":
+                        emailSender.SendEmail(photoNumber, 3, inputEmailSendDialog.Answer);
+                        break;
+                    case "foreground_4":
+                        emailSender.SendEmail(photoNumber, 4, inputEmailSendDialog.Answer);
+                        break;
 
-                case "foreground_4_paski":                    
-                        EmailSender.SendEmail(photoNumber, 4);
-                    break;
-                default:
-                    Debug.WriteLine("bug at switch which template in email send button");
-                    break;
+                    case "foreground_4_paski":
+                        emailSender.SendEmail(photoNumber, 4, inputEmailSendDialog.Answer);
+                        break;
+                    default:
+                        Debug.WriteLine("bug at switch which template in email send button");
+                        break;
+                }
             }
             
+
         }
     }
 

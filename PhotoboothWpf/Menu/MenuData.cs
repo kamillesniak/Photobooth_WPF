@@ -15,9 +15,14 @@ namespace PhotoboothWpf
         public string printingTime { get; set; }
         public string maxNumberOfCopies { get; set; }
         public string secondPrinter { get; set; }
+        public string SmtpServerName { get; set; }
+        public string SmtpPortNumber { get; set; }
 
-     
-        public  void FillValues(string acttemp, string actprint, string timephotos, string printtime, string maxcopies, string nsecondprinter)
+        public string EmailHostAddress { get; set; }
+        public string EmailHostPassword { get; set; }
+
+
+        public  void FillValues(string acttemp, string actprint, string timephotos, string printtime, string maxcopies, string nsecondprinter, string emailHostAddress, string emailHostPassword, string emailSmtpServerName, string emailSmtpPortNumber)
         {
             actualTemplate = acttemp;
             firstPrinter = actprint;
@@ -25,6 +30,10 @@ namespace PhotoboothWpf
             printingTime = printtime;
             maxNumberOfCopies = maxcopies;
             secondPrinter = nsecondprinter;
+            EmailHostAddress = emailHostAddress;
+            EmailHostPassword = emailHostPassword;
+            SmtpServerName = emailSmtpServerName;
+            SmtpPortNumber = emailSmtpPortNumber;   
             SaveToXml();
         }
         public void SaveToXml()
@@ -38,6 +47,10 @@ namespace PhotoboothWpf
                 writer.WriteElementString("timeBetweenPhotos", timeBetweenPhotos);
                 writer.WriteElementString("printingTime", printingTime);
                 writer.WriteElementString("maxNumberOfCopies", maxNumberOfCopies);
+                writer.WriteElementString("EmailHostAddress", EmailHostAddress);
+                writer.WriteElementString("EmailHostPassword", EmailHostPassword);
+                writer.WriteElementString("SmtpServerName", SmtpServerName);
+                writer.WriteElementString("SmtpPortNumber", SmtpPortNumber);
                 writer.WriteEndElement();
                 writer.Flush();
             }

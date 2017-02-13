@@ -95,6 +95,9 @@
     <Compile Include="Classes\Templates.cs" />
     <Compile Include="Classes\Timers.cs" />
     <Compile Include="Classes\WrappingStream.cs" />
+    <Compile Include="EmailSendDialog.xaml.cs">
+      <DependentUpon>EmailSendDialog.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -108,6 +111,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Menu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EmailSendDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
