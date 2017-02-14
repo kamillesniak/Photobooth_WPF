@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.Drawing.Printing;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,9 +21,11 @@ using System.Linq.Expressions;
 using EOSDigital.API;
 using EOSDigital.SDK;
 using System.Threading;
+using System.Windows.Interop;
 using System.Xml;
 using System.Xml.Linq;
 using PhotoboothWpf.Classes;
+using Image = System.Windows.Controls.Image;
 using Path = System.IO.Path;
 using Point = System.Drawing.Point;
 
@@ -160,7 +163,7 @@ namespace PhotoboothWpf
             {
                 Thread.Sleep(1000);
             }
-
+            ShowPhotoThumbnail();
             PhotoTaken = false;
 
             // One if than switch
@@ -216,8 +219,7 @@ namespace PhotoboothWpf
                         Debug.WriteLine("bug at switch which template");
                         break;
                 }
-            
-         
+
         }
 
         private void StopButton_Click(object sender, RoutedEventArgs e)
@@ -306,7 +308,9 @@ namespace PhotoboothWpf
                 Info.FileName = savedata.PhotoName;               
                 sender.DownloadFile(Info, dir);
              
-                ReSize.ImageAndSave(savedata.PhotoDirectory,photosInTemplate,templateName);     
+                ReSize.ImageAndSave(savedata.PhotoDirectory,photosInTemplate,templateName);
+
+
             }
             catch (Exception ex) { Report.Error(ex.Message, false); }
 
@@ -656,7 +660,13 @@ namespace PhotoboothWpf
             AddOneCopyButton.Visibility = Visibility.Hidden;
             MinusOneCopyButton.Visibility = Visibility.Hidden;
             SendEmailButton.Visibility = Visibility.Hidden;
-
+            FirstThumbnail.Visibility = Visibility.Hidden;
+            SecondThumbnail.Visibility = Visibility.Hidden;
+            ThirdThumbnail.Visibility = Visibility.Hidden;
+            FourthThumbnail.Visibility = Visibility.Hidden;
+            LeftThumbnail.Visibility = Visibility.Hidden;
+            CenterThumbnail.Visibility = Visibility.Hidden;
+            RightThumbnail.Visibility = Visibility.Hidden;
         }
         public void CheckTemplate()
         {
@@ -702,6 +712,13 @@ namespace PhotoboothWpf
             AddOneCopyButton.Visibility = Visibility.Hidden;
             MinusOneCopyButton.Visibility = Visibility.Hidden;
             SendEmailButton.Visibility = Visibility.Hidden;
+            FirstThumbnail.Visibility = Visibility.Hidden;
+            SecondThumbnail.Visibility = Visibility.Hidden;
+            ThirdThumbnail.Visibility = Visibility.Hidden;
+            FourthThumbnail.Visibility = Visibility.Hidden;
+            LeftThumbnail.Visibility = Visibility.Hidden;
+            CenterThumbnail.Visibility = Visibility.Hidden;
+            RightThumbnail.Visibility = Visibility.Hidden;
         }
         #endregion
 
@@ -734,8 +751,107 @@ namespace PhotoboothWpf
                         break;
                 }
             }
-            
+        }
+        public void ShowPhotoThumbnail ()
+        {
+            var getImageThumbnail = new GetImageThumbnail();
 
+            ImageBrush thumbnailImageBrush = new ImageBrush();
+            getImageThumbnail.ShowThumbnail();
+
+            switch (templateName)
+            {
+                case "foreground_1":
+                    if (photosInTemplate == 1)
+                    {
+                        CenterThumbnailImage.Source = new BitmapImage(new Uri(getImageThumbnail.thumbnailPath));
+                        CenterThumbnail.Visibility = Visibility.Visible;
+                    }
+                    break;
+
+                case "foreground_3":
+                    switch (photosInTemplate)
+                    {
+                        case 1:
+                            LeftThumbnailImage.Source = new BitmapImage(new Uri(getImageThumbnail.thumbnailPath));
+                            LeftThumbnail.Visibility = Visibility.Visible;
+                            break;
+
+                        case 2:
+                            CenterThumbnailImage.Source = new BitmapImage(new Uri(getImageThumbnail.thumbnailPath));
+                            CenterThumbnail.Visibility = Visibility.Visible;
+                            break;
+
+                        case 3:
+                            RightThumbnailImage.Source = new BitmapImage(new Uri(getImageThumbnail.thumbnailPath));
+                            RightThumbnail.Visibility = Visibility.Visible;
+                            break;
+                        default:
+                            Debug.WriteLine("bug at switch which template in ShowPhotoThumbnail - foreground3");
+                            break;
+                    }
+                    break;
+                case "foreground_4":
+                    switch (photosInTemplate)
+                    {
+                        case 1:
+                            FirstThumbnailImage.Source = new BitmapImage(new Uri(getImageThumbnail.thumbnailPath));
+                            FirstThumbnail.Visibility = Visibility.Visible;
+                            break;
+
+                        case 2:
+                            SecondThumbnailImage.Source = new BitmapImage(new Uri(getImageThumbnail.thumbnailPath));
+                            SecondThumbnail.Visibility = Visibility.Visible;
+                            break;
+
+                        case 3:
+                            ThirdThumbnailImage.Source = new BitmapImage(new Uri(getImageThumbnail.thumbnailPath));
+                            ThirdThumbnail.Visibility = Visibility.Visible;
+                            break;
+
+                        case 4:
+                            FourthThumbnailImage.Source = new BitmapImage(new Uri(getImageThumbnail.thumbnailPath));
+                            FourthThumbnail.Visibility = Visibility.Visible;
+                            break;
+
+                        default:
+                            Debug.WriteLine("bug at switch which template in ShowPhotoThumbnail - foreground 4");
+                            break;
+                    }
+                    break;
+
+                case "foreground_4_paski":
+                    switch (photosInTemplate)
+                    {
+                        case 1:
+                            FirstThumbnailImage.Source = new BitmapImage(new Uri(getImageThumbnail.thumbnailPath));
+                            FirstThumbnail.Visibility = Visibility.Visible;
+                            break;
+
+                        case 2:
+                            SecondThumbnailImage.Source = new BitmapImage(new Uri(getImageThumbnail.thumbnailPath));
+                            SecondThumbnail.Visibility = Visibility.Visible;
+                            break;
+
+                        case 3:
+                            ThirdThumbnailImage.Source = new BitmapImage(new Uri(getImageThumbnail.thumbnailPath));
+                            ThirdThumbnail.Visibility = Visibility.Visible;
+                            break;
+
+                        case 4:
+                            FourthThumbnailImage.Source = new BitmapImage(new Uri(getImageThumbnail.thumbnailPath));
+                            FourthThumbnail.Visibility = Visibility.Visible;
+                            break;
+
+                        default:
+                            Debug.WriteLine("bug at switch which template in ShowPhotoThumbnail = foreground 4 paski");
+                            break;
+                    }
+                    break;
+                default:
+                    Debug.WriteLine("bug at switch which template in showphotothumbnail");
+                    break;
+            }
         }
     }
 
