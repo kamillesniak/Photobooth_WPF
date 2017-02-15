@@ -21,16 +21,16 @@ namespace PhotoboothWpf.Classes
     class GetImageThumbnail
     {
         public string thumbnailPath { get; set; }
+
+        private int photoNumberInTemplate;
+
         private int photoNumber;
-        public void ShowThumbnail()
+        public void GetThumbnailPath()
         {           
             var save = new SavePhoto(1);
             photoNumber = save.PhotoNumberJustTaken();
             string photoName = save.photoNaming(photoNumber);
             thumbnailPath = Path.Combine(Actual.FilePath(), photoName);
         }
-
-
-
     }
 }

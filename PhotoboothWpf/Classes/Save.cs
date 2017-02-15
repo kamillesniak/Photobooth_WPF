@@ -59,11 +59,9 @@ namespace PhotoboothWpf
             string photoName = photoNaming(number);
             while (checkIfExsit(photoName) == true)
             {
-                Debug.WriteLine("In PhotoNameJustTaken method, photonumber: " + number);
                 number++;
                 photoName = photoNaming(number);
             }
-            Debug.WriteLine("After PhotoNameJustTaken method, photonumber: " + number + "photoname " + photoName);
             number--;
             return number;
 

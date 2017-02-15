@@ -52,6 +52,7 @@ namespace PhotoboothWpf
         List<System.Windows.Media.ImageSource> resizedImages = new List<System.Windows.Media.ImageSource>();  
 
         public int photoNumber = 0;
+        public int photoNumberInTemplate = 0;
         int timeLeft = 5;
         int timeLeftCopy = 5;
         int photosInTemplate = 0;
@@ -126,7 +127,7 @@ namespace PhotoboothWpf
         {
             try
             {
-
+                photoNumberInTemplate++;
                 photosInTemplate++;
                 // MainCamera.TakePhotoAsync();
                 Debug.WriteLine("taking a shot");
@@ -144,6 +145,10 @@ namespace PhotoboothWpf
 
                 timeLeftCopy = timeLeft;
 
+
+                Debug.WriteLine("photo number in template: " + photoNumberInTemplate);
+                Debug.WriteLine("photos in template: " + photosInTemplate);
+                Debug.WriteLine("photo number: " + photoNumber);
 
             }
 
@@ -176,7 +181,6 @@ namespace PhotoboothWpf
                             printPath = printdata.PrintDirectory;
                             LayTemplate.foreground1(printPath);
                             printNumber++;
-                            photosInTemplate = 0;
                             PrintMenu();
                         }
                         break;
@@ -188,7 +192,6 @@ namespace PhotoboothWpf
                             printPath = printdata.PrintDirectory;
                             LayTemplate.foreground3(printPath);
                             printNumber++;
-                            photosInTemplate = 0;
                             PrintMenu();
                         }
                         break;
@@ -199,7 +202,6 @@ namespace PhotoboothWpf
                             printPath = printdata.PrintDirectory;
                             LayTemplate.foreground4(printPath);
                             printNumber++;
-                            photosInTemplate = 0;
                             PrintMenu();
                         }
                         break;
@@ -211,7 +213,6 @@ namespace PhotoboothWpf
                             printPath = printdata.PrintDirectory;
                             LayTemplate.foreground4stripes(printPath);
                             printNumber++;
-                            photosInTemplate = 0;
                             PrintMenu();
                         }
                         break;
@@ -227,7 +228,8 @@ namespace PhotoboothWpf
             sliderTimer.Start();
 //TODO OR NOT WHEN NO CAMERA CONNECTED WILL CAUSE BUG WHILE CLICK STOP IN FOREGRUND MENU
             MainCamera.StopLiveView();
-            
+            photosInTemplate = 0;
+            photoNumberInTemplate = 0;
             if (turnOnTemplateMenu) StartAllForegroundsWelcomeMenu();
             else StartWelcomeMenu();
             TurnOffForegroundMenu();
@@ -299,17 +301,15 @@ namespace PhotoboothWpf
            
             try
             {
-                Debug.WriteLine("photoNumber before ++ is " + photoNumber);
                 photoNumber++;
                 var savedata = new SavePhoto(photoNumber);
                 string  dir = savedata.FolderDirectory;
-                Debug.WriteLine("photoNumber after ++ and saving is " + photoNumber);
 
                 Info.FileName = savedata.PhotoName;               
                 sender.DownloadFile(Info, dir);
              
-                ReSize.ImageAndSave(savedata.PhotoDirectory,photosInTemplate,templateName);
-
+//                ReSize.ImageAndSave(savedata.PhotoDirectory,photosInTemplate,templateName);
+                ReSize.ImageAndSave(savedata.PhotoDirectory,photoNumberInTemplate,templateName);
 
             }
             catch (Exception ex) { Report.Error(ex.Message, false); }
@@ -324,8 +324,15 @@ namespace PhotoboothWpf
             switch (errorCode)
              {
                case "8D01": // TAKE_PICTURE_AF_NG
-               photosInTemplate--;
-               PhotoTaken = true;
+                     if (photoNumberInTemplate!=0)
+                         {
+                            photoNumberInTemplate--;
+                        }
+                     if (photosInTemplate != 0)
+                         {
+                            photosInTemplate--;
+                        }
+                    PhotoTaken = true;
                Debug.WriteLine("Autofocus error");
                return;
              }
@@ -461,6 +468,8 @@ namespace PhotoboothWpf
 
         private void Print_Click(object sender, RoutedEventArgs e)
         {
+            photosInTemplate = 0;
+            photoNumberInTemplate = 0;
             Printing.Print(printPath,printerName,actualNumberOfCopies);
             actualNumberOfCopies = 1;
             if (turnOnTemplateMenu) StartAllForegroundsWelcomeMenu();
@@ -724,6 +733,7 @@ namespace PhotoboothWpf
 
         private void SendEmailButtonClick(object sender, RoutedEventArgs e)
         {
+            //in case virtual keyboard doesnt work
             //Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.System) + Path.DirectorySeparatorChar + "osk.exe");
             EmailSendDialog inputEmailSendDialog = new EmailSendDialog("Please enter your email address:", "anon@example.com");
             if (inputEmailSendDialog.ShowDialog() == true)
@@ -757,20 +767,21 @@ namespace PhotoboothWpf
             var getImageThumbnail = new GetImageThumbnail();
 
             ImageBrush thumbnailImageBrush = new ImageBrush();
-            getImageThumbnail.ShowThumbnail();
+            getImageThumbnail.GetThumbnailPath();
 
             switch (templateName)
             {
                 case "foreground_1":
-                    if (photosInTemplate == 1)
+                    if (photoNumberInTemplate == 1)
                     {
                         CenterThumbnailImage.Source = new BitmapImage(new Uri(getImageThumbnail.thumbnailPath));
                         CenterThumbnail.Visibility = Visibility.Visible;
                     }
                     break;
 
+
                 case "foreground_3":
-                    switch (photosInTemplate)
+                    switch (photoNumberInTemplate)
                     {
                         case 1:
                             LeftThumbnailImage.Source = new BitmapImage(new Uri(getImageThumbnail.thumbnailPath));
@@ -788,11 +799,13 @@ namespace PhotoboothWpf
                             break;
                         default:
                             Debug.WriteLine("bug at switch which template in ShowPhotoThumbnail - foreground3");
+                            Debug.WriteLine("bug because photoNumberInTemplate = " + photoNumberInTemplate);
+
                             break;
                     }
                     break;
                 case "foreground_4":
-                    switch (photosInTemplate)
+                    switch (photoNumberInTemplate)
                     {
                         case 1:
                             FirstThumbnailImage.Source = new BitmapImage(new Uri(getImageThumbnail.thumbnailPath));
@@ -816,12 +829,14 @@ namespace PhotoboothWpf
 
                         default:
                             Debug.WriteLine("bug at switch which template in ShowPhotoThumbnail - foreground 4");
+                            Debug.WriteLine("bug because photoNumberInTemplate = " + photoNumberInTemplate);
+
                             break;
                     }
                     break;
 
                 case "foreground_4_paski":
-                    switch (photosInTemplate)
+                    switch (photoNumberInTemplate)
                     {
                         case 1:
                             FirstThumbnailImage.Source = new BitmapImage(new Uri(getImageThumbnail.thumbnailPath));
@@ -845,6 +860,7 @@ namespace PhotoboothWpf
 
                         default:
                             Debug.WriteLine("bug at switch which template in ShowPhotoThumbnail = foreground 4 paski");
+                            Debug.WriteLine("bug because photoNumberInTemplate = " + photoNumberInTemplate);
                             break;
                     }
                     break;
@@ -853,6 +869,72 @@ namespace PhotoboothWpf
                     break;
             }
         }
-    }
 
+        private void LeftThumbnail_OnClick(object sender, RoutedEventArgs e)
+        {
+            RepeatJustTakenPhoto(sender,e, 1);
+        }
+
+        private void CenterThumbnail_OnClick(object sender, RoutedEventArgs e)
+        {
+            switch (templateName)
+            {
+                case "foreground_1":
+                    RepeatJustTakenPhoto(sender, e, 1);
+                    break;
+                case "foreground_3":
+                    RepeatJustTakenPhoto(sender, e, 2);
+                    break;
+                default:
+                    Debug.WriteLine("Bug at centerThumbnail_OnClick");
+                    break;
+            }
+        }
+
+        private void RightThumbnail_OnClick(object sender, RoutedEventArgs e)
+        {
+            RepeatJustTakenPhoto(sender, e, 3);
+        }
+
+        private void FirstThumbnail_OnClick(object sender, RoutedEventArgs e)
+        {
+            RepeatJustTakenPhoto(sender, e, 1);
+        }
+
+        private void SecondThumbnail_OnClick(object sender, RoutedEventArgs e)
+        {
+            RepeatJustTakenPhoto(sender, e, 2);
+        }
+
+        private void ThirdThumbnail_OnClick(object sender, RoutedEventArgs e)
+        {
+            RepeatJustTakenPhoto(sender, e, 3);
+        }
+
+        private void FourthThumbnail_OnClick(object sender, RoutedEventArgs e)
+        {
+            RepeatJustTakenPhoto(sender, e, 4);
+        }
+
+        public void RepeatJustTakenPhoto(object sender, RoutedEventArgs e, int photoNumberToRepeat)
+        {
+            RepeatPhotoDialog repeatPhotoDialog = new RepeatPhotoDialog();
+            if (repeatPhotoDialog.ShowDialog() == true)
+            {
+                photosInTemplate--;
+                photoNumberInTemplate = photoNumberToRepeat-1;
+                Print.Visibility = Visibility.Hidden;
+                ShowPrint.Visibility = Visibility.Hidden;
+                NumberOfCopiesTextBox.Visibility = Visibility.Hidden;
+                AddOneCopyButton.Visibility = Visibility.Hidden;
+                MinusOneCopyButton.Visibility = Visibility.Hidden;
+                SendEmailButton.Visibility = Visibility.Hidden;
+
+                StartButton_Click(sender, e);
+                //TODO: Repeat selected photo, not only the last one like now
+            }
+        }
+    }
 }
+
+

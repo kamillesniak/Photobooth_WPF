@@ -34,3 +34,5 @@ D:\VS15 Projekty\Photobooth_WPF\PhotoboothWpf\obj\Debug\PhotoboothWpf.Properties
 D:\VS15 Projekty\Photobooth_WPF\PhotoboothWpf\obj\Debug\PhotoboothWpf.csproj.GenerateResource.Cache
 D:\VS15 Projekty\Photobooth_WPF\PhotoboothWpf\obj\Debug\EmailSendDialog.g.cs
 D:\VS15 Projekty\Photobooth_WPF\PhotoboothWpf\obj\Debug\EmailSendDialog.baml
+D:\VS15 Projekty\Photobooth_WPF\PhotoboothWpf\obj\Debug\RepeatPhotoDialog.g.cs
+D:\VS15 Projekty\Photobooth_WPF\PhotoboothWpf\obj\Debug\RepeatPhotoDialog.baml

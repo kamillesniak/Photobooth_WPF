@@ -95,18 +95,18 @@
 
         <DockPanel x:Name="DockPanel4pictures" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Visibility="Visible" >
 
-            <Button x:Name="FirstThumbnail" Background="{x:Null}" Visibility="Hidden" BorderThickness="0">
+            <Button x:Name="FirstThumbnail" Background="{x:Null}" Visibility="Hidden" BorderThickness="0" Click="FirstThumbnail_OnClick">
             <Image  x:Name="FirstThumbnailImage" Source="backgrounds/MinusButton.png" Stretch="Uniform"/>
         </Button>
 
-            <Button x:Name="SecondThumbnail" Background="{x:Null}" Visibility="Hidden" BorderThickness="0">
+            <Button x:Name="SecondThumbnail" Background="{x:Null}" Visibility="Hidden" BorderThickness="0" Click="SecondThumbnail_OnClick">
                 <Image  x:Name="SecondThumbnailImage" Source="backgrounds/PHM.png" Stretch="Uniform"/>
         </Button>
 
-            <Button x:Name="ThirdThumbnail" Background="{x:Null}"  Visibility="Hidden" BorderThickness="0">
+            <Button x:Name="ThirdThumbnail" Background="{x:Null}"  Visibility="Hidden" BorderThickness="0" Click="ThirdThumbnail_OnClick">
                 <Image  x:Name="ThirdThumbnailImage" Source="backgrounds/PHM.png" Stretch="Uniform"/>
           </Button>
-            <Button x:Name="FourthThumbnail" Background="{x:Null}" Visibility="Hidden" BorderThickness="0">
+            <Button x:Name="FourthThumbnail" Background="{x:Null}" Visibility="Hidden" BorderThickness="0" Click="FourthThumbnail_OnClick">
                 <Image  x:Name="FourthThumbnailImage" Source="backgrounds/PlusButton.png" Stretch="Uniform"/>
         </Button>
             
@@ -114,15 +114,15 @@
 
         <DockPanel x:Name="DockPanel1or3pictures" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Visibility="Visible" >
 
-            <Button x:Name="LeftThumbnail" Background="{x:Null}" Visibility="Hidden" BorderThickness="0">
+            <Button x:Name="LeftThumbnail" Background="{x:Null}" Visibility="Hidden" BorderThickness="0" Click="LeftThumbnail_OnClick">
                 <Image  x:Name="LeftThumbnailImage" Source="backgrounds/PHM.png" Stretch="Uniform"/>
             </Button>
 
-            <Button x:Name="CenterThumbnail" Background="{x:Null}" Visibility="Hidden" BorderThickness="0">
+            <Button x:Name="CenterThumbnail" Background="{x:Null}" Visibility="Hidden" BorderThickness="0" Click="CenterThumbnail_OnClick">
                 <Image  x:Name="CenterThumbnailImage" Source="backgrounds/PHM.png" Stretch="Uniform"/>
             </Button>
 
-            <Button x:Name="RightThumbnail" Background="{x:Null}"  Visibility="Hidden" BorderThickness="0">
+            <Button x:Name="RightThumbnail" Background="{x:Null}"  Visibility="Hidden" BorderThickness="0" Click="RightThumbnail_OnClick">
                 <Image  x:Name="RightThumbnailImage" Source="backgrounds/PHM.png" Stretch="Uniform"/>
             </Button>
 
