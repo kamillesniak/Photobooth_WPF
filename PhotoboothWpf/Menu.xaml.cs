@@ -95,11 +95,14 @@ namespace PhotoboothWpf
                 CopiesComboBox.SelectedValue = Convert.ToInt32(settings.Root.Element("maxNumberOfCopies").Value);
                 TimeBetweenPhotosSlider.Value = Convert.ToDouble(settings.Root.Element("timeBetweenPhotos").Value);
                 PrintingTimeSlider.Value = Convert.ToDouble(settings.Root.Element("printingTime").Value);
+                ChangeEmailAddressTextBox.Text = settings.Root.Element("EmailHostAddress").Value;
+                ChangeEmailPasswordTextBox.Text = settings.Root.Element("EmailHostPassword").Value;
+                ChangeEmailServerTextBox.Text = settings.Root.Element("SmtpServerName").Value;
+                ChangeEmailPortTextBox.Text = settings.Root.Element("SmtpPortNumber").Value;
             }
             catch (XmlException e)
-            {
-                Debug.WriteLine("LoadDefaultValues exception");
-            }
+            { Debug.WriteLine("LoadDefaultValues exception");}
+            catch(NullReferenceException e) { Debug.WriteLine("missing settings in menusettings.xml");}
             
 
         }
@@ -110,15 +113,29 @@ namespace PhotoboothWpf
             Save();
             Application.Current.Shutdown();
         }
+
         private void Save()
         {
-            var savedata = new MenuData();
-            savedata.FillValues(ForegroundComboBox.SelectedValue.ToString(),
-                                PrinterComboBox.SelectedValue.ToString(),
-                                TimeBetweenPhotosSlider.Value.ToString(),
-                                PrintingTimeSlider.Value.ToString(),
-                                CopiesComboBox.SelectedValue.ToString(),
-                                Printer2ComboBox.SelectedValue.ToString());
+            try
+            {
+                var savedata = new MenuData();
+                savedata.FillValues(ForegroundComboBox.SelectedValue.ToString(),
+                                    PrinterComboBox.SelectedValue.ToString(),
+                                    TimeBetweenPhotosSlider.Value.ToString(),
+                                    PrintingTimeSlider.Value.ToString(),
+                                    CopiesComboBox.SelectedValue.ToString(),
+                                    Printer2ComboBox.SelectedValue.ToString(),
+                                    ChangeEmailAddressTextBox.Text,
+                                    ChangeEmailPasswordTextBox.Text,
+                                    ChangeEmailServerTextBox.Text,
+                                    ChangeEmailPortTextBox.Text);
+            }
+            catch (Exception e)
+            {
+                // TODO: Update which exception
+                Console.WriteLine(e);
+            }
+            
 
         }
 

@@ -42,7 +42,6 @@ namespace PhotoboothWpf
 
             pd.PrinterSettings.PrinterName = actualPrinter;
             Debug.WriteLine("actual number of copies: " + actualNumberOfCopies);
-            // TODO:Sprawdz czy to zakomentowane dziala, jak nie to zostajemy przy forze
 //            pd.PrinterSettings.Copies = actualNumberOfCopies;
 //            pd.Print();
             for (int i = 0; i < actualNumberOfCopies; i++)

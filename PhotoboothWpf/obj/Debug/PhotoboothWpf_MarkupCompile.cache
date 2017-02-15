@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 D:\VS15 Projekty\Photobooth_WPF\PhotoboothWpf\App.xaml
-2161737354
+41354110662
 
-18-1782671965
+21-1209174571
 15-1530985631
-MainWindow.xaml;Menu.xaml;
+MainWindow.xaml;Menu.xaml;EmailSendDialog.xaml;RepeatPhotoDialog.xaml;
 
 False
 

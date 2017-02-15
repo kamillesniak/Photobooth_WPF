@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.Drawing.Printing;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,9 +21,11 @@ using System.Linq.Expressions;
 using EOSDigital.API;
 using EOSDigital.SDK;
 using System.Threading;
+using System.Windows.Interop;
 using System.Xml;
 using System.Xml.Linq;
 using PhotoboothWpf.Classes;
+using Image = System.Windows.Controls.Image;
 using Path = System.IO.Path;
 using Point = System.Drawing.Point;
 
@@ -46,10 +49,10 @@ namespace PhotoboothWpf
         PrintDialog pdialog = new PrintDialog();
 
         XDocument actualSettings = new XDocument();
-        List<System.Windows.Media.ImageSource> resizedImages = new List<System.Windows.Media.ImageSource>();
-
+        List<System.Windows.Media.ImageSource> resizedImages = new List<System.Windows.Media.ImageSource>();  
 
         public int photoNumber = 0;
+        public int photoNumberInTemplate = 0;
         int timeLeft = 5;
         int timeLeftCopy = 5;
         int photosInTemplate = 0;
@@ -57,6 +60,11 @@ namespace PhotoboothWpf
         int maxCopies = 1;
         short actualNumberOfCopies = 1;
         int printtime = 10;
+
+        public string SmtpServerName;
+        public string SmtpPortNumber;
+        public string EmailHostAddress;
+        public string EmailHostPassword;
 
         string printPath = string.Empty;
         public string templateName = string.Empty;
@@ -68,8 +76,6 @@ namespace PhotoboothWpf
    
         public MainWindow()
         {
-
-
             InitializeComponent();
             FillSavedData();
             ActivateTimers();
@@ -121,7 +127,7 @@ namespace PhotoboothWpf
         {
             try
             {
-
+                photoNumberInTemplate++;
                 photosInTemplate++;
                 // MainCamera.TakePhotoAsync();
                 Debug.WriteLine("taking a shot");
@@ -139,6 +145,10 @@ namespace PhotoboothWpf
 
                 timeLeftCopy = timeLeft;
 
+
+                Debug.WriteLine("photo number in template: " + photoNumberInTemplate);
+                Debug.WriteLine("photos in template: " + photosInTemplate);
+                Debug.WriteLine("photo number: " + photoNumber);
 
             }
 
@@ -158,7 +168,7 @@ namespace PhotoboothWpf
             {
                 Thread.Sleep(1000);
             }
-
+            ShowPhotoThumbnail();
             PhotoTaken = false;
 
             // One if than switch
@@ -171,7 +181,6 @@ namespace PhotoboothWpf
                             printPath = printdata.PrintDirectory;
                             LayTemplate.foreground1(printPath);
                             printNumber++;
-                            photosInTemplate = 0;
                             PrintMenu();
                         }
                         break;
@@ -183,7 +192,6 @@ namespace PhotoboothWpf
                             printPath = printdata.PrintDirectory;
                             LayTemplate.foreground3(printPath);
                             printNumber++;
-                            photosInTemplate = 0;
                             PrintMenu();
                         }
                         break;
@@ -194,7 +202,6 @@ namespace PhotoboothWpf
                             printPath = printdata.PrintDirectory;
                             LayTemplate.foreground4(printPath);
                             printNumber++;
-                            photosInTemplate = 0;
                             PrintMenu();
                         }
                         break;
@@ -206,7 +213,6 @@ namespace PhotoboothWpf
                             printPath = printdata.PrintDirectory;
                             LayTemplate.foreground4stripes(printPath);
                             printNumber++;
-                            photosInTemplate = 0;
                             PrintMenu();
                         }
                         break;
@@ -214,8 +220,7 @@ namespace PhotoboothWpf
                         Debug.WriteLine("bug at switch which template");
                         break;
                 }
-            
-         
+
         }
 
         private void StopButton_Click(object sender, RoutedEventArgs e)
@@ -223,7 +228,8 @@ namespace PhotoboothWpf
             sliderTimer.Start();
 //TODO OR NOT WHEN NO CAMERA CONNECTED WILL CAUSE BUG WHILE CLICK STOP IN FOREGRUND MENU
             MainCamera.StopLiveView();
-            
+            photosInTemplate = 0;
+            photoNumberInTemplate = 0;
             if (turnOnTemplateMenu) StartAllForegroundsWelcomeMenu();
             else StartWelcomeMenu();
             TurnOffForegroundMenu();
@@ -295,16 +301,16 @@ namespace PhotoboothWpf
            
             try
             {
-                Debug.WriteLine("photoNumber before ++ is " + photoNumber);
                 photoNumber++;
                 var savedata = new SavePhoto(photoNumber);
                 string  dir = savedata.FolderDirectory;
-                Debug.WriteLine("photoNumber after ++ and saving is " + photoNumber);
 
                 Info.FileName = savedata.PhotoName;               
                 sender.DownloadFile(Info, dir);
              
-                ReSize.ImageAndSave(savedata.PhotoDirectory,photosInTemplate,templateName);     
+//                ReSize.ImageAndSave(savedata.PhotoDirectory,photosInTemplate,templateName);
+                ReSize.ImageAndSave(savedata.PhotoDirectory,photoNumberInTemplate,templateName);
+
             }
             catch (Exception ex) { Report.Error(ex.Message, false); }
 
@@ -318,8 +324,15 @@ namespace PhotoboothWpf
             switch (errorCode)
              {
                case "8D01": // TAKE_PICTURE_AF_NG
-               photosInTemplate--;
-               PhotoTaken = true;
+                     if (photoNumberInTemplate!=0)
+                         {
+                            photoNumberInTemplate--;
+                        }
+                     if (photosInTemplate != 0)
+                         {
+                            photosInTemplate--;
+                        }
+                    PhotoTaken = true;
                Debug.WriteLine("Autofocus error");
                return;
              }
@@ -452,11 +465,13 @@ namespace PhotoboothWpf
             pdialog.PrintVisual(vis, "My Image");
         }
 
-    //TODO COPIES COUNT
 
         private void Print_Click(object sender, RoutedEventArgs e)
         {
+            photosInTemplate = 0;
+            photoNumberInTemplate = 0;
             Printing.Print(printPath,printerName,actualNumberOfCopies);
+            actualNumberOfCopies = 1;
             if (turnOnTemplateMenu) StartAllForegroundsWelcomeMenu();
             else StartWelcomeMenu();
         }
@@ -466,6 +481,7 @@ namespace PhotoboothWpf
             SliderBorder.Visibility = Visibility.Hidden;
             ReadyButton.Visibility = Visibility.Hidden;
             PhotoTextBox.Text = "Press button to continue";
+            NumberOfCopiesTextBox.Text = actualNumberOfCopies.ToString();
 
             BitmapImage actualPrint = new BitmapImage();
             actualPrint.BeginInit();
@@ -474,7 +490,9 @@ namespace PhotoboothWpf
 
             ShowPrint.Source = actualPrint;
             Print.Visibility = Visibility.Visible;
-            CopiesAmountPanel.Visibility = Visibility.Visible;
+            NumberOfCopiesTextBox.Visibility = Visibility.Visible;
+            AddOneCopyButton.Visibility = Visibility.Visible;
+            MinusOneCopyButton.Visibility = Visibility.Visible;
             SendEmailButton.Visibility = Visibility.Visible;
 
 
@@ -532,6 +550,13 @@ namespace PhotoboothWpf
                 printtime = System.Convert.ToInt32(actualSettings.Root.Element("printingTime").Value);
                 printerName = PhotoboothWpf.Printing.ActualPrinter(templateName, firstprinter, secondprinter);
                 timeLeftCopy = timeLeft;
+
+                SmtpServerName = actualSettings.Root.Element("SmtpServerName").Value;
+                SmtpPortNumber = actualSettings.Root.Element("SmtpPortNumber").Value;
+                EmailHostAddress = actualSettings.Root.Element("EmailHostAddress").Value;
+                EmailHostPassword = actualSettings.Root.Element("EmailHostPassword").Value;
+
+
             }
             catch (XmlException e)
             {
@@ -640,9 +665,17 @@ namespace PhotoboothWpf
             ReadyButton.Visibility = Visibility.Hidden;
             Print.Visibility = Visibility.Hidden;
             ShowPrint.Visibility = Visibility.Hidden;
-            CopiesAmountPanel.Visibility = Visibility.Hidden;
+            NumberOfCopiesTextBox.Visibility = Visibility.Hidden;
+            AddOneCopyButton.Visibility = Visibility.Hidden;
+            MinusOneCopyButton.Visibility = Visibility.Hidden;
             SendEmailButton.Visibility = Visibility.Hidden;
-
+            FirstThumbnail.Visibility = Visibility.Hidden;
+            SecondThumbnail.Visibility = Visibility.Hidden;
+            ThirdThumbnail.Visibility = Visibility.Hidden;
+            FourthThumbnail.Visibility = Visibility.Hidden;
+            LeftThumbnail.Visibility = Visibility.Hidden;
+            CenterThumbnail.Visibility = Visibility.Hidden;
+            RightThumbnail.Visibility = Visibility.Hidden;
         }
         public void CheckTemplate()
         {
@@ -684,35 +717,224 @@ namespace PhotoboothWpf
             ReadyButton.Visibility = Visibility.Hidden;
             Print.Visibility = Visibility.Hidden;
             ShowPrint.Visibility = Visibility.Hidden;
-            CopiesAmountPanel.Visibility = Visibility.Hidden;
+            NumberOfCopiesTextBox.Visibility = Visibility.Hidden;
+            AddOneCopyButton.Visibility = Visibility.Hidden;
+            MinusOneCopyButton.Visibility = Visibility.Hidden;
             SendEmailButton.Visibility = Visibility.Hidden;
+            FirstThumbnail.Visibility = Visibility.Hidden;
+            SecondThumbnail.Visibility = Visibility.Hidden;
+            ThirdThumbnail.Visibility = Visibility.Hidden;
+            FourthThumbnail.Visibility = Visibility.Hidden;
+            LeftThumbnail.Visibility = Visibility.Hidden;
+            CenterThumbnail.Visibility = Visibility.Hidden;
+            RightThumbnail.Visibility = Visibility.Hidden;
         }
         #endregion
 
         private void SendEmailButtonClick(object sender, RoutedEventArgs e)
         {
+            //in case virtual keyboard doesnt work
+            //Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.System) + Path.DirectorySeparatorChar + "osk.exe");
+            EmailSendDialog inputEmailSendDialog = new EmailSendDialog("Please enter your email address:", "anon@example.com");
+            if (inputEmailSendDialog.ShowDialog() == true)
+            {
+                Debug.WriteLine("inputemailsend is ok, answer is :" + inputEmailSendDialog.Answer);
+                EmailSender emailSender = new EmailSender();
+                switch (templateName)
+                {
+                    case "foreground_1":
+                        emailSender.SendEmail(photoNumber, 1, inputEmailSendDialog.Answer);
+                        break;
+
+                    case "foreground_3":
+                        emailSender.SendEmail(photoNumber, 3, inputEmailSendDialog.Answer);
+                        break;
+                    case "foreground_4":
+                        emailSender.SendEmail(photoNumber, 4, inputEmailSendDialog.Answer);
+                        break;
+
+                    case "foreground_4_paski":
+                        emailSender.SendEmail(photoNumber, 4, inputEmailSendDialog.Answer);
+                        break;
+                    default:
+                        Debug.WriteLine("bug at switch which template in email send button");
+                        break;
+                }
+            }
+        }
+        public void ShowPhotoThumbnail ()
+        {
+            var getImageThumbnail = new GetImageThumbnail();
+
+            ImageBrush thumbnailImageBrush = new ImageBrush();
+            getImageThumbnail.GetThumbnailPath();
+
             switch (templateName)
             {
                 case "foreground_1":
-                        EmailSender.SendEmail(photoNumber, 1);
+                    if (photoNumberInTemplate == 1)
+                    {
+                        CenterThumbnailImage.Source = new BitmapImage(new Uri(getImageThumbnail.thumbnailPath));
+                        CenterThumbnail.Visibility = Visibility.Visible;
+                    }
                     break;
+
 
                 case "foreground_3":
-                        EmailSender.SendEmail(photoNumber, 3);
+                    switch (photoNumberInTemplate)
+                    {
+                        case 1:
+                            LeftThumbnailImage.Source = new BitmapImage(new Uri(getImageThumbnail.thumbnailPath));
+                            LeftThumbnail.Visibility = Visibility.Visible;
+                            break;
+
+                        case 2:
+                            CenterThumbnailImage.Source = new BitmapImage(new Uri(getImageThumbnail.thumbnailPath));
+                            CenterThumbnail.Visibility = Visibility.Visible;
+                            break;
+
+                        case 3:
+                            RightThumbnailImage.Source = new BitmapImage(new Uri(getImageThumbnail.thumbnailPath));
+                            RightThumbnail.Visibility = Visibility.Visible;
+                            break;
+                        default:
+                            Debug.WriteLine("bug at switch which template in ShowPhotoThumbnail - foreground3");
+                            Debug.WriteLine("bug because photoNumberInTemplate = " + photoNumberInTemplate);
+
+                            break;
+                    }
                     break;
                 case "foreground_4":
-                        EmailSender.SendEmail(photoNumber, 4);
+                    switch (photoNumberInTemplate)
+                    {
+                        case 1:
+                            FirstThumbnailImage.Source = new BitmapImage(new Uri(getImageThumbnail.thumbnailPath));
+                            FirstThumbnail.Visibility = Visibility.Visible;
+                            break;
+
+                        case 2:
+                            SecondThumbnailImage.Source = new BitmapImage(new Uri(getImageThumbnail.thumbnailPath));
+                            SecondThumbnail.Visibility = Visibility.Visible;
+                            break;
+
+                        case 3:
+                            ThirdThumbnailImage.Source = new BitmapImage(new Uri(getImageThumbnail.thumbnailPath));
+                            ThirdThumbnail.Visibility = Visibility.Visible;
+                            break;
+
+                        case 4:
+                            FourthThumbnailImage.Source = new BitmapImage(new Uri(getImageThumbnail.thumbnailPath));
+                            FourthThumbnail.Visibility = Visibility.Visible;
+                            break;
+
+                        default:
+                            Debug.WriteLine("bug at switch which template in ShowPhotoThumbnail - foreground 4");
+                            Debug.WriteLine("bug because photoNumberInTemplate = " + photoNumberInTemplate);
+
+                            break;
+                    }
                     break;
 
-                case "foreground_4_paski":                    
-                        EmailSender.SendEmail(photoNumber, 4);
+                case "foreground_4_paski":
+                    switch (photoNumberInTemplate)
+                    {
+                        case 1:
+                            FirstThumbnailImage.Source = new BitmapImage(new Uri(getImageThumbnail.thumbnailPath));
+                            FirstThumbnail.Visibility = Visibility.Visible;
+                            break;
+
+                        case 2:
+                            SecondThumbnailImage.Source = new BitmapImage(new Uri(getImageThumbnail.thumbnailPath));
+                            SecondThumbnail.Visibility = Visibility.Visible;
+                            break;
+
+                        case 3:
+                            ThirdThumbnailImage.Source = new BitmapImage(new Uri(getImageThumbnail.thumbnailPath));
+                            ThirdThumbnail.Visibility = Visibility.Visible;
+                            break;
+
+                        case 4:
+                            FourthThumbnailImage.Source = new BitmapImage(new Uri(getImageThumbnail.thumbnailPath));
+                            FourthThumbnail.Visibility = Visibility.Visible;
+                            break;
+
+                        default:
+                            Debug.WriteLine("bug at switch which template in ShowPhotoThumbnail = foreground 4 paski");
+                            Debug.WriteLine("bug because photoNumberInTemplate = " + photoNumberInTemplate);
+                            break;
+                    }
                     break;
                 default:
-                    Debug.WriteLine("bug at switch which template in email send button");
+                    Debug.WriteLine("bug at switch which template in showphotothumbnail");
                     break;
             }
-            
+        }
+
+        private void LeftThumbnail_OnClick(object sender, RoutedEventArgs e)
+        {
+            RepeatJustTakenPhoto(sender,e, 1);
+        }
+
+        private void CenterThumbnail_OnClick(object sender, RoutedEventArgs e)
+        {
+            switch (templateName)
+            {
+                case "foreground_1":
+                    RepeatJustTakenPhoto(sender, e, 1);
+                    break;
+                case "foreground_3":
+                    RepeatJustTakenPhoto(sender, e, 2);
+                    break;
+                default:
+                    Debug.WriteLine("Bug at centerThumbnail_OnClick");
+                    break;
+            }
+        }
+
+        private void RightThumbnail_OnClick(object sender, RoutedEventArgs e)
+        {
+            RepeatJustTakenPhoto(sender, e, 3);
+        }
+
+        private void FirstThumbnail_OnClick(object sender, RoutedEventArgs e)
+        {
+            RepeatJustTakenPhoto(sender, e, 1);
+        }
+
+        private void SecondThumbnail_OnClick(object sender, RoutedEventArgs e)
+        {
+            RepeatJustTakenPhoto(sender, e, 2);
+        }
+
+        private void ThirdThumbnail_OnClick(object sender, RoutedEventArgs e)
+        {
+            RepeatJustTakenPhoto(sender, e, 3);
+        }
+
+        private void FourthThumbnail_OnClick(object sender, RoutedEventArgs e)
+        {
+            RepeatJustTakenPhoto(sender, e, 4);
+        }
+
+        public void RepeatJustTakenPhoto(object sender, RoutedEventArgs e, int photoNumberToRepeat)
+        {
+            RepeatPhotoDialog repeatPhotoDialog = new RepeatPhotoDialog();
+            if (repeatPhotoDialog.ShowDialog() == true)
+            {
+                photosInTemplate--;
+                photoNumberInTemplate = photoNumberToRepeat-1;
+                Print.Visibility = Visibility.Hidden;
+                ShowPrint.Visibility = Visibility.Hidden;
+                NumberOfCopiesTextBox.Visibility = Visibility.Hidden;
+                AddOneCopyButton.Visibility = Visibility.Hidden;
+                MinusOneCopyButton.Visibility = Visibility.Hidden;
+                SendEmailButton.Visibility = Visibility.Hidden;
+
+                StartButton_Click(sender, e);
+                //TODO: Repeat selected photo, not only the last one like now
+            }
         }
     }
-
 }
+
+

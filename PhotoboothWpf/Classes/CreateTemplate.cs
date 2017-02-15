@@ -11,8 +11,6 @@ namespace PhotoboothWpf
 {
     class LayTemplate
     {
-        // TODO: templates 1,4
-
         static public void foreground1(string printPath)
         {
             try

@@ -7,8 +7,10 @@
         mc:Ignorable="d"
         Height="{x:Static SystemParameters.PrimaryScreenHeight}" 
         Width="{x:Static SystemParameters.PrimaryScreenWidth}" 
-        Title="MainWindow" 
-
+        Title="Photomadness" 
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        
         WindowStartupLocation="CenterScreen" WindowState="Maximized"  Closing="Window_Closing" KeyDown="Window_KeyDown"  >
 
     <Window.Background>
@@ -25,10 +27,11 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="1.5*"/>
             <ColumnDefinition Width="1.5*"/>
-            <ColumnDefinition Width="0.75*" />
+            <ColumnDefinition Width="0.375*" />
+            <ColumnDefinition Width="0.375*" />
         </Grid.ColumnDefinitions>
 
-        <Button x:Name="StartButton"  BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Click="StartButton_Click"  Background="{x:Null}" Visibility="Hidden">
+        <Button x:Name="StartButton"  BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Click="StartButton_Click"  Background="{x:Null}">
             <Image Source="backgrounds/StartButton.png"/>
         </Button>
 
@@ -44,7 +47,7 @@
             </Canvas>
         </Border>
 
-        <Button x:Name="StopButton" BorderThickness="0" Click="StopButton_Click" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="3"  Background="{x:Null}" Visibility="Hidden">
+        <Button x:Name="StopButton" BorderThickness="0" Click="StopButton_Click" Grid.Column="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="3"  Background="{x:Null}" Visibility="Hidden">
             <Image Source="backgrounds/StopButton.png"/>
         </Button>
 
@@ -60,27 +63,22 @@
 
         <Image x:Name="ShowPrint"  Grid.Row="1"   Grid.Column="1" Grid.ColumnSpan="2"  Grid.RowSpan="2"   VerticalAlignment="Center"  HorizontalAlignment="Center" Visibility="Hidden"/>
 
-        <Button x:Name="Print" BorderThickness="0" Grid.Column="3"  Grid.Row="1"  VerticalAlignment="Center" HorizontalAlignment="Center" Click="Print_Click" Background="{x:Null}" Visibility="Hidden">
+        <Button x:Name="Print" BorderThickness="0" Grid.Column="3" Grid.ColumnSpan="2"  Grid.Row="1"  VerticalAlignment="Center" HorizontalAlignment="Center" Click="Print_Click" Background="{x:Null}" Visibility="Hidden">
             <Image Source="backgrounds/PrintButton.png"/>
         </Button>
-<!--        TODO: Update Layout-->
-        <Button x:Name="SendEmailButton" Content="Send Email" Grid.Row="2" Click="SendEmailButtonClick" Foreground="White" Background="{x:Null}" FontSize="35" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Hidden"/>
-        
-        <StackPanel Name="CopiesAmountPanel" Orientation="Vertical" VerticalAlignment="Center" Grid.Column="3" Grid.Row="2" Visibility="Hidden">
 
-            <TextBox x:Name="NumberOfCopiesTextBox" Text="1"  BorderThickness="0"  Grid.Column="3" HorizontalAlignment="Center"  Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top"
-                     Foreground="White" Visibility="Visible"   FontFamily="Arial" Background="{x:Null}" FontSize="35"/>
+        <Button x:Name="SendEmailButton" Content="Send Email" Grid.Row="2" Grid.Column="0" Click="SendEmailButtonClick" Foreground="White" Background="{x:Null}" FontSize="35" VerticalAlignment="Center" HorizontalAlignment="Center" BorderThickness="0" Visibility="Hidden"/>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="3" Grid.Row="2"  MaxHeight="120">
-                <Button x:Name="AddOneCopyButton" BorderThickness="0" Grid.Column="3" HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Top" Background="{x:Null}"  Click="AddOneCopyButtonClick" Visibility="Visible">
-                    <Image Source="backgrounds/PlusButton.png"  />
-                </Button>
+        <TextBox x:Name="NumberOfCopiesTextBox" Text="1" Grid.Column="3" Grid.Row="2" Grid.ColumnSpan="2" BorderThickness="0" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top"
+                     Foreground="White" Visibility="Hidden"   FontFamily="Arial" Background="{x:Null}" FontSize="35"/>
 
-                <Button x:Name="MinusOneCopyButton" BorderThickness="0" Grid.Column="3" HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Bottom" Background="{x:Null}"  Click="MinusOneCopyButtonClick" Visibility="Visible" >
-                    <Image Source="backgrounds/MinusButton.png"  />
-                </Button>
-            </StackPanel>
-        </StackPanel>
+        <Button x:Name="AddOneCopyButton" Background="{x:Null}" Grid.Column="3" Grid.Row="2"  Click="AddOneCopyButtonClick" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden">
+            <Image Source="backgrounds/PlusButton.png"  />
+        </Button>
+
+        <Button x:Name="MinusOneCopyButton" BorderThickness="0"  HorizontalAlignment="Center"  VerticalAlignment="Center" Grid.Column="4" Grid.Row="2" Background="{x:Null}"  Click="MinusOneCopyButtonClick" Visibility="Hidden" >
+            <Image Source="backgrounds/MinusButton.png"  />
+        </Button>
 
         <Button x:Name="Foreground_1_button" BorderThickness="0" Grid.Column="1"  HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center"  Background="{x:Null}"  Click="Foreground_1_button_Click" Visibility="Hidden" >
             <Image Source="backgrounds/foreground_1.png" />
@@ -94,10 +92,44 @@
         <Button x:Name="Foreground_4_paski_button"  BorderThickness="0" Grid.Column="2"  HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Center"  Background="{x:Null}" Visibility="Hidden" Click="Foreground_4_paski_button_Click">
             <Image Source="backgrounds/foreground_4_paski.png" />
         </Button>
-        
 
+        <DockPanel x:Name="DockPanel4pictures" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Visibility="Visible" >
 
+            <Button x:Name="FirstThumbnail" Background="{x:Null}" Visibility="Hidden" BorderThickness="0" Click="FirstThumbnail_OnClick">
+            <Image  x:Name="FirstThumbnailImage" Source="backgrounds/MinusButton.png" Stretch="Uniform"/>
+        </Button>
+
+            <Button x:Name="SecondThumbnail" Background="{x:Null}" Visibility="Hidden" BorderThickness="0" Click="SecondThumbnail_OnClick">
+                <Image  x:Name="SecondThumbnailImage" Source="backgrounds/PHM.png" Stretch="Uniform"/>
+        </Button>
+
+            <Button x:Name="ThirdThumbnail" Background="{x:Null}"  Visibility="Hidden" BorderThickness="0" Click="ThirdThumbnail_OnClick">
+                <Image  x:Name="ThirdThumbnailImage" Source="backgrounds/PHM.png" Stretch="Uniform"/>
+          </Button>
+            <Button x:Name="FourthThumbnail" Background="{x:Null}" Visibility="Hidden" BorderThickness="0" Click="FourthThumbnail_OnClick">
+                <Image  x:Name="FourthThumbnailImage" Source="backgrounds/PlusButton.png" Stretch="Uniform"/>
+        </Button>
+            
+        </DockPanel>
+
+        <DockPanel x:Name="DockPanel1or3pictures" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Visibility="Visible" >
+
+            <Button x:Name="LeftThumbnail" Background="{x:Null}" Visibility="Hidden" BorderThickness="0" Click="LeftThumbnail_OnClick">
+                <Image  x:Name="LeftThumbnailImage" Source="backgrounds/PHM.png" Stretch="Uniform"/>
+            </Button>
+
+            <Button x:Name="CenterThumbnail" Background="{x:Null}" Visibility="Hidden" BorderThickness="0" Click="CenterThumbnail_OnClick">
+                <Image  x:Name="CenterThumbnailImage" Source="backgrounds/PHM.png" Stretch="Uniform"/>
+            </Button>
+
+            <Button x:Name="RightThumbnail" Background="{x:Null}"  Visibility="Hidden" BorderThickness="0" Click="RightThumbnail_OnClick">
+                <Image  x:Name="RightThumbnailImage" Source="backgrounds/PHM.png" Stretch="Uniform"/>
+            </Button>
+
+        </DockPanel>
 
     </Grid>
-
 </Window>
+
+
+
